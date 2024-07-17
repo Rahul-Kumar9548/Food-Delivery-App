@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post('/signup',upload.single('image'), postSignup);
 
-// router.post('/login', postLogin);
+router.post('/login', postLogin);
 
 export default  router;

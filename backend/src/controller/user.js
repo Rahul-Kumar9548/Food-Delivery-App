@@ -63,6 +63,39 @@ export const postSignup = ErrorWrapper(async (req, res, next) => {
 )
 
 
-export const postLogin = (req, res) => {
-    
-}
+
+
+
+
+
+
+export const postLogin = ErrorWrapper(async (req, res, next) => {
+    const { username, email, password } = req.body;
+
+    if (!username && !email) {
+        throw new ErrorHandler(400, 'Please enter either username or email!');
+    }
+
+    if (!password) {
+        throw new ErrorHandler(400, "Please provide your passord!");
+    }
+
+    let user = await User.findOne({
+        $or: [{ username }, { email }]
+    });
+
+    if (!user) {
+        throw new ErrorHandler(400, 'Invalid username or email!');
+    }
+
+    let passwordMatch = await user.isPasswordCorrect(password);
+    if (!passwordMatch) {
+        throw new ErrorHandler(400, "Invalid password!");
+    }
+
+    res.status(200).json({
+        message: "Login Successful!",
+        success: true,
+        user:user
+    })
+})

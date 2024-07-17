@@ -75,7 +75,16 @@ userSchema.pre('save', function (next) {
 		user.password = hash;
 		next();
 	});
-}); 
+});
+
+// Verifying Password for login
+userSchema.methods.isPasswordCorrect = async function (enteredPassword) {
+	const user = this;
+	
+	let result = await bcrypt.compare(enteredPassword, user.password);
+	console.log("Kya Password sahi hai :", result);
+	return result;
+}
 
 
 const User = mongoose.model("User", userSchema);
