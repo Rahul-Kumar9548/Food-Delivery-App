@@ -64,7 +64,7 @@ const userSchema = new Schema(
  // Hashing password before saving in database
 userSchema.pre('save', function (next) {
 	//	Password change nahi hua to kuch nahi karna hai 
-	if (!this.isModified('password')) return;
+	if (!this.isModified('password')) return next();
 
 	//	Password change hua to hash kardo
 	const user = this;
@@ -80,11 +80,40 @@ userSchema.pre('save', function (next) {
 // Verifying Password for login
 userSchema.methods.isPasswordCorrect = async function (enteredPassword) {
 	const user = this;
-	
+
 	let result = await bcrypt.compare(enteredPassword, user.password);
 	console.log("Kya Password sahi hai :", result);
 	return result;
 }
+
+// Generating Refresh Token
+userSchema.methods.generateRefreshToken = async function () {
+	return jwt.sign(
+		{
+			userId: this._id
+		},
+		process.env.REFRESH_TOKEN_KEY,
+		{
+			expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+		}
+	);
+}
+
+// Generating Access Token
+userSchema.methods.generateAccessToken = async function () {
+	return jwt.sign(
+		{
+			userId: this._id,
+			email: this.email,
+			username: this.username,
+			name: this.name,
+		},
+		process.env.ACCESS_TOKEN_KEY,
+		{
+			expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+		}
+	);
+};
 
 
 const User = mongoose.model("User", userSchema);

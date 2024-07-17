@@ -2,6 +2,7 @@ import User from '../models/user.js';
 import ErrorHandler from '../utils/ErrorHandler.js';
 import ErrorWrapper from '../utils/ErrorWrapper.js';
 import uploadOnCloudinary from '../utils/uploadOnCloudinary.js'
+import jwt from 'jsonwebtoken'
 
 export const postSignup = ErrorWrapper(async (req, res, next) => {
     const { username, password, email, name } = req.body;
@@ -63,10 +64,22 @@ export const postSignup = ErrorWrapper(async (req, res, next) => {
 )
 
 
+const generateAccessTokenAndRefreshToken = async (userId) => {
+    try {
+        let user = await User.findOne({
+            _id: userId
+        })
+        const accessToken = await user.generateAccessToken();
+        const refreshToken = await user.generateRefreshToken();
 
-
-
-
+        return {
+            accessToken,
+            refreshToken
+        }
+    } catch (error) {
+        throw new ErrorHandler(500, `Error while generating access token and refresh token:  ${error.message}`);
+    }
+}
 
 
 export const postLogin = ErrorWrapper(async (req, res, next) => {
@@ -93,9 +106,22 @@ export const postLogin = ErrorWrapper(async (req, res, next) => {
         throw new ErrorHandler(400, "Invalid password!");
     }
 
-    res.status(200).json({
+    const { accessToken, refreshToken } = await generateAccessTokenAndRefreshToken(user._id);
+    
+    user.refreshToken = refreshToken;
+    
+    await user.save();
+
+    user = await User.findOne({
+        $or:[{username}, {email}]
+    }).select( '-password -refreshToken -createdAt -updatedAt');
+
+    res.status(200)
+        .cookie("RefreshToken", refreshToken)
+        .cookie("AccessToken", accessToken)
+        .json({
         message: "Login Successful!",
         success: true,
-        user:user
+        user
     })
 })
