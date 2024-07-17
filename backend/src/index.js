@@ -3,6 +3,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import bodyParser from "body-parser";
+import userRouter from './routes/user.js';
 
 const app = express();
 
@@ -16,10 +17,14 @@ app.use(express.static( 'public')); // To store the information that
 app.use(cookieParser());
 
 
-mongoose.connect(`${process.env.DB_PATH}/${process.env.DB_NAME}`)
-    .then(() => {
-        app.listen(process.env.PORT, () => {
-            console.log('Server is running on port: ', process.env.PORT);
-        })
-    .catch(error=>console.log(error))
-})
+app.use('/', userRouter);
+
+
+mongoose
+	.connect(process.env.DB_PATH + process.env.DB_NAME)
+	.then(() => {
+		app.listen(process.env.PORT, () => {
+			console.log("Server is running on port:", process.env.PORT);
+		});
+	})
+	.catch((error) => console.log(error));;
