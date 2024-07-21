@@ -36,10 +36,10 @@ const restaurantSchema = new Schema(
 				url: "String",
 			},
 		],
-		owner: {
+		ownerId: {
 			type: Schema.Types.ObjectId,
 			ref: "User",
-			// required: true,
+			required: true,
 		},
 		rating: Number,
 		cusines: [
