@@ -205,3 +205,53 @@ export const postAddFoodItem = ErrorWrapper(async (req, res, next) => {
     })
 
 })
+
+export const postUpdateFoodItem = ErrorWrapper(async (req, res) => {
+    const { id } = req.params;
+    let { name, price, veg, description, category, restaurant_name } = req.body;
+    if(category) category = category.trim().toLowerCase();
+    if (name) name = name.trim().toLowerCase();
+    if (price) price = price.trim().toLowerCase();
+    if (veg) veg = veg.trim().toLowerCase();
+    if (restaurant_name) restaurant_name = restaurant_name.trim().toLowerCase();
+    if (description) description = description.trim().toLowerCase();
+
+    try {
+        const restaurant = await Restaurant.findOne({ name: restaurant_name });
+
+        if (!restaurant) {
+        throw new ErrorHandler(401,`Restaurant with name ${restaurant_name} is not exists!`);
+        }
+
+        if (restaurant.email !== req.user.email) throw new ErrorHandler(404, "You are not authorize to update food to this restaurant");
+        // console.log(restaurant);
+        //  getting index of category
+        const index = restaurant.cusines.findIndex((cusine) => cusine.category === category);
+
+        if (index == -1) throw new ErrorHandler(404, "This category is not available in this restaurant");
+        // console.log('Index: ', index);
+        const foodIndex = restaurant.cusines[index]["food"].findIndex((food) => food._id.toString() === id.toString());
+
+        if (foodIndex == -1) throw new ErrorHandler(404, "Please provide the correct food_id to update deatils");
+        // console.log("Food Index: ", foodIndex);
+
+        if(name) restaurant.cusines[index]["food"][foodIndex].name = name;
+        if(price) restaurant.cusines[index]["food"][foodIndex].price = price;
+        if(veg) restaurant.cusines[index]["food"][foodIndex].veg = veg;
+        if(description) restaurant.cusines[index]["food"][foodIndex].description = description;
+
+        // console.log(restaurant.cusines[index]["food"][foodIndex]);
+
+        await restaurant.save();
+
+        res.status(200).json({
+            message: 'Food Updated Successfully!',
+            data: restaurant,
+        })
+
+    } catch (error) {
+        throw new ErrorHandler(error.statusCode || 500, error.message);
+    }
+
+
+})
