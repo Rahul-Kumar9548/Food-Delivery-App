@@ -26,4 +26,27 @@ const uploadOnCloudinary = async (filePath) => {
 
 }
 
+async function uploadBatchOnCloudinary(images) {
+    try {
+        console.log("Uploading batch of images to cloudinary...");
+
+        const promises = images.map(async (image) => {
+            const response = await cloudinary.uploader.upload(image.path);
+            return response;
+        })
+
+        const results = await Promise.all(promises);
+
+        console.log("Batch of images uploaded on cloudinary");
+
+        images.map((image) => fs.unlinkSync(image.path));
+
+        return results;
+    } catch (error) {
+        images.map((image) => fs.unlinkSync(image.path));
+        throw new ErrorHandler(500, "Error uploading batch of images on cloudinary", error);
+    }
+}
+
 export default uploadOnCloudinary;
+export { uploadBatchOnCloudinary };

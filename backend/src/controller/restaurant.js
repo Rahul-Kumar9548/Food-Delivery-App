@@ -2,6 +2,7 @@ import Restaurant from "../models/restaurant.js";
 import ErrorHandler from '../utils/ErrorHandler.js';
 import ErrorWrapper from '../utils/ErrorWrapper.js';
 import uploadOnCloudinary from "../utils/uploadOnCloudinary.js";
+import { uploadBatchOnCloudinary } from "../utils/uploadOnCloudinary.js";
 
 
 export const postRestaurant = ErrorWrapper(async (req, res, next) => {
@@ -447,4 +448,63 @@ export const getAllCusines =  ErrorWrapper(async (req, res, next) => {
 	} catch (error) {
 		throw new ErrorHandler(error.statusCode || 500, error.message);
 	}
+})
+
+
+
+
+
+
+
+export const postAddFoodImages = ErrorWrapper(async (req, res, next) => {
+    const { id } = req.params;
+    const { restaurant_name, category } = req.body;
+   
+    try {
+         const restaurant = await Restaurant.findOne({ name: restaurant_name });
+
+        if (!restaurant) {
+        throw new ErrorHandler(401,`Restaurant with name ${restaurant_name} is not exists!`);
+        }
+
+        if (restaurant.email !== req.user.email) throw new ErrorHandler(404, "You are not authorize to get food to this restaurant");
+        // console.log(restaurant);
+        //  getting index of category
+        const index = restaurant.cusines.findIndex((cusine) => cusine.category === category);
+
+        if (index == -1) throw new ErrorHandler(404, "This category is not available in this restaurant");
+        // console.log('Index: ', index);
+        const foodIndex = restaurant.cusines[index]["food"].findIndex((food) => food._id.toString() === id.toString());
+
+        if (foodIndex == -1) throw new ErrorHandler(404, "Please provide the correct food_id to add images in food");
+
+        let food = restaurant.cusines[index]['food'][foodIndex];
+
+        const images = req.files;
+        if (!images) throw new Errorhandler(400, "Please provide images!");
+        
+        let imagesUrls = [];
+
+        const cloudinaryBatchResult = await uploadBatchOnCloudinary(images)
+        
+        cloudinaryBatchResult.forEach((image) => {
+            let imageUrl = {
+                url:image.url
+            }
+            imagesUrls.push(imageUrl);
+        })
+        
+        food.images = [...imagesUrls, ...food.images];
+
+        await restaurant.save();
+
+        res.status(200).json({
+            message: 'Image uploaded Successfully!',
+            data:food
+        })
+
+
+    } catch (error) {
+        throw new ErrorHandler(error.statusCode || 500, error.message);
+    }
 })
