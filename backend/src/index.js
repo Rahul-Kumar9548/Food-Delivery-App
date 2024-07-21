@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import bodyParser from "body-parser";
 import userRouter from './routes/user.js';
+import restaurantRouter from './routes/restaurant.js'
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cookieParser());
 
 
 app.use('/', userRouter);
+app.use("/restaurant", restaurantRouter);
 
 
 mongoose
