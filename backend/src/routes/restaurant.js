@@ -5,6 +5,9 @@ import {
 	postAddFoodItem,
 	postUpdateFoodItem,
 	getDeleteFoodItem,
+	getFoodItem,
+	getFoodItems,
+	getAllCusines,
 } from "../controller/restaurant.js";
 import upload from "../utils/multer.js";
 
@@ -18,6 +21,9 @@ router.post("/add-food-item", upload.single('image'), postAddFoodItem)
 // Food CRUD:
 router.post('/update-food-item/:id', upload.single('image'), postUpdateFoodItem);
 router.get('/delete-food-item/:id', getDeleteFoodItem);
+router.get("/get-food-item/:id", getFoodItem);
+router.get("/get-food-items", getFoodItems);
+router.get("/get-all-cusines", getAllCusines);
 
 
 

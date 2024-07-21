@@ -63,6 +63,14 @@ export const postRestaurant = ErrorWrapper(async (req, res, next) => {
 
 
 
+
+
+
+
+
+
+
+
 export const postCusineCategoryAdd = ErrorWrapper(async (req, res, next) => {
     const { name, restaurant_name } = req.body;
     name = name.trim().toLowerCase();
@@ -112,6 +120,10 @@ export const postCusineCategoryAdd = ErrorWrapper(async (req, res, next) => {
         throw new ErrorHandler(500, `Error while adding cusine category!: ${error.message}`);
     }
 })
+
+
+
+
 
 
 export const postAddFoodItem = ErrorWrapper(async (req, res, next) => {
@@ -206,6 +218,13 @@ export const postAddFoodItem = ErrorWrapper(async (req, res, next) => {
 
 })
 
+
+
+
+
+
+
+
 export const postUpdateFoodItem = ErrorWrapper(async (req, res) => {
     const { id } = req.params;
     let { name, price, veg, description, category, restaurant_name } = req.body;
@@ -257,6 +276,13 @@ export const postUpdateFoodItem = ErrorWrapper(async (req, res) => {
 })
 
 
+
+
+
+
+
+
+
 export const getDeleteFoodItem = ErrorWrapper(async (req, res, next) => {
     const { id } = req.params;
     const { restaurant_name, category } = req.query;
@@ -292,4 +318,133 @@ export const getDeleteFoodItem = ErrorWrapper(async (req, res, next) => {
     } catch (error) {
         throw new ErrorHandler(error.statusCode || 500, error.message);
     }
+})
+
+
+
+
+
+
+
+export const getFoodItem = ErrorWrapper(async (req, res, next) => {
+    const { id } = req.params;
+    const { restaurant_name, category } = req.query;
+
+    try {
+         const restaurant = await Restaurant.findOne({ name: restaurant_name });
+
+        if (!restaurant) {
+        throw new ErrorHandler(401,`Restaurant with name ${restaurant_name} is not exists!`);
+        }
+
+        if (restaurant.email !== req.user.email) throw new ErrorHandler(404, "You are not authorize to get food to this restaurant");
+        // console.log(restaurant);
+        //  getting index of category
+        const index = restaurant.cusines.findIndex((cusine) => cusine.category === category);
+
+        if (index == -1) throw new ErrorHandler(404, "This category is not available in this restaurant");
+        // console.log('Index: ', index);
+        const foodIndex = restaurant.cusines[index]["food"].findIndex((food) => food._id.toString() === id.toString());
+
+        if (foodIndex == -1) throw new ErrorHandler(404, "Please provide the correct food_id to fetch food");
+
+        let food = restaurant.cusines[index]['food'][foodIndex];
+
+        res.status(200).json({
+            message: 'Food Fetched Successfully!',
+            data:food
+        })
+
+
+    } catch (error) {
+        throw new ErrorHandler(error.statusCode || 500, error.message);
+    }
+})
+
+
+
+
+
+
+export const getFoodItems = ErrorWrapper(async (req, res, next) => {
+	const { restaurant_name, category } = req.query;
+
+	try {
+		const restaurant = await Restaurant.findOne({
+			name: restaurant_name,
+		});
+
+		if (!restaurant) {
+			throw new ErrorHandler(
+				401,
+				`Restaurant with name ${restaurant_name} is not exists!`
+			);
+		}
+
+		if (restaurant.email !== req.user.email)
+			throw new ErrorHandler(
+				404,
+				"You are not authorize to get food to this restaurant"
+			);
+		// console.log(restaurant);
+		//  getting index of category
+		const index = restaurant.cusines.findIndex(
+			(cusine) => cusine.category === category
+		);
+
+		if (index == -1)
+			throw new ErrorHandler(
+				404,
+				"This category is not available in this restaurant"
+			);
+		// console.log('Index: ', index);
+
+		let cusine = restaurant.cusines[index];
+
+		res.status(200).json({
+			message: "All Food items Fetched of asked category Successfully!",
+			data: cusine,
+		});
+	} catch (error) {
+		throw new ErrorHandler(error.statusCode || 500, error.message);
+	}
+})
+
+
+
+
+
+
+
+export const getAllCusines =  ErrorWrapper(async (req, res, next) => {
+	const { restaurant_name } = req.query;
+
+	try {
+		const restaurant = await Restaurant.findOne({
+			name: restaurant_name,
+		});
+
+		if (!restaurant) {
+			throw new ErrorHandler(
+				401,
+				`Restaurant with name ${restaurant_name} is not exists!`
+			);
+		}
+
+		if (restaurant.email !== req.user.email)
+			throw new ErrorHandler(
+				404,
+				"You are not authorize to get food to this restaurant"
+			);
+		// console.log(restaurant);
+
+		let cusines = restaurant.cusines;
+
+		res.status(200).json({
+			message: "All cusines items Fetched of asked restaurant Successfully!",
+			data: cusines,
+		});
+	} catch (error) {
+		throw new ErrorHandler(error.statusCode || 500, error.message);
+	}
 })
