@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import authRouter from './routes/auth.js';
 import restaurantRouter from './routes/restaurant.js'
 import cartRouter from './routes/cart.js'
+import userRouter from  './routes/user.js'
 import { verifyjwt } from "./middleware/verifyJWT.js";
 
 const app = express();
@@ -22,7 +23,8 @@ app.use(cookieParser());
 
 app.use('/', authRouter);
 app.use("/cart", verifyjwt, cartRouter);
-app.use("/restaurant", verifyjwt,restaurantRouter);
+app.use("/restaurant", verifyjwt, restaurantRouter);
+app.use('/profile',verifyjwt,userRouter)
 
 
 mongoose

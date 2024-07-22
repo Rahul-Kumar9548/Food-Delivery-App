@@ -5,7 +5,7 @@ import {
 	getCartItemIncrease,
 	getCartItemDecrease,
 	getCartItems,
-} from "../controller/user.js";
+} from "../controller/cart.js";
 
 const router = express.Router();
 
