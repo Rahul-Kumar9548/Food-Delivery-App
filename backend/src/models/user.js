@@ -28,6 +28,15 @@ const userSchema = new Schema(
 			type: String, // cloudinary url
 			required: true,
 		},
+		cart: [
+				{
+				food: {
+					type: Object
+				},
+				quantity: Number,
+			}
+		]
+		,
 		orderHistory: [
 			{
 				date: {

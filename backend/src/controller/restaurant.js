@@ -461,7 +461,7 @@ export const postAddFoodImages = ErrorWrapper(async (req, res, next) => {
     const { restaurant_name, category } = req.body;
    
     try {
-         const restaurant = await Restaurant.findOne({ name: restaurant_name });
+        const restaurant = await Restaurant.findOne({ name: restaurant_name });
 
         if (!restaurant) {
         throw new ErrorHandler(401,`Restaurant with name ${restaurant_name} is not exists!`);
