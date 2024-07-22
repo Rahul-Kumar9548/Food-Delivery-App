@@ -152,3 +152,20 @@ export const getCartItemDelete = ErrorWrapper(async (req, res, next) => {
 		throw new ErrorHandler(error.statusCode || 500, error.message);
 	}
 });
+
+
+
+
+export const getCartItems = ErrorWrapper(async (req, res, next) => {
+
+	try {
+        const user = await User.findOne({ _id: req.user._id });
+
+		res.status(200).json({
+			message: "Cart Items fetched Successfully!",
+			data: user.cart,
+		});
+	} catch (error) {
+		throw new ErrorHandler(error.statusCode || 500, error.message);
+	}
+})

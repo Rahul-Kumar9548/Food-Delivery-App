@@ -4,11 +4,13 @@ import {
 	getCartItemDelete,
 	getCartItemIncrease,
 	getCartItemDecrease,
+	getCartItems,
 } from "../controller/user.js";
 
 const router = express.Router();
 
 
+router.get("/view-cart-items", getCartItems)
 router.get("/add-cart/:id", getAddCart);
 router.get("/cart-item-increase/:id", getCartItemIncrease);
 router.get("/cart-item-decrease/:id", getCartItemDecrease);
