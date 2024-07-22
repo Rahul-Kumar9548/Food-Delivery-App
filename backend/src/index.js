@@ -3,7 +3,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import bodyParser from "body-parser";
-import userRouter from './routes/user.js';
+import authRouter from './routes/auth.js';
 import restaurantRouter from './routes/restaurant.js'
 import { verifyjwt } from "./middleware/verifyJWT.js";
 
@@ -19,7 +19,7 @@ app.use(express.static( 'public')); // To store the information that
 app.use(cookieParser());
 
 
-app.use('/', userRouter);
+app.use('/', authRouter);
 app.use("/restaurant", verifyjwt,restaurantRouter);
 
 
