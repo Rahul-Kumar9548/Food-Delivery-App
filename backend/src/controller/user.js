@@ -150,3 +150,43 @@ export const getDeleteAddress = ErrorWrapper(async (req, res, next) => {
         throw new ErrorHandler(error.statusCode || 500, error.message);
     }
 })
+
+
+
+
+export const getPlaceOrder = ErrorWrapper(async (req, res, next) => {
+    try {
+        const user = await User.findOne({ _id: req.user._id });
+        
+        let cart = user.cart;
+
+        let newOrder = {
+            items:cart
+        }
+        user.orderHistory.unshift(newOrder);
+        user.cart = [];
+        await user.save();
+
+        res.status(200).json({
+            message: 'Order Placed successfully!',
+            data: newOrder
+        })
+    } catch (error) {
+        throw new ErrorHandler(error.statusCode || 500, error.message);
+    }
+})
+
+
+
+export const getOrderHistory = ErrorWrapper(async (req, res, next) => {
+    try {
+         const user = await User.findOne({ _id: req.user._id });
+
+        res.status(200).json({
+            message: 'Order History Fetched Successfully!!',
+            data: user.orderHistory
+        })
+    } catch (error) {
+        throw  new ErrorHandler(error.statusCode || 500, error.message); 
+    }
+})

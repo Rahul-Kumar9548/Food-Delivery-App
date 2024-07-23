@@ -70,15 +70,15 @@ const userSchema = new Schema(
 					default: Date.now,
 				},
 				items: [
-					{
-						name: String,
-						price: Number,
-						quantity: Number,
-						id: {
-							type: Schema.Types.ObjectId,
-							ref: "Food",
-						},
-					},
+					// {
+					// 	name: String,
+					// 	price: Number,
+					// 	quantity: Number,
+					// 	id: {
+					// 		type: Schema.Types.ObjectId,
+					// 		ref: "Restaurant",
+					// 	},
+					// },
 				],
 			},
 		],
