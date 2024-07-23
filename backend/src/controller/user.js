@@ -87,3 +87,66 @@ export const postAddAddress = ErrorWrapper(async (req, res, next) => {
         throw new ErrorHandler(error.statusCode || 500, error.message);
     }
 })
+
+
+
+
+
+export const postUpdateAddress = ErrorWrapper(async (req, res, next) => {
+    const { id } = req.params;
+    const { name, contact, location, landmark } = req.body;
+    
+    try {
+
+        const user = await User.findOne({ _id: req.user._id });
+
+        let addressIndex = user.addresses.findIndex(address => address._id.toString() === id.toString());
+
+        if (addressIndex === -1) throw new ErrorHandler(404, `Address with id: ${id} not found!`);
+        
+        if (name) user.addresses[addressIndex].name = name;
+        if (contact) user.addresses[addressIndex].contact = contact;
+        if (location) user.addresses[addressIndex].location = location;
+        if (landmark) user.addresses[addressIndex].landmark = landmark;
+        
+
+        await user.save();
+        
+        res.status(200).json({
+            message: 'Address updated successfully!',
+            data: user.addresses
+        })
+        
+    } catch (error) {
+        throw new ErrorHandler(error.statusCode || 500, error.message);
+    }
+})
+    
+
+
+
+
+export const getDeleteAddress = ErrorWrapper(async (req, res, next) => {
+    const { id } = req.params;
+    
+    try {
+
+        const user = await User.findOne({ _id: req.user._id });
+
+        let addressIndex = user.addresses.findIndex(address => address._id.toString() === id.toString());
+
+        if (addressIndex === -1) throw new ErrorHandler(404, `Address with id: ${id} not found!`);
+        
+        user.addresses.splice( addressIndex, 1 );
+
+        await user.save();
+        
+        res.status(200).json({
+            message: 'Address Deleted successfully!',
+            data: user.addresses
+        })
+        
+    } catch (error) {
+        throw new ErrorHandler(error.statusCode || 500, error.message);
+    }
+})
