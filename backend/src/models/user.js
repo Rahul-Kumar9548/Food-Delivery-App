@@ -28,15 +28,41 @@ const userSchema = new Schema(
 			type: String, // cloudinary url
 			required: true,
 		},
+		addresses: [
+			{
+				name: {
+					type: String,
+					lowercase: true,
+					trim: true,
+					// required: true,
+				},
+				contact: {
+					type: Number,
+					lowercase: true,
+					trim: true,
+					// required: true,
+				},
+				location: {
+					type: String,
+					lowercase: true,
+					trim: true,
+					// required: true,
+				},
+				landmark: {
+					type: String,
+					lowercase: true,
+					trim: true,
+				},
+			},
+		],
 		cart: [
-				{
+			{
 				food: {
-					type: Object
+					type: Object,
 				},
 				quantity: Number,
-			}
-		]
-		,
+			},
+		],
 		orderHistory: [
 			{
 				date: {

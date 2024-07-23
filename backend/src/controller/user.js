@@ -46,3 +46,44 @@ export const postUpdateDetails = ErrorWrapper(async (req, res, next) => {
         throw new ErrorHandler(error.statusCode || 500, error.message);
     }
 })
+
+
+
+export const postAddAddress = ErrorWrapper(async (req, res, next) => {
+    const { name, contact, location, landmark } = req.body;
+    
+    // console.log(name, contact, location, landmark);
+    try {
+
+        const incomingFields = Object.keys(req.body);
+    
+        //  Identifying the Missing  Fields
+        const requiredFields = ['name', 'location', 'contact', 'landmark'];
+        const missingFields = requiredFields.filter((field) => !incomingFields.includes(field));
+
+        if (missingFields.length > 0) { // If there are missing fields
+            throw new ErrorHandler(401, `Provide missing fields: ${missingFields.join(',')} for adding addess!`);
+        }
+
+        const user = await User.findOne({ _id: req.user._id });
+
+        let newAddress = {
+            name,
+            contact,
+            location,
+            landmark
+        }
+
+        user.addresses.unshift(newAddress);
+
+        await user.save();
+        
+        res.status(200).json({
+            message: 'Address added successfully!',
+            data: user.addresses
+        })
+        
+    } catch(error) {
+        throw new ErrorHandler(error.statusCode || 500, error.message);
+    }
+})
