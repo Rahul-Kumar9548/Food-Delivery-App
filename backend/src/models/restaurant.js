@@ -76,7 +76,7 @@ const restaurantSchema = new Schema(
 		],
 		reviews: [
 			{
-				user: {
+				userId: {
 					type: mongoose.SchemaTypes.ObjectId,
 					ref: "User",
 				},
@@ -92,7 +92,7 @@ const restaurantSchema = new Schema(
 				message: {
 					type: String,
 				},
-				name: String,
+				username: String,
 			},
 		],
 	},

@@ -9,6 +9,11 @@ import {
 	getFoodItems,
 	getAllCusines,
 	postAddFoodImages,
+	postAddReview,
+	postUpdateReview,
+	getDeleteReview,
+	getAllReviews,
+	getReview,
 } from "../controller/restaurant.js";
 import upload from "../utils/multer.js";
 
@@ -28,7 +33,13 @@ router.get("/get-all-cusines", getAllCusines);
 
 //  Food --> Image:
 
-router.post("/add-food-images/:id",upload.array('images', 6),postAddFoodImages);
+router.post("/add-food-images/:id", upload.array('images', 6), postAddFoodImages);
 
+//Add review
+router.post('/add-review', upload.array('images', 12), postAddReview);
+router.post("/update-review/:id", postUpdateReview);
+router.get('/delete-review/:id', getDeleteReview)
+router.get("/get-all-reviews", getAllReviews);
+router.get("/get-review/:id", getReview);
 
 export default router;
