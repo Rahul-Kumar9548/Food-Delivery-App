@@ -667,3 +667,18 @@ export const getReview = ErrorWrapper(async (req, res, next) => {
         throw new ErrorHandler(error.statusCode || 500, error.message);
     }
 })
+
+
+export const getAllRestaurants = ErrorWrapper(async (req, res, next) => {
+    try {
+        const restaurants = await Restaurant.find({});
+
+        res.status(200).json({
+            message: 'All Restaurants Fetched Successfully!',
+            data: restaurants
+        })
+        
+    } catch (error) {
+        throw new ErrorHandler(error.statusCode || 500, error.message);
+    }
+})
