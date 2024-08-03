@@ -103,7 +103,7 @@ export const postLogin = ErrorWrapper(async (req, res, next) => {
 
     let passwordMatch = await user.isPasswordCorrect(password);
     if (!passwordMatch) {
-        throw new ErrorHandler(400, "Invalid password!");
+        throw new ErrorHandler(401, "Invalid password!");
     }
 
     const { accessToken, refreshToken } = await generateAccessTokenAndRefreshToken(user._id);
