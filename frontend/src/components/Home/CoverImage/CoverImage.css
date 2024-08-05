@@ -1,0 +1,12 @@
+.cover-Image{
+    background-image: url('../../../assets/images/HomeCover.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-y: -9rem;
+    height: 460px;
+}
+
+.search-bar input:hover,
+.search-bar input:focus{
+  box-shadow: 0px 0px 10px 7px rgb(255, 133, 88);
+}

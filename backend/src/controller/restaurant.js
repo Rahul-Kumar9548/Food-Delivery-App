@@ -432,18 +432,18 @@ export const getAllCusines =  ErrorWrapper(async (req, res, next) => {
 			);
 		}
 
-		if (restaurant.email !== req.user.email)
-			throw new ErrorHandler(
-				404,
-				"You are not authorize to get food to this restaurant"
-			);
+		// if (restaurant.email !== req.user.email)
+		// 	throw new ErrorHandler(
+		// 		404,
+		// 		"You are not authorize to get food to this restaurant"
+		// 	);
 		// console.log(restaurant);
 
 		let cusines = restaurant.cusines;
 
 		res.status(200).json({
 			message: "All cusines items Fetched of asked restaurant Successfully!",
-			data: cusines,
+			cusines,
 		});
 	} catch (error) {
 		throw new ErrorHandler(error.statusCode || 500, error.message);

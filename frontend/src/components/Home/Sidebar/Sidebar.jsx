@@ -26,7 +26,7 @@ const Sidebar = () => {
 					</h3>
 				</div>
 				<ul className="sidebar-list">
-					<li className="sidebar-item hover:translate-x-1 hover:translate-y-1">
+					<li className="sidebar-item hover:scale-110 transition-all duration-300">
 						<Link
 							to="/home"
 							className="sidebar-link w-full flex   border-b-2"
@@ -41,7 +41,7 @@ const Sidebar = () => {
 							</span>
 						</Link>
 					</li>
-					<li className="sidebar-item hover:translate-x-1 hover:translate-y-1">
+					<li className="sidebar-item hover:scale-110 transition-all duration-300">
 						<Link
 							to="/orders"
 							className="sidebar-link w-full flex   border-b-2"
@@ -56,19 +56,21 @@ const Sidebar = () => {
 							</span>
 						</Link>
 					</li>
-					<li className="sidebar-item hover:translate-x-1 hover:translate-y-1">
+					<li className="sidebar-item hover:scale-110 transition-all duration-300">
 						<Link
 							to="/profile"
 							className="sidebar-link border-b-2 relative"
 						>
 							<img className="w-6" src={cartIcon} alt="" />
 							<span className="ml-5 overflow-x-hidden  overflow-y-hidden">
-                                <span class="msg-count">{ user.cart.length}</span>
+								<span className="msg-count">
+									{user.cart.length}
+								</span>
 								Cart
 							</span>
 						</Link>
 					</li>
-					<li className="sidebar-item hover:translate-x-1 hover:translate-y-1">
+					<li className="sidebar-item hover:scale-110 transition-all duration-300">
 						<Link
 							to="/logout"
 							className="sidebar-link border-b-2"
