@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
-import { Link } from 'react-router-dom'
-import './Signup.css'
-import signupCover from '../../assets/images/login2.jpeg'
-import FormData from 'form-data'
-import axios from '../../utils/axios'
-import MissFieldLogo from '../../components/MissFieldLogo/MissFieldLogo'
+import { Link, useNavigate } from "react-router-dom";
+import "./Signup.css";
+import signupCover from "../../assets/images/login2.jpeg";
+import FormData from "form-data";
+import axios from "../../utils/axios";
+import MissFieldLogo from "../../components/Login&Signup/MissFieldLogo/MissFieldLogo";
 import { setUser } from "../../redux/slices/userSlice";
-import InlineAlert from "../../components/InlineAlert/InlineAlert";
+import InlineAlert from "../../components/Login&Signup/InlineAlert/InlineAlert";
 
 const Signup = () => {
 	const nameRef = useRef();
@@ -20,7 +20,8 @@ const Signup = () => {
 	const [checkEmail, setCheckEmail] = useState(false);
 	const [checkPassword, setCheckPassword] = useState(false);
 	const [userExist, setUserExist] = useState(false);
-	const [alert, setAlert] = useState('')
+	const [alert, setAlert] = useState("");
+	const navigate = useNavigate();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -50,27 +51,31 @@ const Signup = () => {
 		setUserExist(false);
 
 		try {
-
-			if (name && username && email && password && imageRef.current.files[0]) {
+			if (
+				name &&
+				username &&
+				email &&
+				password &&
+				imageRef.current.files[0]
+			) {
 				const { data } = await axios.post("signup", formData, {
 					headers: {
 						"Content-Type": "multipart/form-data",
 					},
 				});
-				console.log(data);
+				navigate("/login");
+				// console.log(data);
 			}
 		} catch (error) {
-			console.log(error.response.data);
+			// console.log(error.response.data);
 			if (error.response.data.status === 401) {
 				setUserExist(true);
 				setAlert(error.response.data.message);
 			}
-
 		}
-
 	}
 
-  return (
+	return (
 		<div className="container flex justify-center w-full py-4 mx-auto h-screen">
 			<div className="h-full hidden md:block  w-2/6">
 				<img
@@ -88,7 +93,7 @@ const Signup = () => {
 					<div className="form__group flex field">
 						<input
 							type="input"
-							class="form__field"
+							className="form__field"
 							placeholder="Fullname"
 							name="name"
 							required=""
@@ -97,7 +102,7 @@ const Signup = () => {
 						{checkName && (
 							<MissFieldLogo message="Please Provide Fullname!" />
 						)}
-						<label for="name" className="form__label">
+						<label htmlFor="name" className="form__label">
 							Fullname
 						</label>
 					</div>
@@ -113,7 +118,7 @@ const Signup = () => {
 						{checkUsername && (
 							<MissFieldLogo message="Please Provide Username" />
 						)}
-						<label for="username" className="form__label">
+						<label htmlFor="username" className="form__label">
 							Username
 						</label>
 					</div>
@@ -130,7 +135,10 @@ const Signup = () => {
 							{checkEmail && (
 								<MissFieldLogo message="Please Provide Email" />
 							)}
-							<label for="email" className="form__label">
+							<label
+								htmlFor="email"
+								className="form__label"
+							>
 								Email
 							</label>
 						</div>
@@ -139,7 +147,7 @@ const Signup = () => {
 
 					<div className="form__group flex field ">
 						<input
-							type="input"
+							type="password"
 							className="form__field"
 							placeholder="Password"
 							required=""
@@ -148,7 +156,7 @@ const Signup = () => {
 						{checkPassword && (
 							<MissFieldLogo message="Please Provide Password" />
 						)}
-						<label for="password" className="form__label">
+						<label htmlFor="password" className="form__label">
 							Password
 						</label>
 					</div>
@@ -156,7 +164,7 @@ const Signup = () => {
 					<div className="mb-2">
 						<label
 							className="block mb-2 text-m font-medium text-gray-500"
-							for="file_input"
+							htmlFor="file_input"
 						>
 							Profile Image
 						</label>
@@ -178,9 +186,9 @@ const Signup = () => {
 							className="icon"
 						>
 							<path
-								clip-rule="evenodd"
+								clipRule="evenodd"
 								d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
-								fill-rule="evenodd"
+								fillRule="evenodd"
 							></path>
 						</svg>
 					</button>
@@ -196,7 +204,7 @@ const Signup = () => {
 				</form>
 			</div>
 		</div>
-  );
-}
+	);
+};
 
 export default Signup;

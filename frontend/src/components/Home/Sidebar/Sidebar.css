@@ -1,0 +1,79 @@
+.sidebar {
+  background-color: #f0f0f0; /* Light gray background */
+  width: 250px; /* Adjust width as needed */
+  height: 96vh; /* Full viewport height */
+  position: fixed; /* Fixed positioning for sidebar */
+  top: 0;
+  left: 0;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: all 0.3s ease; /* Smooth transitions */
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sidebar-profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.sidebar-username {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333; /* Dark gray text */
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-item {
+  margin-bottom: 15px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333; /* Dark gray text */
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-link:hover {
+  /* background-color: #e0e0e0; Light gray hover background */
+  background-color: #f8e2d0;
+  font-weight: 700;
+  color: #FD7E14;
+}
+
+.sidebar-link i {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.msg-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  color: white;
+  background-color: #ff4800;
+  /* background-color: rgb(255, 115, 0); */
+  border-radius: 50%;
+  font-size: 0.7em;
+  /* color: rgb(0, 0, 0); */
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

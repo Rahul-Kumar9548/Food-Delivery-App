@@ -1,45 +1,46 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import loginCover from "../../assets/images/login.jpeg";
 import axios from "../../utils/axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/slices/userSlice";
-import MissFieldLogo from "../../components/MissFieldLogo/MissFieldLogo";
-import InlineAlert from "../../components/InlineAlert/InlineAlert";
+import MissFieldLogo from "../../components/Login&Signup/MissFieldLogo/MissFieldLogo";
+import InlineAlert from "../../components/Login&Signup/InlineAlert/InlineAlert";
 
 const Login = () => {
 	const usernameRef = useRef();
 	const passwordRef = useRef();
-	const user = useSelector((state=>state.user));
 	const dispatch = useDispatch();
 	const [userFeildCheck, setUserFeildCheck] = useState(false);
 	const [passwordFeildCheck, setPasswordFeildCheck] = useState(false);
-	const [invalidEmail, setInvalidEmail] = useState({ invalid: false, alertMsg: "" })
+	const [invalidEmail, setInvalidEmail] = useState({
+		invalid: false,
+		alertMsg: "",
+	});
 	const [invalidPassword, setInvalidPassword] = useState({
 		invalid: false,
 		alertMsg: "",
 	});
-
+	const navigate = useNavigate();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
 		const username = usernameRef.current.value.trim();
 		const password = passwordRef.current.value.trim();
-		if(!username) setUserFeildCheck(true);
+		if (!username) setUserFeildCheck(true);
 		if (!password) setPasswordFeildCheck(true);
-		if(username) setUserFeildCheck(false);
-		if(password) setPasswordFeildCheck(false);
+		if (username) setUserFeildCheck(false);
+		if (password) setPasswordFeildCheck(false);
 
 		setInvalidEmail({
 			invalid: false,
-			alertMsg: '',
+			alertMsg: "",
 		});
 		setInvalidPassword({
 			invalid: false,
-			alertMsg: '',
+			alertMsg: "",
 		});
-		
 
 		try {
 			if (username && password) {
@@ -47,19 +48,26 @@ const Login = () => {
 					username,
 					password,
 				});
-				console.log(data.user);
-				dispatch(setUser(data.user));				
+				// console.log(data.user);
+				dispatch(setUser(data.user));
+				localStorage.setItem("user", JSON.stringify(data.user));
+				navigate("/home");
 			}
-			
 		} catch (error) {
 			console.log(error.response.data);
-			if(error.response.data.status === 400)
-				setInvalidEmail({ invalid: true, alertMsg: error.response.data.message });
-			if(error.response.data.status === 401)
-				setInvalidPassword({ invalid: true, alertMsg: error.response.data.message });
+			if (error.response.data.status === 400)
+				setInvalidEmail({
+					invalid: true,
+					alertMsg: error.response.data.message,
+				});
+			if (error.response.data.status === 401)
+				setInvalidPassword({
+					invalid: true,
+					alertMsg: error.response.data.message,
+				});
 		}
-		// console.log(user);
 	}
+	// console.log(user);
 
 	return (
 		<div className="container flex justify-center w-full py-4 mx-auto h-screen">
@@ -84,7 +92,7 @@ const Login = () => {
 						<div className="flex">
 							<input
 								type="input"
-								class="form__field"
+								className="form__field"
 								placeholder="Username or Email"
 								name="username"
 								required=""
@@ -93,7 +101,10 @@ const Login = () => {
 							{userFeildCheck && (
 								<MissFieldLogo message="Please Provide Username or Email" />
 							)}
-							<label for="name" className="form__label">
+							<label
+								htmlFor="name"
+								className="form__label"
+							>
 								Username or Email
 							</label>
 						</div>
@@ -117,7 +128,10 @@ const Login = () => {
 							{passwordFeildCheck && (
 								<MissFieldLogo message="Please Provide Password" />
 							)}
-							<label for="name" className="form__label">
+							<label
+								htmlFor="name"
+								className="form__label"
+							>
 								Password
 							</label>
 						</div>
@@ -140,9 +154,9 @@ const Login = () => {
 								className="icon"
 							>
 								<path
-									clip-rule="evenodd"
+									clipRule="evenodd"
 									d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
-									fill-rule="evenodd"
+									fillRule="evenodd"
 								></path>
 							</svg>
 						</button>

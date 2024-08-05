@@ -1,0 +1,18 @@
+.home-container{
+    height: 96vh;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f0f0f0;
+}
+.cover-Image{
+    background-image: url('../../assets/images/HomeCover.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-y: -9rem;
+    height: 70%;
+}
+
+.search-bar input:hover,
+.search-bar input:focus{
+  box-shadow: 0px 0px 10px 7px rgb(255, 133, 88);
+  
+}
