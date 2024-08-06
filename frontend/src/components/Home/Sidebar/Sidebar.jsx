@@ -6,6 +6,7 @@ import homeIcon from '../../../assets/images/Home24x24.svg'
 import orderHistoryIcon from '../../../assets/images/OrderHistory.png'
 import cartIcon from '../../../assets/images/cart.png'
 import profileIcon from '../../../assets/images/profile.png'
+import heartIcon from "../../../assets/images/heart-60.png";
 import Logout from "../Logout/Logout";
 
 
@@ -82,6 +83,21 @@ const Sidebar = () => {
 							/>
 							<span className="ml-5 overflow-x-hidden overflow-y-hidden ">
 								Profile
+							</span>
+						</Link>
+					</li>
+					<li className="sidebar-item hover:scale-110 transition-all duration-300">
+						<Link
+							to="/logout"
+							className="sidebar-link border-b-2"
+						>
+							<img
+								className="w-6"
+								src={heartIcon}
+								alt=""
+							/>
+							<span className="ml-5 overflow-x-hidden overflow-y-hidden ">
+								Favourites
 							</span>
 						</Link>
 					</li>

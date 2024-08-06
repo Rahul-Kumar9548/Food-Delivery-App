@@ -675,7 +675,7 @@ export const getAllRestaurants = ErrorWrapper(async (req, res, next) => {
 
         res.status(200).json({
             message: 'All Restaurants Fetched Successfully!',
-            data: restaurants
+            restaurants
         })
         
     } catch (error) {

@@ -1,0 +1,14 @@
+/* From Uiverse.io by catraco */ 
+/*------ Settings ------*/
+.container {
+  --color: rgb(255, 196, 0);
+  --size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  font-size: var(--size);
+  user-select: none;
+  fill: var(--color);
+}

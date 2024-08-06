@@ -12,7 +12,7 @@ const App = () => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		const savedUser = JSON.parse(localStorage.getItem("user"));
-		console.log("Running useEffect");
+		// console.log("Running useEffect");
 		if (savedUser) {
 			dispatch(setUser(savedUser));
 		}

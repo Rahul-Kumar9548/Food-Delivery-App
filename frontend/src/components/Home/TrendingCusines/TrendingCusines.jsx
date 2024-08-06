@@ -9,18 +9,18 @@ const TrendingCusines = () => {
 			async function getCusines() {
 				try {
 					const { data } = await axios.get("restaurant/get-all-cusines?restaurant_name=food bite");
-					console.log(data.cusines);
-					setTrendingCusines(data.cusines);
+					// console.log(data.cusines);
+					setTrendingCusines(data.cusines.splice(0, 6));
 				} catch (error) {
 					console.log(error);
 				}
 			}
 			getCusines();
     	}, []);
-    // console.log(TrendingCusines[1]["food"][0]['images'][0].url);
+	// console.log(TrendingCusines[1]["food"][0]['images'][0].url);
 
   return (
-		<div className="trending-cusines w-full h-fit border">
+		<div className="trending-cusines w-full py-4 h-fit">
 			<h1 className="text-center text-2xl">Trending Cusines</h1>
 			<div className="flex flex-row justify-evenly">
 			  {TrendingCusines.map((cusine, indx) => {

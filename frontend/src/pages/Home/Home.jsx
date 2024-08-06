@@ -4,6 +4,7 @@ import Sidebar from '../../components/Home/Sidebar/Sidebar'
 import CoverImage from '../../components/Home/CoverImage/CoverImage';
 import TrendingCusines from '../../components/Home/TrendingCusines/TrendingCusines';
 import Loader from '../../components/Loader/Loader';
+import Restaurants from '../../components/Home/Restaurants/Restaurants';
 
 
 const Home = () => {
@@ -12,18 +13,19 @@ const Home = () => {
 	useEffect(() => {
 		time = setTimeout(() => {
 			setIsLoader(true);
-			console.log("Runned SetTimeout!");
+			// console.log("Runned SetTimeout!");
 		}, 2000)
 		return () => clearTimeout(time);
 	}, [])
 	return (
 		<>
 			{!isLoader && <Loader />}
-			{isLoader && <div className="flex border-2 w-full max-h-screen  border-black">	
+			{isLoader && <div style={{ height: "100rem" }} className="flex border-2 w-full  border-black">	
 				<Sidebar />
-				<div className="w-full mt-3 mr-2 home-container ml-24 rounded-lg h-fit">
+				<div className="w-full mt-3 mr-2 home-container ml-24 rounded-lg" style={{ height: "inherit" }}>
 					<CoverImage />
 					<TrendingCusines />
+					<Restaurants />
 				</div>
 				
 			</div>}
