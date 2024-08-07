@@ -15,6 +15,7 @@ import {
 	getAllReviews,
 	getReview,
 	getAllRestaurants,
+	getRestaurant,
 } from "../controller/restaurant.js";
 import upload from "../utils/multer.js";
 
@@ -45,5 +46,7 @@ router.get("/get-review/:id", getReview);
 
 //	Get All restaurant
 router.get("/all-restaurants", getAllRestaurants);
+//	Get Restaurant by name
+router.get("/get-restaurant/:name", getRestaurant);
 
 export default router;

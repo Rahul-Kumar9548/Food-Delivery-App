@@ -12,7 +12,9 @@ import { verifyjwt } from "./middleware/verifyJWT.js";
 const app = express();
 
 app.use(cors({
-    origin: process.env.CORS_ORIGINS,
+	origin: [
+	process.env.CORS_ORIGINS, process.env.VERCEL_CORS_ORIGINS
+	],
     credentials: true
 }))
 app.use(bodyParser.json({ limit: "4kb" }));
@@ -26,9 +28,8 @@ app.use("/cart", verifyjwt, cartRouter);
 app.use("/restaurant", verifyjwt, restaurantRouter);
 app.use('/profile',verifyjwt,userRouter)
 
-
 mongoose
-	.connect(process.env.DB_PATH + process.env.DB_NAME)
+	.connect(process.env.ATLASDB_PATH + process.env.DB_NAME)
 	.then(() => {
 		app.listen(process.env.PORT, () => {
 			console.log("Server is running on port:", process.env.PORT);

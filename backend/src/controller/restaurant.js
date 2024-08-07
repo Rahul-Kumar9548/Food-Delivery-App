@@ -682,3 +682,21 @@ export const getAllRestaurants = ErrorWrapper(async (req, res, next) => {
         throw new ErrorHandler(error.statusCode || 500, error.message);
     }
 })
+
+
+export const getRestaurant = ErrorWrapper(async (req, res, next) => {
+    const { name } = req.params;
+    
+	try {
+        const restaurant = await Restaurant.findOne({
+            name
+        });
+
+		res.status(200).json({
+			message: `Restaurant by name ${name} Fetched Successfully!`,
+			restaurant,
+		});
+	} catch (error) {
+		throw new ErrorHandler(error.statusCode || 500, error.message);
+	}
+});

@@ -6,6 +6,7 @@ import Signup from './pages/Signup/Signup';
 import Home from './pages/Home/Home';
 import { useDispatch } from "react-redux";
 import { setUser } from "../src/redux/slices/userSlice";
+import Restaurant from './pages/Restaurant/Restaurant';
 
 
 const App = () => {
@@ -18,15 +19,16 @@ const App = () => {
 		}
 	})
   return (
-	  <>
-		  <BrowserRouter>
-			  <Routes>
-				  <Route path="/" element={<Login />} />
-				  <Route path="/login" element={<Login />} />
-				  <Route path="/signup" element={<Signup />} />
-				  <Route path="/home" element={<Home />} />
-			  </Routes>
-		  </BrowserRouter>
+		<>
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<Login />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/signup" element={<Signup />} />
+					<Route path="/home" element={<Home />} />
+					<Route path="/restaurant/:name" element={<Restaurant />} />
+				</Routes>
+			</BrowserRouter>
 		</>
   );
 }

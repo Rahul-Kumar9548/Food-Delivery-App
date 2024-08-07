@@ -1,12 +1,18 @@
 import React from 'react'
 import './OrderOnlineBtn.css'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
-const OrderOnlineBtn = () => {
+const OrderOnlineBtn = ({ restaurantName }) => {
+	const navigate = useNavigate();
+	const clickHandler = (e) => {
+		e.preventDefault();
+		console.log(restaurantName);
+		navigate(`/restaurant/${restaurantName}`);
+	}
   return (
 		<>
-			<div className="btn-conteiner">
-				<a className="btn-content" href="#">
+			<div className="btn-conteiner" onClick={clickHandler}>
+				<a className="btn-content">
 					<span className="btn-title">Order Online!</span>
 					<span className="icon-arrow">
 						<svg

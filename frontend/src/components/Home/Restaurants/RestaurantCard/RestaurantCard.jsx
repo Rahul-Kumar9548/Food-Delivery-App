@@ -34,7 +34,7 @@ const RestaurantCard = ({ restaurant }) => {
 				<div className="text-sm capitalize font-semibold text-slate-500 overflow-ellipsis whitespace-nowrap overflow-hidden">
 					{list.join(", ")}
 				</div>
-				<OrderOnlineBtn />
+				<OrderOnlineBtn restaurantName={restaurant.name} />
 			</div>
 		</div>
   );
