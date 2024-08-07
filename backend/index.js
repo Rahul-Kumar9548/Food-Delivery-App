@@ -3,11 +3,11 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import bodyParser from "body-parser";
-import authRouter from './routes/auth.js';
-import restaurantRouter from './routes/restaurant.js'
-import cartRouter from './routes/cart.js'
-import userRouter from  './routes/user.js'
-import { verifyjwt } from "./middleware/verifyJWT.js";
+import authRouter from './src/routes/auth.js';
+import restaurantRouter from './src/routes/restaurant.js'
+import cartRouter from './src/routes/cart.js'
+import userRouter from  './src/routes/user.js'
+import { verifyjwt } from "./src/middleware/verifyJWT.js";
 
 const app = express();
 
