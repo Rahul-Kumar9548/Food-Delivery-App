@@ -14,6 +14,8 @@ export const verifyjwt = ErrorWrapper(async (req, res, next) => {
 		res.json({
 			AccessToken: incomingAccessToken,
 			refreshToken: incomingRefreshToken,
+			message: "You are not authenticated, Please login 1st!",
+			cookies: req.cookies
 		})
 	}
 	try {
