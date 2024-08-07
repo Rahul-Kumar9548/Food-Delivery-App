@@ -122,6 +122,8 @@ export const postLogin = ErrorWrapper(async (req, res, next) => {
         .json({
         message: "Login Successful!",
         success: true,
-        user
+            user,
+        accessToken,
+        refreshToken
     })
 })
