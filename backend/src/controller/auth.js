@@ -122,12 +122,14 @@ export const postLogin = ErrorWrapper(async (req, res, next) => {
             secure: true, // Required for HTTPS
             sameSite: 'None', // Required for cross-site requests
         })
-        .cookie("AccessToken", accessToken)
+        .cookie("AccessToken", accessToken, {
+            httpOnly: false, // Set to false if you need to access the cookie on the frontend
+            secure: true, // Required for HTTPS
+            sameSite: 'None', // Required for cross-site requests
+        })
         .json({
         message: "Login Successful!",
         success: true,
-            user,
-        accessToken,
-        refreshToken
+            user
     })
 })
