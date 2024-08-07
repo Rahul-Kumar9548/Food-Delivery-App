@@ -117,7 +117,11 @@ export const postLogin = ErrorWrapper(async (req, res, next) => {
     }).select( '-password -refreshToken -createdAt -updatedAt');
 
     res.status(200)
-        .cookie("RefreshToken", refreshToken)
+        .cookie("RefreshToken", refreshToken, {
+            httpOnly: false, // Set to false if you need to access the cookie on the frontend
+            secure: true, // Required for HTTPS
+            sameSite: 'None', // Required for cross-site requests
+        })
         .cookie("AccessToken", accessToken)
         .json({
         message: "Login Successful!",
