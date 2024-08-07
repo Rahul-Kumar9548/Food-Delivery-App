@@ -10,11 +10,11 @@ export const verifyjwt = ErrorWrapper(async (req, res, next) => {
 	// console.log(incomingAccessToken, incomingRefreshToken)
 
 	if (!incomingAccessToken || !incomingRefreshToken) {
-		throw new ErrorHandler(401, "You are not authenticated, Please login 1st!");
-		// res.json({
-		// 	AccessToken: incomingAccessToken,
-		// 	refreshToken: incomingRefreshToken,
-		// })
+		// throw new ErrorHandler(401, "You are not authenticated, Please login 1st!");
+		res.json({
+			AccessToken: incomingAccessToken,
+			refreshToken: incomingRefreshToken,
+		})
 	}
 	try {
 		let userInfo = jwt.verify(
