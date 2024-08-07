@@ -22,10 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "4kb" }));
 app.use(express.static( 'public')); // To store the information that
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-	res.send("Hello World!");
-});
-// app.use('/', authRouter);
+
+app.use('/', authRouter);
 app.use("/cart", verifyjwt, cartRouter);
 app.use("/restaurant", verifyjwt, restaurantRouter);
 app.use('/profile',verifyjwt,userRouter)
