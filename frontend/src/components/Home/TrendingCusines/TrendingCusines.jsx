@@ -20,8 +20,8 @@ const TrendingCusines = () => {
 	// console.log(TrendingCusines[1]["food"][0]['images'][0].url);
 
   return (
-		<div className="trending-cusines w-full py-4 h-fit">
-			<h1 className="text-center text-2xl">Trending Cusines</h1>
+		<div className="w-full py-2 md:py-4 h-fit">
+			<h1 className="text-center text-xl md:text-2xl">Trending Cusines</h1>
 			<div className="flex flex-row justify-evenly">
 			  {TrendingCusines.map((cusine, indx) => {
 				  return <CusineCard key={TrendingCusines[indx]?.["food"][0]?._id} cusine={cusine} />;
