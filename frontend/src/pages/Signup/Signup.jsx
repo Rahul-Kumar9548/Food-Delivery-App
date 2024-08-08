@@ -76,16 +76,16 @@ const Signup = () => {
 	}
 
 	return (
-		<div className="container flex justify-center w-full py-4 mx-auto h-screen">
-			<div className="h-full hidden md:block  w-2/6">
+		<div className="flex justify-center w-full py-4 mx-auto h-screen xl:mx-3 xl:w-[98%] md:mx-3 md:w[95%]">
+			<div className="h-full hidden lg:block w-2/6">
 				<img
 					src={signupCover}
 					alt="signup"
-					className="h-full shadow-nice  hidden md:block rounded-s-xl w-full"
+					className="h-full shadow-nice rounded-s-xl w-full"
 				/>
 			</div>
-			<div className=" lg:w-4/6 shadow-nice h-full rounded-e-xl bg-white border-2 px-14 md:w-11/12">
-				<form className="container flex align-items-center flex-col gap-3 p-8 mx-auto border-2 my-12 max-w-md border-grey-200 rounded-xl shadow-nice">
+			<div className=" lg:w-4/6 shadow-nice h-full rounded-e-xl bg-white border-2 px-6 md:w-11/12 flex justify-center items-center">
+				<form className="container flex align-items-center flex-col gap-4 p-6 border-2 my-4 max-w-md border-grey-200 rounded-xl shadow-nice">
 					<h2 className="text-xl text-center theme-color">
 						Signup to The Gourmet Grub!
 					</h2>

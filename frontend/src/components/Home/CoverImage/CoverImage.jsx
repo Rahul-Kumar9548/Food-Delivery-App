@@ -3,9 +3,9 @@ import './CoverImage.css'
 const CoverImage = () => {
   return (
 		<>
-			<div className="cover-Image width-full rounded-t-lg relative">
-				<div className="absolute bottom-32 search-bar w-full">
-					<form className="form relative w-1/2 mx-auto shadow-2xl rounded-full ">
+			<div className="cover-Image md:width-full rounded-t-lg md:relative">
+				<div className="md:absolute relative -bottom-32 md:bottom-20 xl:bottom-[10rem] search-bar w-full">
+					<form className="form relative w-[80%] md:w-[70%] mx-auto shadow-2xl rounded-full ">
 						<button className="absolute left-2 -translate-y-1/2 top-1/2 p-1">
 							<svg
 								width="17"
@@ -26,7 +26,7 @@ const CoverImage = () => {
 							</svg>
 						</button>
 						<input
-							className="input w-full rounded-full px-8 py-3 border-2 border-transparent focus:outline-none focus:border-orange-500 placeholder-gray-400 focus:scale-110  transition-all duration-300 shadow-2xl"
+							className="input w-full rounded-full px-8 py-[0.35rem] md:py-3 border-2 border-transparent focus:outline-none focus:border-orange-500 placeholder-gray-400 focus:scale-110  transition-all duration-300 shadow-2xl"
 							placeholder="Search..."
 							required=""
 							type="text"

@@ -10,3 +10,22 @@
 .search-bar input:focus{
   box-shadow: 0px 0px 10px 7px rgb(255, 133, 88);
 }
+
+@media (max-width: 767px) { 
+  .cover-Image{
+    height: 210px;
+    /* background-size: 450px; */
+    background-position: 0rem;
+  }
+}
+@media (768px <= width < 1023px) { 
+  .cover-Image{
+    height: 280px;
+    background-position: 0rem;
+  }
+}
+@media (1024px <= width < 1280px) { 
+  .cover-Image{
+    height: 310px;
+  }
+}

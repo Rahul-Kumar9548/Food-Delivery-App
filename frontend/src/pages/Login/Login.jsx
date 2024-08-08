@@ -70,19 +70,19 @@ const Login = () => {
 	// console.log(user);
 
 	return (
-		<div className="container flex justify-center w-full py-4 mx-auto h-screen">
-			<div className="h-full hidden md:block w-2/6">
+		<div className="container flex justify-center w-full py-4 mx-auto h-screen xl:mx-3 xl:w-[98%]">
+			<div className="h-full hidden lg:block w-2/6">
 				<img
 					src={loginCover}
 					alt="login"
-					className="h-full hidden md:block shadow-nice rounded-s-xl w-full"
+					className="h-full shadow-nice rounded-s-xl w-full "
 				/>
 			</div>
-			<div className=" lg:w-4/6 shadow-nice h-full rounded-e-xl bg-white border-2 px-14 md:w-11/12">
+			<div className="w-full lg:w-4/6 shadow-nice h-full rounded-e-xl bg-white border-2 px-4 md:px-14 md:w-11/12">
 				<form
 					action="#"
 					method="post"
-					className="container flex flex-col gap-3 p-14 mx-auto border-2 my-24 border-grey-200 max-w-md rounded-xl shadow-nice"
+					className="w-[100%] flex  flex-col mx-auto gap-3 p-14 border-2 my-24 border-grey-200 max-w-md rounded-xl shadow-nice"
 				>
 					<h2 className="text-xl text-center theme-color mb-4">
 						Login to The Gourmet Grub

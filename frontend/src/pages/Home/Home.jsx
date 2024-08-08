@@ -22,7 +22,7 @@ const Home = () => {
 			{!isLoader && <Loader />}
 			{isLoader && <div style={{ height: "100rem" }} className="flex border-2 w-full  border-black">	
 				<Sidebar />
-				<div className="w-full mt-3 mr-2 home-container ml-24 rounded-lg" style={{ height: "inherit" }}>
+				<div className="w-full mt-3 ml-2 mr-2 home-container md:ml-24 rounded-lg" style={{ height: "inherit" }}>
 					<CoverImage />
 					<TrendingCusines />
 					<Restaurants />
