@@ -199,3 +199,9 @@
     opacity: 0;
   }
 }
+
+@media (max-width:767px){
+  .ui-like .like{
+    width: 20px;
+  }
+}

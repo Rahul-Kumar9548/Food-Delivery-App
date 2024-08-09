@@ -1,5 +1,4 @@
 import React from 'react'
-import './CusineCard.css'
 
 const CusineCard = ({ cusine }) => {
   return (

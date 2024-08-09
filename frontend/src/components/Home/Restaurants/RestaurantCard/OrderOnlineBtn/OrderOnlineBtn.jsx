@@ -11,11 +11,12 @@ const OrderOnlineBtn = ({ restaurantName }) => {
 	}
   return (
 		<>
-			<div className="btn-conteiner" onClick={clickHandler}>
+			<div className="btn-container hidden md:flex" onClick={clickHandler}>
 				<a className="btn-content">
-					<span className="btn-title">Order Online!</span>
+					<span className="btn-title md:text-sm"> <span className='lg:hidden'>Order!</span> <span className='hidden lg:inline'>Order Now!</span> </span>
 					<span className="icon-arrow">
-						<svg
+					  <svg
+						  
 							width="40px"
 							height="40px"
 							viewBox="0 0 66 43"

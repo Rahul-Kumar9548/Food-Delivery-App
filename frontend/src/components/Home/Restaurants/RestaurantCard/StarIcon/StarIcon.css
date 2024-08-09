@@ -1,8 +1,8 @@
 /* From Uiverse.io by catraco */ 
 /*------ Settings ------*/
-.container {
+.star-container {
   --color: rgb(255, 196, 0);
-  --size: 15px;
+  /* --size: 9px; */
   display: flex;
   justify-content: center;
   align-items: center;

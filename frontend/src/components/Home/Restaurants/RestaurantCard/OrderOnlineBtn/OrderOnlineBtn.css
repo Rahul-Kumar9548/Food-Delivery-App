@@ -1,5 +1,5 @@
 /* From Uiverse.io by Li-Deheng */ 
-.btn-conteiner {
+.btn-container {
   display: flex;
   justify-content: center;
   --color-text: #ffffff;
@@ -9,7 +9,7 @@
   --color-shadow: #00000080;
 }
 
-.btn-conteiner:hover{
+.btn-container:hover{
   --color-background: #ff135a;
 }
 

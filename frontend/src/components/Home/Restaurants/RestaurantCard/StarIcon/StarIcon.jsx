@@ -3,7 +3,7 @@ import './StarIcon.css'
 
 const StarIcon = () => {
   return (
-		<label className="container">
+		<label className="star-container text-xs md:text-sm">
 			<svg
 				className="star-solid"
 				xmlns="http://www.w3.org/2000/svg"
@@ -16,4 +16,4 @@ const StarIcon = () => {
   );
 }
 
-export default StarIcon
+export default StarIcon;
