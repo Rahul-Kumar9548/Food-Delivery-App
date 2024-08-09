@@ -1,9 +1,9 @@
 import React from 'react'
 import './StarIcon.css'
 
-const StarIcon = () => {
+const StarIcon = ({fontSize,fill}) => {
   return (
-		<label className="star-container text-xs md:text-sm">
+		<label style={{fontSize, fill}} className="star-container text-xs md:text-sm">
 			<svg
 				className="star-solid"
 				xmlns="http://www.w3.org/2000/svg"

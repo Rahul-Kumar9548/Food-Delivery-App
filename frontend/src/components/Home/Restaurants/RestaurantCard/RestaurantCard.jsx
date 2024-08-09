@@ -16,8 +16,8 @@ const RestaurantCard = ({ restaurant }) => {
 	// console.log(list);
 	
   return (
-		<div>
-			<div className="drop-shadow-xl relative w-[10rem] p-3 md:p-4 md:w-[12rem] lg:w-[15rem] max-h-fit overflow-hidden rounded-lg bg-[#ffffff]">
+		<div className='shadow-3d'>
+			<div className="relative w-[10rem] p-3 md:p-4 md:w-[12rem] lg:w-[15rem] max-h-fit overflow-hidden rounded-lg bg-[#ffffff]">
 				<img
 					src={restaurant.coverImage}
 					className="w-full h-[60%] rounded-xl object-cover object-center shadow-nice mb-5"
