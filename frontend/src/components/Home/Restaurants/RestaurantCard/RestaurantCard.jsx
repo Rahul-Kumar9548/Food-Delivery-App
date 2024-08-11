@@ -22,6 +22,7 @@ const RestaurantCard = ({ restaurant }) => {
 					src={restaurant.coverImage}
 					className="w-full h-[60%] rounded-xl object-cover object-center shadow-nice mb-5"
 					alt="image"
+					loading='lazy'
 				/>
 				<HeartIcon />
 				<div class="flex w-full justify-between ">

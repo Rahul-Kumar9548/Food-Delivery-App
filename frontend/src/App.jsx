@@ -7,6 +7,10 @@ import Home from './pages/Home/Home';
 import { useDispatch } from "react-redux";
 import { setUser } from "../src/redux/slices/userSlice";
 import Restaurant from './pages/Restaurant/Restaurant';
+import OrderOnline from './pages/Restaurant/Outlets/OrderOnline';
+import Reviews from './pages/Restaurant/Outlets/Reviews';
+import Photos from './pages/Restaurant/Outlets/Photos';
+import Menu from './pages/Restaurant/Outlets/Menu';
 
 
 const App = () => {
@@ -26,7 +30,12 @@ const App = () => {
 					<Route path="/login" element={<Login />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/home" element={<Home />} />
-					<Route path="/restaurant/:name" element={<Restaurant />} />
+				  	<Route path="/restaurant/:name" element={<Restaurant />}>
+						<Route path='order-online' element={<OrderOnline/>}></Route>  
+						<Route path='reviews' element={<Reviews/>}></Route>  
+						<Route path='photos' element={<Photos/>}></Route>  
+						<Route path='menu' element={<Menu/>}></Route>  
+					</Route>
 				</Routes>
 			</BrowserRouter>
 		</>

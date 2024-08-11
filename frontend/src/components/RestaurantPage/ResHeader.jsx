@@ -1,28 +1,51 @@
-import React, {useState} from 'react'
+import React from 'react'
 import StarIcon from '../Home/Restaurants/RestaurantCard/StarIcon/StarIcon';
-import { useEffect } from 'react';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
-const ResHeader = ({ restaurant }) => {
-    const [cusines, setCusines] = useState([])
-    useEffect(() => {
-        let cusinesList = restaurant?.cusines
-        cusinesList = cusinesList?.map(cuisine => cuisine.category);
-        cusinesList =cusinesList?.slice(0, 4);
-        cusinesList = cusinesList?.join(", ")
-        console.log(cusinesList);
-        setCusines([...cusinesList]);
-    }, []);
-    
+const ResHeader = ({ name, address, cusines, isloading }) => {
+  
+  let cusinesList = cusines?.map(cuisine => cuisine.category);
+  cusinesList = cusinesList?.slice(0, 4);
+  cusinesList = cusinesList?.join(", ")
+  console.log(address);
+  console.log(cusinesList);
   return (
-		<div className="bg-red-300 capitalize w-full p-3 lg:p-5 h-[6rem] lg:h-[10rem]">
+		<div className="bg-white capitalize w-full p-3 lg:p-5 ">
 			<div className=" flex justify-between text-2xl font-bold ">
-				<span>{restaurant.name}</span>
-				<div className="bg-green-700 flex justify-center gap-1 items-center p-2 w-fit h-[1.5rem] rounded-lg">
-					<span className="text-white text-sm">4.5</span>
-					<StarIcon fontSize={"1rem"} fill={"white"} />
+				<span className="w-[8rem]">
+					{isloading ? (
+						<div className="">{name}</div>
+					) : (
+						<Skeleton />
+					)}
+				</span>
+				<div className="flex gap-1 justify-center items-center">
+					<div className="bg-green-700 flex justify-center gap-1 items-center p-2 w-fit h-[1.5rem] rounded-lg">
+						<span className="text-white text-sm">4.5</span>
+						<StarIcon fontSize={"1rem"} fill={"white"} />
+					</div>
+					<div
+						className="text-slate-500 text-[10px] font-extralight"
+						style={{ lineHeight: "10px" }}
+					>
+						<div className='text-slate-900'>3,054</div>
+						<div className=" border-b border-dashed">Rating</div>
+					</div>
 				</div>
 			</div>
-			<div className="">{cusines}</div>
+			<div className=" text-sm lg:text-base text-slate-600">
+				{isloading ? (
+					<div className="">{cusinesList}</div>
+				) : (
+					<Skeleton width={"30%"} />
+				)}
+				{isloading ? (
+					<div className="">{address}</div>
+				) : (
+					<Skeleton width={"20%"} />
+				)}
+			</div>
 		</div>
   );
 }

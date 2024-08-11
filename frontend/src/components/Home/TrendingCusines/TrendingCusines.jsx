@@ -4,6 +4,7 @@ import CusineCard from "./CusineCard";
 
 const TrendingCusines = () => {
 	const [TrendingCusines, setTrendingCusines] = useState([]);
+	const [isLoading, setIsLoading] = useState(false)	
 		
 		useEffect(() => {
 			async function getCusines() {
@@ -11,6 +12,7 @@ const TrendingCusines = () => {
 					const { data } = await axios.get("restaurant/get-all-cusines?restaurant_name=food bite");
 					// console.log(data.cusines);
 					setTrendingCusines(data.cusines.splice(0, 6));
+					setIsLoading(true);
 				} catch (error) {
 					console.log(error);
 				}
@@ -24,7 +26,7 @@ const TrendingCusines = () => {
 			<h1 className="text-center text-xl md:text-2xl">Trending Cusines</h1>
 			<div className="flex flex-row justify-evenly">
 			  {TrendingCusines.map((cusine, indx) => {
-				  return <CusineCard key={TrendingCusines[indx]?.["food"][0]?._id} cusine={cusine} />;
+				  return <CusineCard key={TrendingCusines[indx]?.["food"][0]?._id} cusine={cusine} isLoading={isLoading} />;
 			  })}
 			</div>
 		</div>

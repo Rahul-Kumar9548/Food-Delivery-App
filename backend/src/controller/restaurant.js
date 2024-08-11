@@ -481,7 +481,7 @@ export const postAddFoodImages = ErrorWrapper(async (req, res, next) => {
         let food = restaurant.cusines[index]['food'][foodIndex];
 
         const images = req.files;
-        if (!images) throw new Errorhandler(400, "Please provide images!");
+        if (!images) throw new ErrorHandler(400, "Please provide images!");
         
         let imagesUrls = [];
 
