@@ -1,9 +1,22 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, useRef} from 'react'
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
+import canvasLoader from '../../utils/canvasLoader';
 
-const ImageSlider = ({images}) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+const ImageSlider = ({images, isloading}) => {
+	const [currentIndex, setCurrentIndex] = useState(0);
+	const [imageData, setImageData] = useState(null);
+	const canvasRef = useRef(null);
+
+	useEffect(() => {
+		if (!isloading) {
+			canvasLoader(
+				"L8Bo{eMdIoI[~BROxZbc9}I;Rj%1",
+				canvasRef,
+				setImageData
+			);
+		}
+	}, []);
 
   const prevSlide = () => {
 		const isFirstSlide = currentIndex === 0;
@@ -24,7 +37,14 @@ const ImageSlider = ({images}) => {
     setTimeout(() => {
       nextSlide();
     }, 5000);  
-  },[currentIndex])
+	}, [currentIndex])
+	
+	if (!isloading) {
+		return (
+		<div className="h-full w-full">
+			<canvas className='animate-pulse w-full h-full' ref={canvasRef}></canvas>
+		</div>)
+	}
   return (
 		<div className="h-full w-full m-auto relative group">
 			<div

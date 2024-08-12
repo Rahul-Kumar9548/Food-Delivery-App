@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react'
 import './CoverImage.css'
 import canvasLoader from "../../../utils/canvasLoader";
+import coverImage from '../../../assets/images/HomeCover.png'
 
 const CoverImage = ({ isLoading }) => {
 	const [imageData, setImageData] = useState(null);
@@ -17,7 +18,14 @@ const CoverImage = ({ isLoading }) => {
 	}, []);
   return (
 		<>
-			<div className="cover-Image md:width-full rounded-t-lg md:relative overflow-hidden">
+			<div
+				style={{
+					backgroundImage: isLoading
+						? `url(${coverImage})`
+						: "none",
+				}}
+				className="cover-Image md:width-full rounded-t-lg md:relative overflow-hidden"
+			>
 				{isLoading ? (
 					<div className="md:absolute relative -bottom-32 md:bottom-20 xl:bottom-[10rem] search-bar w-full">
 						<form className="form relative w-[80%] md:w-[70%] mx-auto shadow-2xl rounded-full ">

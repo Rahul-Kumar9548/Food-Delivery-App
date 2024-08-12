@@ -11,7 +11,9 @@ import axios from '../../utils/axios'
 const Home = () => {
 	let time;
 	const [restaurants, setRestaurants] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
+	const [trendingCusinesSection, setTrendingCusinesSection] = useState([]);
+	const [isCusinesLoading, setIsCusinesLoading] = useState(false);
+	const [isRestaurantsLoading, setIsRestaurantsLoading] = useState(false);
 	const [isLoader, setIsLoader] = useState(false);
 
 	useEffect(() => {
@@ -20,14 +22,26 @@ const Home = () => {
 				const { data } = await axios.get(
 					"restaurant/all-restaurants"
 				);
-				// console.log(data.cusines);
 				setRestaurants(data.restaurants);
-				setIsLoading(true);
+				setIsRestaurantsLoading(true);
 				setIsLoader(true);
 			} catch (error) {
 				console.log(error);
 			}
 		}
+		async function getCusines() {
+			try {
+				const { data } = await axios.get(
+					"restaurant/get-all-cusines?restaurant_name=food bite"
+				);
+				// console.log(data.cusines);
+				setTrendingCusinesSection(data.cusines.splice(0, 6));
+				setIsCusinesLoading(true);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		getCusines();
 		getRestaurants();
 	}, []);
 
@@ -43,14 +57,20 @@ const Home = () => {
 						className="w-full mt-3 ml-2 mr-2 home-container md:ml-24 rounded-lg"
 						style={{ height: "inherit" }}
 					>
-						<CoverImage isLoading={isLoading} />
-						<TrendingCusines />
-						<Restaurants restaurants={restaurants} />
+						<CoverImage isLoading={isRestaurantsLoading} />
+						<TrendingCusines
+							isLoading={isCusinesLoading}
+							trendingCusines={trendingCusinesSection}
+						/>
+						<Restaurants
+							restaurants={restaurants}
+							isLoading={isRestaurantsLoading}
+						/>
 					</div>
 				</div>
-			 ) : (
+			) : (
 				<Loader />
-			)} 
+			)}
 		</>
 	);
 }

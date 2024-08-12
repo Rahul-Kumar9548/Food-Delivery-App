@@ -4,16 +4,14 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const ResHeader = ({ name, address, cusines, isloading }) => {
-  
-  let cusinesList = cusines?.map(cuisine => cuisine.category);
-  cusinesList = cusinesList?.slice(0, 4);
+
+  let cusinesList = cusines?.slice(0, 4);
   cusinesList = cusinesList?.join(", ")
-  console.log(address);
-  console.log(cusinesList);
+  
   return (
 		<div className="bg-white capitalize w-full p-3 lg:p-5 ">
 			<div className=" flex justify-between text-2xl font-bold ">
-				<span className="w-[8rem]">
+				<span className="w-[13rem]">
 					{isloading ? (
 						<div className="">{name}</div>
 					) : (

@@ -11,6 +11,8 @@ import OrderOnline from './pages/Restaurant/Outlets/OrderOnline';
 import Reviews from './pages/Restaurant/Outlets/Reviews';
 import Photos from './pages/Restaurant/Outlets/Photos';
 import Menu from './pages/Restaurant/Outlets/Menu';
+import FoodCardContainer from "./pages/Restaurant/Outlets/FoodCardContainer";
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 
 const App = () => {
@@ -24,20 +26,43 @@ const App = () => {
 	})
   return (
 		<>
-			<BrowserRouter>
-				<Routes>
-					<Route path="/" element={<Login />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/signup" element={<Signup />} />
-					<Route path="/home" element={<Home />} />
-				  	<Route path="/restaurant/:name" element={<Restaurant />}>
-						<Route path='order-online' element={<OrderOnline/>}></Route>  
-						<Route path='reviews' element={<Reviews/>}></Route>  
-						<Route path='photos' element={<Photos/>}></Route>  
-						<Route path='menu' element={<Menu/>}></Route>  
-					</Route>
-				</Routes>
-			</BrowserRouter>
+			<SkeletonTheme baseColor="#B2BEB5" highlightColor="#444">
+				<BrowserRouter>
+					<Routes>
+						<Route path="/" element={<Login />} />
+						<Route path="/login" element={<Login />} />
+						<Route path="/signup" element={<Signup />} />
+						<Route path="/home" element={<Home />} />
+						<Route
+							path="/restaurant/:name"
+							element={<Restaurant />}
+						>
+							<Route
+								path="order-online"
+								element={<OrderOnline />}
+							>
+								<Route
+								  	index
+									path=":cusine"
+									element={<FoodCardContainer />}
+								></Route>
+							</Route>
+							<Route
+								path="reviews"
+								element={<Reviews />}
+							></Route>
+							<Route
+								path="photos"
+								element={<Photos />}
+							></Route>
+							<Route
+								path="menu"
+								element={<Menu />}
+							></Route>
+						</Route>
+					</Routes>
+				</BrowserRouter>
+			</SkeletonTheme>
 		</>
   );
 }

@@ -5,8 +5,8 @@ function canvasLoader(blurHash, canvasRef, setImageData) {
 	let height = 200;
 	if (blurHash && width && height) {
 		const pixels = decodeBlurHash(blurHash, width, height);
-		const canvas = canvasRef.current;
-		const ctx = canvas.getContext("2d");
+		const canvas = canvasRef?.current;
+		const ctx = canvas?.getContext("2d");
 
 		if (canvas && ctx) {
 			const newImageData = ctx.createImageData(width, height);
