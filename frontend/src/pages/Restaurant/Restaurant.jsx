@@ -6,6 +6,7 @@ import ImageSlider from '../../components/RestaurantPage/ImageSlider';
 import ImageGrid from '../../components/RestaurantPage/ImageGrid';
 import ResHeader from '../../components/RestaurantPage/ResHeader';
 import ResSubHeader from '../../components/RestaurantPage/ResSubHeader';
+import fetchUser from '../../utils/fetchUser';
 
 
 const OutletContext = createContext();
@@ -16,6 +17,8 @@ const Restaurant = () => {
 	const [blurHashes, setBlurHashes] = useState([]);
 	const [cusines, setCusines] = useState([]);
 	const navigate = useNavigate();
+	const [user, setUser] = useState({});
+
     
     const getRestaurant = async ()=> {
         try {
@@ -35,7 +38,8 @@ const Restaurant = () => {
 			console.log(error);
         }
     }
-    useEffect(() => {
+	useEffect(() => {
+		fetchUser().then((res) => setUser(res));
 		getRestaurant();
 		navigate(`order-online`);
 		
@@ -43,42 +47,44 @@ const Restaurant = () => {
 
   return (
 		<>
-				<div className="flex border-2 w-full border-black ">
-					<Sidebar />
-					<div className="w-full bg-slate-300 h-full">
-						<div className="home-container relative overflow-y-auto md:ml-[6rem] rounded-lg m-1 mt-2">
-							{/* Slider for Mobile */}
-							<div className="h-[12rem] md:h-[15rem] lg:hidden w-full rounded-lg">
-								<ImageSlider
-									images={restaurant.images}
-									isloading={isloading}
-								/>
-							</div>
-							{/* Slider for Desktop */}
-							<ImageGrid
-								coverImage={restaurant.coverImage}
-								coverImageHash={
-									restaurant.coverImageHash
-								}
+			<div className="flex border-2 w-full border-black ">
+				<Sidebar user={user} />
+				<div className="w-full bg-slate-300 h-full">
+					<div className="home-container relative overflow-y-auto md:ml-[6rem] rounded-lg m-1 mt-2">
+						{/* Slider for Mobile */}
+						<div className="h-[12rem] md:h-[15rem] lg:hidden w-full rounded-lg">
+							<ImageSlider
 								images={restaurant.images}
 								isloading={isloading}
-								hashes={blurHashes}
-						  />		
-						  	<div className='sticky top-0'>							  
-								<ResHeader
-									name={restaurant.name}
-									address={restaurant.address}
-									cusines={cusines}
-									isloading={isloading}
-							  />
-							  <ResSubHeader name={restaurant.name}/>
-						  </div>
-						  <OutletContext.Provider value={{ restaurant, cusines, isloading }}>
-							  <Outlet />
-						  </OutletContext.Provider>
+							/>
 						</div>
+						{/* Slider for Desktop */}
+						<ImageGrid
+							coverImage={restaurant.coverImage}
+							coverImageHash={restaurant.coverImageHash}
+							images={restaurant.images}
+							isloading={isloading}
+							hashes={blurHashes}
+						/>
+						<div className="sticky top-0 z-10">
+							<ResHeader
+								name={restaurant.name}
+								address={restaurant.address}
+								cusines={cusines}
+								isloading={isloading}
+							/>
+							<ResSubHeader
+								name={restaurant.name}
+							/>
+						</div>
+						<OutletContext.Provider
+							value={{ restaurant, cusines, isloading, setUser, user }}
+						>
+							<Outlet />
+						</OutletContext.Provider>
 					</div>
 				</div>
+			</div>
 		</>
   );
 }

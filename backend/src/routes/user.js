@@ -8,6 +8,7 @@ import {
 	getDeleteAddress,
 	getPlaceOrder,
 	getOrderHistory,
+	getUser,
 } from "../controller/user.js";
 
 const router = express.Router();
@@ -19,6 +20,7 @@ router.post('/update-address/:id', postUpdateAddress);
 router.get('/delete-address/:id', getDeleteAddress);
 router.get('/place-order', getPlaceOrder);
 router.get('/order-history', getOrderHistory);
+router.get('/get-user', getUser)
 
 
 export default router;

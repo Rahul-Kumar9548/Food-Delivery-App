@@ -1,9 +1,12 @@
-import React, {useRef, useState, useEffect} from 'react'
-import Skeleton from 'react-loading-skeleton';
+import React, { useRef, useState, useEffect, useContext } from "react";
 import canvasLoader from '../../../utils/canvasLoader';
 import FoodCardLoader from '../Loaders/FoodCardLoader';
+import axios from '../../../utils/axios';
+import { OutletContext } from "../../../pages/Restaurant/Restaurant";
 
-const FoodCard = ({ foodItem, isloading }) => {
+
+const FoodCard = ({ foodItem, isloading, restaurant, cusine }) => {
+	const {user, setUser } = useContext(OutletContext);
 	const [imageData, setImageData] = useState(null);
 	const canvasRef = useRef(null);
 
@@ -22,6 +25,19 @@ const FoodCard = ({ foodItem, isloading }) => {
 			<FoodCardLoader canvasRef={canvasRef} />
 		);
 	}
+
+	const clickHandler = async () => {
+		
+		try {
+			console.log(restaurant,cusine,foodItem._id);
+			const { data } = await axios.get(`cart/add-cart/${foodItem._id}?restaurant_name=${restaurant}&category=${cusine}`);
+			setUser({...user, cart: data.cart})
+			console.log(data);
+		} catch (error) {
+			console.log(error);
+			throw new Error(error);
+		}
+	};
 	
   return (
 		<>
@@ -47,7 +63,7 @@ const FoodCard = ({ foodItem, isloading }) => {
 						<span className="text-sm lg:text-lg font-bold">
 							₹{foodItem.price}
 						</span>
-						<div className="border hover:bg-orange-400 hover:border-orange-400 p-1 rounded-2xl border-slate-500 transition-all duration-300">
+						<div className="border hover:bg-orange-400 hover:border-orange-400 p-1 rounded-2xl border-slate-500 transition-all duration-300 cursor-pointer" onClick={clickHandler}>
 							<svg
 								className="h-[22px] w-[22px]"
 								viewBox="0 0 20 20"

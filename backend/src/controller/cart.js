@@ -5,8 +5,9 @@ import ErrorWrapper from '../utils/ErrorWrapper.js';
 
 export const getAddCart = ErrorWrapper(async (req, res, next) => {
     const { id } = req.params;
-    let { restaurant_name, category, quantity } = req.query;
-    quantity = +quantity;
+    let { restaurant_name, category } = req.query;
+    // quantity = +quantity;
+    let quantity = 1;
 
     try {
         const restaurant = await Restaurant.findOne({ name: restaurant_name });
@@ -32,7 +33,7 @@ export const getAddCart = ErrorWrapper(async (req, res, next) => {
 
         res.status(200).json({
             message: 'Requested Food Item added to cart successfully!',
-            data: user.cart
+            cart: user.cart
         })
         
     } catch (error) {

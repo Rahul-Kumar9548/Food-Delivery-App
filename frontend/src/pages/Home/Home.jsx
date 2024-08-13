@@ -6,6 +6,7 @@ import TrendingCusines from '../../components/Home/TrendingCusines/TrendingCusin
 import Loader from '../../components/Loader/Loader';
 import Restaurants from '../../components/Home/Restaurants/Restaurants';
 import axios from '../../utils/axios'
+import fetchUser from "../../utils/fetchUser";
 
 
 const Home = () => {
@@ -15,6 +16,8 @@ const Home = () => {
 	const [isCusinesLoading, setIsCusinesLoading] = useState(false);
 	const [isRestaurantsLoading, setIsRestaurantsLoading] = useState(false);
 	const [isLoader, setIsLoader] = useState(false);
+	const [user, setUser] = useState({});
+
 
 	useEffect(() => {
 		async function getRestaurants() {
@@ -41,9 +44,10 @@ const Home = () => {
 				console.log(error);
 			}
 		}
+		fetchUser().then((res) => setUser(res));
 		getCusines();
 		getRestaurants();
-	}, []);
+	}, [user]);
 
 	return (
 		<>
@@ -52,7 +56,7 @@ const Home = () => {
 					style={{ height: "100rem" }}
 					className="flex border-2 w-full  border-black"
 				>
-					<Sidebar />
+					<Sidebar user={user} />
 					<div
 						className="w-full mt-3 ml-2 mr-2 home-container md:ml-24 rounded-lg"
 						style={{ height: "inherit" }}

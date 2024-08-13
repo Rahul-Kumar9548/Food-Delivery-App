@@ -180,13 +180,26 @@ export const getPlaceOrder = ErrorWrapper(async (req, res, next) => {
 
 export const getOrderHistory = ErrorWrapper(async (req, res, next) => {
     try {
-         const user = await User.findOne({ _id: req.user._id });
-
+        
+        const user = await User.findOne({ _id: req.user._id });
         res.status(200).json({
             message: 'Order History Fetched Successfully!!',
             data: user.orderHistory
         })
     } catch (error) {
         throw  new ErrorHandler(error.statusCode || 500, error.message); 
+    }
+})
+
+export const getUser = ErrorWrapper(async (req, res, next) => {
+    try {
+        
+        const user = await User.findOne({ _id: req.user._id }).select("-password -refreshToken");
+        res.status(200).json({
+            message: 'User Fetched Successfully!!',
+            user
+        })
+    } catch (error) {
+        throw new ErrorHandler(error.statusCode || 500, error.message);
     }
 })
