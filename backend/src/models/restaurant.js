@@ -86,13 +86,18 @@ const restaurantSchema = new Schema(
 				},
 				images: [
 					{
-						imageUrl: String,
+						url: String,
 					},
 				],
 				message: {
 					type: String,
 				},
 				username: String,
+				userImage: String,
+				date: {
+					type: Date,
+					default: Date.now,
+				},
 			},
 		],
 	},

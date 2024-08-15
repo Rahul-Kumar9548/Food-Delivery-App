@@ -14,8 +14,8 @@ const OrderOnline = () => {
 	}, [cusines]);
 
 	return (
-		<div className="h-[150rem] grid grid-cols-3 lg:grid-cols-4 bg-white relative">
-			<div className=" h-fit  text-slate-900">
+		<div className="h-fit grid grid-cols-3 lg:grid-cols-4 bg-white relative">
+			<div className=" h-fit  text-slate-900 sticky top-[140px] lg:top-[160px]">
 				{cusines.map((cusine, index) => (
 					<CusineBtn
 						key={index}

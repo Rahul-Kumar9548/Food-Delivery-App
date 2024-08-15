@@ -5,7 +5,6 @@ import signupCover from "../../assets/images/login2.jpeg";
 import FormData from "form-data";
 import axios from "../../utils/axios";
 import MissFieldLogo from "../../components/Login&Signup/MissFieldLogo/MissFieldLogo";
-import { setUser } from "../../redux/slices/userSlice";
 import InlineAlert from "../../components/Login&Signup/InlineAlert/InlineAlert";
 
 const Signup = () => {

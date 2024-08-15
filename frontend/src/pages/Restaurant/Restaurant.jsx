@@ -7,6 +7,7 @@ import ImageGrid from '../../components/RestaurantPage/ImageGrid';
 import ResHeader from '../../components/RestaurantPage/ResHeader';
 import ResSubHeader from '../../components/RestaurantPage/ResSubHeader';
 import fetchUser from '../../utils/fetchUser';
+import Alert from '../../components/Alert';
 
 
 const OutletContext = createContext();
@@ -18,6 +19,12 @@ const Restaurant = () => {
 	const [cusines, setCusines] = useState([]);
 	const navigate = useNavigate();
 	const [user, setUser] = useState({});
+	const [alert, setAlert] = useState({
+		error: "",
+		success: "",
+		info: "",
+		warning: "",
+	})
 
     
     const getRestaurant = async ()=> {
@@ -73,15 +80,27 @@ const Restaurant = () => {
 								cusines={cusines}
 								isloading={isloading}
 							/>
-							<ResSubHeader
-								name={restaurant.name}
-							/>
+							<ResSubHeader name={restaurant.name} />
 						</div>
 						<OutletContext.Provider
-							value={{ restaurant, cusines, isloading, setUser, user }}
+							value={{
+								restaurant,
+								cusines,
+								isloading,
+								setUser,
+								user,
+								setRestaurant,
+								setAlert,
+								alert,
+							}}
 						>
 							<Outlet />
 						</OutletContext.Provider>
+						<Alert
+							className="fixed top-4 lg:bottom-0 lg:row-[30%] lg:left-[70%] "
+							alert={alert}
+							setAlert={setAlert}
+						/>
 					</div>
 				</div>
 			</div>

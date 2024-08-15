@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/slices/userSlice";
 import MissFieldLogo from "../../components/Login&Signup/MissFieldLogo/MissFieldLogo";
 import InlineAlert from "../../components/Login&Signup/InlineAlert/InlineAlert";
+import Spinner from "../../components/Spinner/Spinner";
 
 const Login = () => {
 	const usernameRef = useRef();
@@ -22,9 +23,11 @@ const Login = () => {
 		invalid: false,
 		alertMsg: "",
 	});
+	const [sendingLogin, setSendingLogin] = useState(false);
 	const navigate = useNavigate();
 
 	async function handleSubmit(e) {
+		setSendingLogin(true);
 		e.preventDefault();
 		const username = usernameRef.current.value.trim();
 		const password = passwordRef.current.value.trim();
@@ -51,6 +54,7 @@ const Login = () => {
 				// console.log(data.user);
 				dispatch(setUser(data.user));
 				localStorage.setItem("user", JSON.stringify(data.user));
+				setSendingLogin(false);
 				navigate("/home");
 			}
 		} catch (error) {
@@ -147,18 +151,24 @@ const Login = () => {
 							className="button mt-8"
 							onClick={handleSubmit}
 						>
-							Login
-							<svg
-								fill="currentColor"
-								viewBox="0 0 24 24"
-								className="icon"
-							>
-								<path
-									clipRule="evenodd"
-									d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
-									fillRule="evenodd"
-								></path>
-							</svg>
+							{sendingLogin ? (
+								<Spinner className={"h-5 w-5"} />
+							) : (
+								<span className="flex gap-2">
+									Login
+									<svg
+										fill="currentColor"
+										viewBox="0 0 24 24"
+										className="icon"
+									>
+										<path
+											clipRule="evenodd"
+											d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
+											fillRule="evenodd"
+										></path>
+									</svg>
+								</span>
+							)}
 						</button>
 						<div className="text-sm text-slate-600 mt-4">
 							Create a new account ? &nbsp;

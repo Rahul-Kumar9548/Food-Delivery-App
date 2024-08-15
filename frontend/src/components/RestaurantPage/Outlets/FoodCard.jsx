@@ -3,10 +3,11 @@ import canvasLoader from '../../../utils/canvasLoader';
 import FoodCardLoader from '../Loaders/FoodCardLoader';
 import axios from '../../../utils/axios';
 import { OutletContext } from "../../../pages/Restaurant/Restaurant";
+import AddToCart from "./AddToCart/AddToCart";
 
 
 const FoodCard = ({ foodItem, isloading, restaurant, cusine }) => {
-	const {user, setUser } = useContext(OutletContext);
+	const {user, setUser, alert, setAlert } = useContext(OutletContext);
 	const [imageData, setImageData] = useState(null);
 	const canvasRef = useRef(null);
 
@@ -31,17 +32,18 @@ const FoodCard = ({ foodItem, isloading, restaurant, cusine }) => {
 		try {
 			console.log(restaurant,cusine,foodItem._id);
 			const { data } = await axios.get(`cart/add-cart/${foodItem._id}?restaurant_name=${restaurant}&category=${cusine}`);
-			setUser({...user, cart: data.cart})
+			setUser({ ...user, cart: data.cart })
+			setAlert({...alert, success: data.message})
 			console.log(data);
 		} catch (error) {
 			console.log(error);
-			throw new Error(error);
+			setAlert({ ...alert, error: error.response.data.message });
 		}
 	};
 	
   return (
 		<>
-			<div className="bg-white p-2 flex w-fit gap-2 h-fit lg:gap-4 lg:w-[60%] lg:h-[9rem] rounded-lg shadow-nice pb-1 hover:scale-110 transition-all duration-300 ">
+			<div className="bg-white p-2 flex w-fit gap-2 h-fit lg:gap-4 lg:w-[60%] lg:h-[10rem] rounded-lg shadow-nice pb-1 hover:scale-110 transition-all duration-300 ">
 				<div className="w-[100px] h-[90px] lg:w-[160px] lg:h-[120px] rounded-lg overflow-hidden">
 					<img
 						className="w-full h-full object-cover object-center"
@@ -59,11 +61,11 @@ const FoodCard = ({ foodItem, isloading, restaurant, cusine }) => {
 							{foodItem.description}
 						</p>
 					</div>
-					<div className="flex pt-2 border-t-[1px] mt-1 border-slate-300 justify-between items-center">
+					<div className="flex pt-2 border-t-[1px] border-slate-300 justify-between items-center">
 						<span className="text-sm lg:text-lg font-bold">
 							₹{foodItem.price}
 						</span>
-						<div className="border hover:bg-orange-400 hover:border-orange-400 p-1 rounded-2xl border-slate-500 transition-all duration-300 cursor-pointer" onClick={clickHandler}>
+						<div className="hover:bg-orange-400 block lg:hidden hover:border-orange-400 p-1 rounded-2xl border-slate-500 transition-all duration-300 cursor-pointer" onClick={clickHandler}>
 							<svg
 								className="h-[22px] w-[22px]"
 								viewBox="0 0 20 20"
@@ -73,6 +75,7 @@ const FoodCard = ({ foodItem, isloading, restaurant, cusine }) => {
 								<path d="M13.972,12.386c-1.022,0-1.855,0.834-1.855,1.856s0.833,1.853,1.855,1.853s1.854-0.83,1.854-1.853S14.994,12.386,13.972,12.386z M13.972,15.116c-0.484,0-0.878-0.393-0.878-0.874c0-0.484,0.394-0.878,0.878-0.878c0.482,0,0.875,0.394,0.875,0.878C14.847,14.724,14.454,15.116,13.972,15.116z"></path>
 							</svg>
 						</div>
+						  <AddToCart clickHandler={clickHandler}/>
 					</div>
 				</div>
 			</div>

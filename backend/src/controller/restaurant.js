@@ -516,7 +516,7 @@ export const postAddReview = ErrorWrapper(async (req, res, next) => {
     const { restaurant_name, message, rating } = req.body;
     const name = req.user.name;
     const userId = req.user._id;
-    
+    console.log(restaurant_name, message, rating);
     try {
         let restaurant = await Restaurant.findOne({name: restaurant_name});
 
@@ -535,13 +535,14 @@ export const postAddReview = ErrorWrapper(async (req, res, next) => {
                 url: res.url
             }
         })
-
+        
         const review = {
             username: name,
             rating: +rating,
             message,
             userId,
             images: imageUrls,
+            userImage:req.user.image
         }
 
         restaurant.reviews.unshift(review);
@@ -549,7 +550,7 @@ export const postAddReview = ErrorWrapper(async (req, res, next) => {
 
         res.status(200).json({
 			message: "Review added Successfully!",
-			data: restaurant,
+			restaurant,
 		});
         
     } catch (error) {
@@ -584,7 +585,7 @@ export const postUpdateReview = ErrorWrapper(async (req, res, next) => {
 
         res.status(200).json({
 			message: "Review updated Successfully!",
-			data: restaurant.reviews,
+			restaurant,
 		});
         
     } catch (error) {
@@ -614,7 +615,7 @@ export const getDeleteReview = ErrorWrapper(async (req, res, next) => {
 
         res.status(200).json({
 			message: "Review deleted Successfully!",
-			data: restaurant.reviews,
+			restaurant,
 		});
         
     } catch (error) {

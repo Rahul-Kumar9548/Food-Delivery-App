@@ -14,12 +14,14 @@ const FoodCardContainer = () => {
 		let foods = restaurant?.cusines?.filter((cus)=>cus.category === cusine);
 		setFoodList(foods?.[0]?.food);		
 	},[cusine])
-  return (
+	return (
+	  <>
 		<div className="flex flex-col gap-4">
 			{foodList?.map((foodItem, index) => (
 				<FoodCard key={index} foodItem={foodItem} isloading={isloading} restaurant={restaurant.name} cusine={cusine}/>
 			))}
 		</div>
+	</>
   );
 }
 
