@@ -13,6 +13,7 @@ import Photos from './pages/Restaurant/Outlets/Photos';
 import Menu from './pages/Restaurant/Outlets/Menu';
 import FoodCardContainer from "./pages/Restaurant/Outlets/FoodCardContainer";
 import { SkeletonTheme } from 'react-loading-skeleton';
+import Favourites from './pages/Favourites/Favourites';
 
 
 const App = () => {
@@ -34,6 +35,10 @@ const App = () => {
 						<Route path="/signup" element={<Signup />} />
 						<Route path="/home" element={<Home />} />
 						<Route
+							path="/favourites"
+							element={<Favourites />}
+						/>
+						<Route
 							path="/restaurant/:name"
 							element={<Restaurant />}
 						>
@@ -42,7 +47,7 @@ const App = () => {
 								element={<OrderOnline />}
 							>
 								<Route
-								  	index
+									index
 									path=":cusine"
 									element={<FoodCardContainer />}
 								></Route>

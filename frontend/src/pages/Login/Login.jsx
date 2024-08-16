@@ -8,6 +8,7 @@ import { setUser } from "../../redux/slices/userSlice";
 import MissFieldLogo from "../../components/Login&Signup/MissFieldLogo/MissFieldLogo";
 import InlineAlert from "../../components/Login&Signup/InlineAlert/InlineAlert";
 import Spinner from "../../components/Spinner/Spinner";
+import Alert from "../../components/Alert";
 
 const Login = () => {
 	const usernameRef = useRef();
@@ -24,6 +25,12 @@ const Login = () => {
 		alertMsg: "",
 	});
 	const [sendingLogin, setSendingLogin] = useState(false);
+	const [alert, setAlert] = useState({
+		error: "",
+		success: "",
+		info: "",
+		warning: "",
+	});
 	const navigate = useNavigate();
 
 	async function handleSubmit(e) {
@@ -52,13 +59,16 @@ const Login = () => {
 					password,
 				});
 				// console.log(data.user);
+				setAlert({ ...alert, success: "Login Successful!!!" });
 				dispatch(setUser(data.user));
 				localStorage.setItem("user", JSON.stringify(data.user));
 				setSendingLogin(false);
 				navigate("/home");
 			}
 		} catch (error) {
-			console.log(error.response.data);
+			// console.log("Error:",error.message);
+			setAlert({ ...alert, error: 'Error Occurred' });
+			setSendingLogin(false);
 			if (error.response.data.status === 400)
 				setInvalidEmail({
 					invalid: true,
@@ -182,6 +192,11 @@ const Login = () => {
 					</div>
 				</form>
 			</div>
+			<Alert
+				className="fixed top-4 lg:bottom-0 lg:row-[30%] lg:left-[70%] "
+				alert={alert}
+				setAlert={setAlert}
+			/>
 		</div>
 	);
 };

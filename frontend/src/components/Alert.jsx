@@ -16,7 +16,7 @@ const Alert = ({ className, alert, setAlert }) => {
     // setAlert({...alert, success:'Review added successfully!!!'})
 	return (
 		<>
-			<div class={`space-y-2 p-4  ${className}`}>
+			<div class={`space-y-2 p-4 z-50 ${className}`}>
 				{alert.success ? (
 					<div
 						role="alert"

@@ -701,3 +701,20 @@ export const getRestaurant = ErrorWrapper(async (req, res, next) => {
 		throw new ErrorHandler(error.statusCode || 500, error.message);
 	}
 });
+
+export const getFavourites = ErrorWrapper(async (req, res, next) => {
+      
+    let user = req.user;
+	try {
+        const favouriteList = await Restaurant.find({
+			_id: { $in: user.favourites.map((fav) => fav.restaurantId) },
+		});
+
+		res.status(200).json({
+			message: `Favourite Restaurants fetched Successfully!`,
+			favourites: favouriteList,
+		});
+	} catch (error) {
+		throw new ErrorHandler(error.statusCode || 500, error.message);
+	}
+})

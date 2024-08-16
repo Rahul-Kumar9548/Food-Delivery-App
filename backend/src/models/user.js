@@ -55,6 +55,11 @@ const userSchema = new Schema(
 				},
 			},
 		],
+		favourites: [
+			{
+				restaurantId: String,
+			},
+		],
 		cart: [
 			{
 				food: {

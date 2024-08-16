@@ -6,6 +6,7 @@ import FormData from "form-data";
 import axios from "../../utils/axios";
 import MissFieldLogo from "../../components/Login&Signup/MissFieldLogo/MissFieldLogo";
 import InlineAlert from "../../components/Login&Signup/InlineAlert/InlineAlert";
+import Spinner from "../../components/Spinner/Spinner";
 
 const Signup = () => {
 	const nameRef = useRef();
@@ -21,9 +22,11 @@ const Signup = () => {
 	const [userExist, setUserExist] = useState(false);
 	const [alert, setAlert] = useState("");
 	const navigate = useNavigate();
+	const [isSignUp, setIsSignUp] = useState(false)
 
 	async function handleSubmit(e) {
 		e.preventDefault();
+		setIsSignUp(true);
 		const name = nameRef.current.value.trim();
 		const username = usernameRef.current.value.trim();
 		const email = emailRef.current.value.trim();
@@ -62,11 +65,13 @@ const Signup = () => {
 						"Content-Type": "multipart/form-data",
 					},
 				});
+				setIsSignUp(false);
 				navigate("/login");
 				// console.log(data);
 			}
 		} catch (error) {
-			// console.log(error.response.data);
+			console.log(error.response.data);
+			setIsSignUp(false);
 			if (error.response.data.status === 401) {
 				setUserExist(true);
 				setAlert(error.response.data.message);
@@ -178,18 +183,24 @@ const Signup = () => {
 					</div>
 
 					<button className="button" onClick={handleSubmit}>
-						Register
-						<svg
-							fill="currentColor"
-							viewBox="0 0 24 24"
-							className="icon"
-						>
-							<path
-								clipRule="evenodd"
-								d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
-								fillRule="evenodd"
-							></path>
-						</svg>
+						{isSignUp ? (
+							<Spinner className={"h-5 w-5"} />
+						) : (
+							<div className="flex gap-2">
+								Register
+								<svg
+									fill="currentColor"
+									viewBox="0 0 24 24"
+									className="icon"
+								>
+									<path
+										clipRule="evenodd"
+										d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
+										fillRule="evenodd"
+									></path>
+								</svg>
+							</div>
+						)}
 					</button>
 					<div className="text-sm text-slate-600 mt-4">
 						Already have an account ? &nbsp;

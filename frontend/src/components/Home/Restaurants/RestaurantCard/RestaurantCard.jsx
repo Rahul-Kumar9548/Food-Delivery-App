@@ -8,67 +8,71 @@ import { Link } from 'react-router-dom';
 import canvasLoader from '../../../../utils/canvasLoader';
 import Skeleton from 'react-loading-skeleton';
 
-const RestaurantCard = ({ restaurant, isLoading }) => {
+const RestaurantCard = ({ restaurant, isLoading, addToFavourite }) => {
 	const [imageData, setImageData] = useState(null);
 	const canvasRef = useRef(null);
 
 	useEffect(() => {
 		if (!isLoading) {
-			canvasLoader(
-				restaurant.coverImageHash,
-				canvasRef,
-				setImageData
-			);
+			canvasLoader(restaurant.coverImageHash, canvasRef, setImageData);
 		}
 	}, []);
-	
+
 	let list = restaurant.cusines.map((cusine) => {
 		return cusine.category;
-	})
-	// console.log(list);
-	if (!isLoading) {
-		return (
-			<div className="relative w-[10rem] p-3 md:p-4 md:w-[12rem] lg:w-[15rem] h-[12rem] lg:h-[20rem] lg:pb-4 overflow-hidden rounded-lg bg-[#ffffff]">
-				<canvas
-					className="animate-pulse w-full h-[70%] lg:h-[70%] rounded-xl object-cover object-center shadow-nice mb-2 lg:mb-5"
-					ref={canvasRef}
-				></canvas>
-				<Skeleton width={"90%"} height={"6%"} />
-				<Skeleton width={"60%"} height={"6%"} />
-				<div className="hidden lg:block ">
-					<Skeleton width={"40%"} height={"6%"} />
-				</div>
-			</div>
-		);
-	}
-	
-  return (
-		<div className='shadow-3d'>
-			<div className="relative w-[10rem] p-3 md:p-4 md:w-[12rem] lg:w-[15rem] max-h-fit overflow-hidden rounded-lg bg-[#ffffff] hover:scale-110 transition-all duration-300">
-				<img
-					src={restaurant.coverImage}
-					className="w-full h-[60%] rounded-xl object-cover object-center shadow-nice mb-5"
-					alt="image"
-				  loading='lazy'
-				  ref={canvasRef}
-				/>
-				<HeartIcon />
-				<div class="flex w-full justify-between ">
-					<div className="font-bold capitalize md:text-sm xl:text-base grow text-xs">
-						<Link to={`/restaurant/${restaurant.name}`}>{restaurant.name}</Link>
+	});
+
+	return (
+		<>
+			{isLoading ? (
+				<div className="shadow-3d rounded-lg">
+					<div className="relative w-[10rem] p-3 md:p-4 md:w-[12rem] lg:w-[15rem] max-h-fit overflow-hidden rounded-lg bg-[#ffffff] hover:scale-110 transition-all duration-300">
+						<img
+							src={restaurant.coverImage}
+							className="w-full h-[60%] rounded-xl object-cover object-center shadow-nice mb-5"
+							alt="image"
+							loading="lazy"
+							ref={canvasRef}
+						/>
+						<HeartIcon addToFavourite={addToFavourite} restaurantId={restaurant._id} />
+						<div class="flex w-full justify-between ">
+							<div className="font-bold capitalize md:text-sm xl:text-base grow text-xs">
+								<Link
+									to={`/restaurant/${restaurant.name}`}
+								>
+									{restaurant.name}
+								</Link>
+							</div>
+							<div className="flex items-center  space-x-2">
+								<StarIcon />
+								<span className="text-rating md:text-sm font-semibold">
+									5.0
+								</span>
+							</div>
+						</div>
+						<div className="text-sm capitalize font-semibold text-slate-500 overflow-ellipsis whitespace-nowrap overflow-hidden">
+							{list.join(", ")}
+						</div>
+						<OrderOnlineBtn
+							restaurantName={restaurant.name}
+						/>
 					</div>
-					<div className="flex items-center  space-x-2">
-						<StarIcon />
-						<span className="text-rating md:text-sm font-semibold">5.0</span>
+				</div>
+			) : (
+				<div className="relative w-[10rem] p-3 md:p-4 md:w-[12rem] lg:w-[15rem] h-[12rem] lg:h-[20rem] lg:pb-4 overflow-hidden rounded-lg bg-[#ffffff]">
+					<canvas
+						className="animate-pulse w-full h-[70%] lg:h-[70%] rounded-xl object-cover object-center shadow-nice mb-2 lg:mb-5"
+						ref={canvasRef}
+					></canvas>
+					<Skeleton width={"90%"} height={"6%"} />
+					<Skeleton width={"60%"} height={"6%"} />
+					<div className="hidden lg:block ">
+						<Skeleton width={"40%"} height={"6%"} />
 					</div>
 				</div>
-				<div className="text-sm capitalize font-semibold text-slate-500 overflow-ellipsis whitespace-nowrap overflow-hidden">
-					{list.join(", ")}
-				</div>
-				<OrderOnlineBtn restaurantName={restaurant.name} />
-			</div>
-		</div>
-  );
-}
+			)}
+		</>
+	);
+};
 
 export default RestaurantCard

@@ -203,3 +203,24 @@ export const getUser = ErrorWrapper(async (req, res, next) => {
         throw new ErrorHandler(error.statusCode || 500, error.message);
     }
 })
+
+export const getAddFavourite = ErrorWrapper(async (req, res, next) => {
+    const { id } = req.params;
+    console.log(id);
+    try {
+        const user = await User.findOne({ _id: req.user._id })
+        
+        let favRestaurant = {
+            restaurantId: id,
+        }
+        let favIds = user.favourites.map((restaurant) => restaurant.restaurantId)
+    
+        if(!favIds.includes(id)) user.favourites.unshift(favRestaurant);
+        await user.save();
+		res.status(200).json({
+			message: "Restaurant added to favourite successfully!!",
+		});
+    } catch (error) {
+		throw new ErrorHandler(error.statusCode || 500, error.message);
+    }
+})

@@ -97,7 +97,7 @@ const Restaurant = () => {
 							<Outlet />
 						</OutletContext.Provider>
 						<Alert
-							className="fixed top-4 lg:bottom-0 lg:row-[30%] lg:left-[70%] "
+							className="fixed top-4 lg:top-[90%] lg:left-[70%] "
 							alert={alert}
 							setAlert={setAlert}
 						/>

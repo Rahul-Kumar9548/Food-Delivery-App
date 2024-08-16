@@ -41,17 +41,6 @@ const ResSubHeader = ({ name }) => {
 			>
 				Photos
 			</Link>
-			<Link
-				to={"/restaurant/" + name + "/menu"}
-				className={`px-2 lg:px-4 hover:font-bold hover:border-b-orange-500 h-full hover:border-b-2 hover:bg-gradient-to-t hover:from-orange-100 hover:to-white ${
-					pageActive === "menu"
-						? "border-b-orange-500 font-bold border-b-2 bg-gradient-to-t from-orange-100 to-white"
-						: ""
-				}`}
-				onClick={() => setPageActive("menu")}
-			>
-				Menu
-			</Link>
 		</div>
   );
 }

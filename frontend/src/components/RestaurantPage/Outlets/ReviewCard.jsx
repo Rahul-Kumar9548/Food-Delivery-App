@@ -52,11 +52,16 @@ const ReviewCard = ({
 				</div>
 				<div className="flex flex-wrap gap-3 mt-2">
 					{images.map((image) => (
-						<img
-							className="hover:scale-110 transition-all duration-300 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px]"
-							src={image.url}
-							alt="image"
-						/>
+						<a
+							href={image.url}
+							target='_blank'
+						>
+							<img
+								className="hover:scale-110  transition-all duration-300 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px]"
+								src={image.url}
+								alt="image"
+							/>
+						</a>
 					))}
 				</div>
 
@@ -68,15 +73,14 @@ const ReviewCard = ({
 					{userId === user._id && (
 						<div className="flex gap-2">
 							<a href="#edit">
-							<span
-								className="hover:text-orange-500 cursor-pointer"
-								onClick={() => {
-									editHandler(review._id);
-								}}
-							>
-								Edit
-							</span>
-
+								<span
+									className="hover:text-orange-500 cursor-pointer"
+									onClick={() => {
+										editHandler(review._id);
+									}}
+								>
+									Edit
+								</span>
 							</a>
 							<span class="-mt-3 cursor-pointer text-xl tracking-[1px]">
 								.

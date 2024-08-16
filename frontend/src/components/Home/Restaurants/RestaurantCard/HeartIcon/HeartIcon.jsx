@@ -1,11 +1,14 @@
 import React from 'react'
 import './HeartIcon.css'
 
-const HeartIcon = () => {
-    return (
+const HeartIcon = ({ addToFavourite , restaurantId}) => {
+	return (
 		<>
 			<label className="ui-like absolute top-5 right-5 m-1">
-				<input type="checkbox" />
+				<input
+					type="checkbox"
+					onClick={() => addToFavourite(restaurantId)}
+				/>
 				<div className="like">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +28,7 @@ const HeartIcon = () => {
 				</div>
 			</label>
 		</>
-    );
-}
+	);
+};
 
 export default HeartIcon
