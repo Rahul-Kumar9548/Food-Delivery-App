@@ -10,6 +10,9 @@ const Favourites = () => {
     const [restaurants, setRestaurants] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [favoriteRestaurant, setFavouriteRestaurant] = useState(null);
+    const [onFavourite, setOnFavourite] = useState(true);
+    const [updatedFavourite, setUpdatedFavourite] = useState(false);
+
 
     const [alert, setAlert] = useState({
 		error: "",
@@ -28,7 +31,7 @@ const Favourites = () => {
         async function getRestaurants() {
 			try {
 				const { data } = await axios.get(
-					"restaurant//get-favourites"
+					"restaurant/get-favourites"
 				);
                
                 console.log(data.favourites);
@@ -41,7 +44,25 @@ const Favourites = () => {
 			}
         }
         getRestaurants();
-    }, []);
+    }, [updatedFavourite]);
+
+    async function deleteBtnHandler(restaurantId) {
+        try {
+			await axios.get(
+				`profile/delete-favourite/${restaurantId}`
+            );
+            const { data } = await axios.get("restaurant/get-favourites");
+
+			console.log(data.favourites);
+
+			setRestaurants(data.favourites);
+			setIsLoading(true);
+        setAlert({...alert, success:"Restaurant removed Successfully!"})
+		} catch (error) {
+            console.log(error);
+            setAlert({...alert, error: error.response.data})
+		}
+    }
   return (
 		<>
 			<div className="flex border-2 w-full border-black ">
@@ -52,13 +73,17 @@ const Favourites = () => {
 							Favourites
 						</h1>
 						<div>
-							<Restaurants
+                          {restaurants.length === 0 ? (
+                            <div className="text-[30px] text-slate-300 mt-[20%] text-center">Empty</div>
+                            ) : (<Restaurants
 								restaurants={restaurants}
 								isLoading={setIsLoading}
-							/>
+                                onFavourite={onFavourite}
+                                deleteBtnHandler={deleteBtnHandler}
+							/>)}
 						</div>
 						<Alert
-							className="fixed top-4 lg:bottom-0 lg:row-[30%] lg:left-[70%] "
+							className="fixed top-4 lg:top-[90%] lg:row-[30%] lg:left-[70%] "
 							alert={alert}
 							setAlert={setAlert}
 						/>

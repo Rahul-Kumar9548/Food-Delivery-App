@@ -10,6 +10,7 @@ import {
 	getOrderHistory,
 	getUser,
 	getAddFavourite,
+	getDeleteFavourite,
 } from "../controller/user.js";
 
 const router = express.Router();
@@ -23,6 +24,7 @@ router.get('/place-order', getPlaceOrder);
 router.get('/order-history', getOrderHistory);
 router.get('/get-user', getUser)
 router.get("/add-favourite/:id", getAddFavourite);
+router.get("/delete-favourite/:id", getDeleteFavourite);
 
 
 export default router;

@@ -7,8 +7,9 @@ import restuarant1 from '../../../../assets/images/restaurants/restaurant1.jpeg'
 import { Link } from 'react-router-dom';
 import canvasLoader from '../../../../utils/canvasLoader';
 import Skeleton from 'react-loading-skeleton';
+import DeleteBtnSmall from '../../../DeleteBtn/DeleteBtnSmall';
 
-const RestaurantCard = ({ restaurant, isLoading, addToFavourite }) => {
+const RestaurantCard = ({ restaurant, isLoading, addToFavourite, onFavourite, deleteBtnHandler }) => {
 	const [imageData, setImageData] = useState(null);
 	const canvasRef = useRef(null);
 
@@ -34,7 +35,17 @@ const RestaurantCard = ({ restaurant, isLoading, addToFavourite }) => {
 							loading="lazy"
 							ref={canvasRef}
 						/>
-						<HeartIcon addToFavourite={addToFavourite} restaurantId={restaurant._id} />
+						{onFavourite ? (
+							<DeleteBtnSmall
+								deleteBtnHandler={deleteBtnHandler}
+								restaurantId={restaurant._id}
+							/>
+						) : (
+							<HeartIcon
+								addToFavourite={addToFavourite}
+								restaurantId={restaurant._id}
+							/>
+						)}
 						<div class="flex w-full justify-between ">
 							<div className="font-bold capitalize md:text-sm xl:text-base grow text-xs">
 								<Link

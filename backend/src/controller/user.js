@@ -206,7 +206,7 @@ export const getUser = ErrorWrapper(async (req, res, next) => {
 
 export const getAddFavourite = ErrorWrapper(async (req, res, next) => {
     const { id } = req.params;
-    console.log(id);
+    // console.log(id);
     try {
         const user = await User.findOne({ _id: req.user._id })
         
@@ -223,4 +223,26 @@ export const getAddFavourite = ErrorWrapper(async (req, res, next) => {
     } catch (error) {
 		throw new ErrorHandler(error.statusCode || 500, error.message);
     }
+})
+
+export const getDeleteFavourite = ErrorWrapper(async (req, res, next) => {
+     const { id } = req.params;
+	// console.log(id);
+	try {
+		const user = await User.findOne({ _id: req.user._id });
+
+        let favIds =[];
+        user.favourites.forEach((fav) => {
+            if (!(fav.restaurantId == id))
+                favIds.push(fav);
+        });
+        
+        user.favourites = favIds;
+		await user.save();
+		res.status(200).json({
+			message: "Restaurant removed from favourite successfully!!",
+		});
+	} catch (error) {
+		throw new ErrorHandler(error.statusCode || 500, error.message);
+	}
 })

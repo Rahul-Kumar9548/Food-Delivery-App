@@ -18,6 +18,7 @@ const Home = () => {
 	const [isRestaurantsLoading, setIsRestaurantsLoading] = useState(false);
 	const [isLoader, setIsLoader] = useState(false);
 	const [user, setUser] = useState({});
+	const [onFavourite, setOnFavourite] = useState(false);
 	const [alert, setAlert] = useState({
 		error: "",
 		success: "",
@@ -88,6 +89,7 @@ const Home = () => {
 							restaurants={restaurants}
 							isLoading={isRestaurantsLoading}
 							addToFavourite={addToFavourite}
+							onFavourite={onFavourite}
 						/>
 					</div>
 					<Alert
