@@ -6,7 +6,6 @@ import ImageSlider from '../../components/RestaurantPage/ImageSlider';
 import ImageGrid from '../../components/RestaurantPage/ImageGrid';
 import ResHeader from '../../components/RestaurantPage/ResHeader';
 import ResSubHeader from '../../components/RestaurantPage/ResSubHeader';
-import fetchUser from '../../utils/fetchUser';
 import Alert from '../../components/Alert';
 
 

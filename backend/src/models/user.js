@@ -66,6 +66,8 @@ const userSchema = new Schema(
 					type: Object,
 				},
 				quantity: Number,
+				restaurant_name: String,
+				category:String
 			},
 		],
 		orderHistory: [
