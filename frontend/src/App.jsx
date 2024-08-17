@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import Login from './pages/Login/Login';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
@@ -14,16 +14,23 @@ import Menu from './pages/Restaurant/Outlets/Menu';
 import FoodCardContainer from "./pages/Restaurant/Outlets/FoodCardContainer";
 import { SkeletonTheme } from 'react-loading-skeleton';
 import Favourites from './pages/Favourites/Favourites';
+import Cart from './pages/Cart/Cart';
+import Profile from './pages/Profile/Profile';
+import fetchUser from "./utils/fetchUser";
 
 
 const App = () => {
+	const [user, setUser] = useState({});
+
 	const dispatch = useDispatch();
 	useEffect(() => {
-		const savedUser = JSON.parse(localStorage.getItem("user"));
-		// console.log("Running useEffect");
-		if (savedUser) {
-			dispatch(setUser(savedUser));
-		}
+		// const savedUser = JSON.parse(localStorage.getItem("user"));
+		// // console.log("Running useEffect");
+		// if (savedUser) {
+		// 	dispatch(setUser(savedUser));
+		// }
+		fetchUser().then((res) => setUser(res));
+
 	})
   return (
 		<>
@@ -33,14 +40,13 @@ const App = () => {
 						<Route path="/" element={<Login />} />
 						<Route path="/login" element={<Login />} />
 						<Route path="/signup" element={<Signup />} />
-						<Route path="/home" element={<Home />} />
-						<Route
-							path="/favourites"
-							element={<Favourites />}
-						/>
+						<Route path="/home" element={<Home user={user}/>} />
+						<Route path="/favourites" element={<Favourites user={user}/>}/>
+					  <Route path='/cart' element={<Cart user={user } />} />
+						<Route path="/profile" element={<Profile user={user}/>} />
 						<Route
 							path="/restaurant/:name"
-							element={<Restaurant />}
+							element={<Restaurant user={user} setUser={setUser} />}
 						>
 							<Route
 								path="order-online"

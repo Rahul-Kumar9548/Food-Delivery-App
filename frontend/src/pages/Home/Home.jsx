@@ -6,18 +6,16 @@ import TrendingCusines from '../../components/Home/TrendingCusines/TrendingCusin
 import Loader from '../../components/Loader/Loader';
 import Restaurants from '../../components/Home/Restaurants/Restaurants';
 import axios from '../../utils/axios'
-import fetchUser from "../../utils/fetchUser";
 import Alert from '../../components/Alert';
 
 
-const Home = () => {
+const Home = ({user}) => {
 	let time;
 	const [restaurants, setRestaurants] = useState([]);
 	const [trendingCusinesSection, setTrendingCusinesSection] = useState([]);
 	const [isCusinesLoading, setIsCusinesLoading] = useState(false);
 	const [isRestaurantsLoading, setIsRestaurantsLoading] = useState(false);
 	const [isLoader, setIsLoader] = useState(false);
-	const [user, setUser] = useState({});
 	const [onFavourite, setOnFavourite] = useState(false);
 	const [alert, setAlert] = useState({
 		error: "",
@@ -52,7 +50,6 @@ const Home = () => {
 				console.log(error);
 			}
 		}
-		fetchUser().then((res) => setUser(res));
 		getCusines();
 		getRestaurants();
 	}, [user]);

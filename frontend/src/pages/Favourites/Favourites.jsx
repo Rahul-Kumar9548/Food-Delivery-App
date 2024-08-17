@@ -5,8 +5,7 @@ import Sidebar from '../../components/Home/Sidebar/Sidebar';
 import axios from '../../utils/axios';
 import Restaurants from '../../components/Home/Restaurants/Restaurants';
 
-const Favourites = () => {
-    const [user, setUser] = useState({});
+const Favourites = ({user}) => {
     const [restaurants, setRestaurants] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [favoriteRestaurant, setFavouriteRestaurant] = useState(null);
@@ -22,8 +21,6 @@ const Favourites = () => {
 
 
     useEffect(() => {
-        // setIsLoading(true);
-        fetchUser().then((res) => setUser(res));
         setFavouriteRestaurant(user.favourites)
         console.log(user);
 

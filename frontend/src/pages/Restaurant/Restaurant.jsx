@@ -11,14 +11,13 @@ import Alert from '../../components/Alert';
 
 
 const OutletContext = createContext();
-const Restaurant = () => {
+const Restaurant = ({user, setUser}) => {
     const { name } = useParams();
 	const [restaurant, setRestaurant] = useState({});
 	const [isloading, setIsloading] = useState(false);
 	const [blurHashes, setBlurHashes] = useState([]);
 	const [cusines, setCusines] = useState([]);
 	const navigate = useNavigate();
-	const [user, setUser] = useState({});
 	const [alert, setAlert] = useState({
 		error: "",
 		success: "",
@@ -46,7 +45,6 @@ const Restaurant = () => {
         }
     }
 	useEffect(() => {
-		fetchUser().then((res) => setUser(res));
 		getRestaurant();
 		navigate(`order-online`);
 		
