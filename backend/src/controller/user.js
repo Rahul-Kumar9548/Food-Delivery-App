@@ -215,10 +215,13 @@ export const getAddFavourite = ErrorWrapper(async (req, res, next) => {
         }
         let favIds = user.favourites.map((restaurant) => restaurant.restaurantId)
     
-        if(!favIds.includes(id)) user.favourites.unshift(favRestaurant);
+        if (!favIds.includes(id)) user.favourites.unshift(favRestaurant);
+        let msg;
+        if (favIds.includes(id)) msg = "Restaurant already added to favourite!"
+            
         await user.save();
 		res.status(200).json({
-			message: "Restaurant added to favourite successfully!!",
+			message: msg|| "Restaurant added to favourite successfully!!",
 		});
     } catch (error) {
 		throw new ErrorHandler(error.statusCode || 500, error.message);

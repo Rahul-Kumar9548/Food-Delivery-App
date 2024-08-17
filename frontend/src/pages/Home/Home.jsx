@@ -60,7 +60,8 @@ const Home = () => {
 	async function addToFavourite(restaurantId) {
 		try {
 			const { data } = await axios.get(`profile/add-favourite/${restaurantId}`);
-			setAlert({...alert, success:"Added to Favourite!"})
+			console.log(data);
+			setAlert({...alert, success:data.message})
 		} catch (error) {
 			console.log(error)
 			setAlert({...alert, error: error.data.response.message})
@@ -95,7 +96,7 @@ const Home = () => {
 					<Alert
 						alert={alert}
 						setAlert={setAlert}
-						className="fixed top-4 lg:top-[90%] lg:left-[80%] "
+						className="fixed w-fit top-4 lg:top-[90%] lg:left-[80%] "
 					/>
 				</div>
 			) : (

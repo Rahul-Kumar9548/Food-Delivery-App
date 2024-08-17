@@ -11,7 +11,6 @@ const Favourites = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [favoriteRestaurant, setFavouriteRestaurant] = useState(null);
     const [onFavourite, setOnFavourite] = useState(true);
-    const [updatedFavourite, setUpdatedFavourite] = useState(false);
 
 
     const [alert, setAlert] = useState({
@@ -44,7 +43,7 @@ const Favourites = () => {
 			}
         }
         getRestaurants();
-    }, [updatedFavourite]);
+    }, []);
 
     async function deleteBtnHandler(restaurantId) {
         try {
@@ -52,7 +51,7 @@ const Favourites = () => {
 				`profile/delete-favourite/${restaurantId}`
             );
             const { data } = await axios.get("restaurant/get-favourites");
-
+			fetchUser().then((res) => setUser(res));
 			console.log(data.favourites);
 
 			setRestaurants(data.favourites);
