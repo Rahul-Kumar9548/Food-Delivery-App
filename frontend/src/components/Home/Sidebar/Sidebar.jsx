@@ -103,7 +103,10 @@ const Sidebar = ({user}) => {
 									/>
 									<span className="ml-5 overflow-x-hidden overflow-y-hidden ">
 										<span className="msg-count">
-											{user?.favourites?.length}
+											{
+												user?.favourites
+													?.length
+											}
 										</span>
 										Favourites
 									</span>
@@ -134,8 +137,11 @@ const Sidebar = ({user}) => {
 						</button>
 					</Link>
 					<Link to="/favourites">
-						<button className="mobile-button">
+						<button className="mobile-button relative">
 							<img src={heartIcon1} alt="" />
+							<span className="msg-count">
+								{user?.favourites?.length}
+							</span>
 						</button>
 					</Link>
 					<Link to="/profile">

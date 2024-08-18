@@ -3,14 +3,17 @@ import "./DeleteBtnSmall.css";
 const DeleteBtnSmall = ({ className, deleteBtnHandler, restaurantId }) => {
 	return (
 		<>
-            <button class="bin-button absolute top-5 right-5 m-1"
-                onClick={()=>{deleteBtnHandler(restaurantId);}}    
-            >
+			<button
+				class="bin-button w-[30px] h-[30px] absolute top-5 right-5 m-1"
+				onClick={() => {
+					deleteBtnHandler(restaurantId);
+				}}
+			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
 					viewBox="0 0 39 7"
-                    className="bin-top"
+					className="bin-top w-[13px] lg:w[17px] "
 				>
 					<line
 						stroke-width="4"
@@ -32,7 +35,7 @@ const DeleteBtnSmall = ({ className, deleteBtnHandler, restaurantId }) => {
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
 					viewBox="0 0 33 39"
-					class="bin-bottom"
+					className="bin-bottom w-[13px] h-[13px] lg:w[15px]"
 				>
 					<mask fill="white" id="path-1-inside-1_8_19">
 						<path d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"></path>

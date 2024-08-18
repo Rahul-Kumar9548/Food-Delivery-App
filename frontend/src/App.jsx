@@ -17,6 +17,7 @@ import Favourites from './pages/Favourites/Favourites';
 import Cart from './pages/Cart/Cart';
 import Profile from './pages/Profile/Profile';
 import fetchUser from "./utils/fetchUser";
+import PlaceOrder from './pages/PlaceOrder/PlaceOrder';
 
 
 const App = () => {
@@ -42,8 +43,9 @@ const App = () => {
 						<Route path="/signup" element={<Signup />} />
 						<Route path="/home" element={<Home user={user}/>} />
 						<Route path="/favourites" element={<Favourites user={user}/>}/>
-					  <Route path='/cart' element={<Cart user={user} setUser={setUser} cart={user?.cart} />} />
-						<Route path="/profile" element={<Profile user={user}/>} />
+					  	<Route path='/cart' element={<Cart user={user} setUser={setUser} cart={user?.cart} />} />
+					  <Route path="/profile" element={<Profile user={user} />} />
+					  <Route path="/place-order" element={<PlaceOrder user={user} setUser={setUser} />} />
 						<Route
 							path="/restaurant/:name"
 							element={<Restaurant user={user} setUser={setUser} />}

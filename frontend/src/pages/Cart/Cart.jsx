@@ -3,6 +3,8 @@ import Alert from "../../components/Alert";
 import Sidebar from "../../components/Home/Sidebar/Sidebar";
 import axios from "../../utils/axios";
 import CartCard from "../../components/Cart/CartCard";
+import { Link } from "react-router-dom";
+
 
 const Cart = ({user, setUser}) => {
     const [totalPrice, setTotalPrice] = useState(0);
@@ -26,7 +28,7 @@ const Cart = ({user, setUser}) => {
             try {
                 const { data } = await axios.get("/cart/view-cart-items");
                 console.log(data);
-                setCart([...cart, ...data.cart])
+                setCart(data.cart);
                 setTotalPrice(data.totalPrice)
             } catch (error) {
                 console.log(error);
@@ -100,7 +102,7 @@ const Cart = ({user, setUser}) => {
 				<Sidebar user={user} />
 				<div className="w-full bg-slate-300 h-full">
 					<div className="home-container relative overflow-y-auto md:ml-[6rem] rounded-lg m-1 mt-2 bg-white">
-						<div className="text-center sticky bg-white top-0 p-4 flex justify-center  text-[40px] w-full pb-0">
+						<div className="text-center sticky bg-white top-0 p-4 flex justify-center text-[30px] lg:text-[40px] w-full pb-0">
 							<h1 className="w-[80%] flex justify-center items-center gap-2 border-b-2 p-2">
 								Your Cart!{" "}
 								<img
@@ -116,8 +118,8 @@ const Cart = ({user, setUser}) => {
 									Empty
 								</div>
 							) : (
-								<div className="grid  gap-16 grid-cols-5 h-full ">
-									<div className="col-span-3 space-y-4 mt-[1rem] ">
+								<div className="lg:grid  gap-16 grid-cols-5 h-full ">
+									<div className="lg:col-span-3 space-y-4 mt-[1rem] ">
 										{cart?.map(
 											(cartItem, index) => (
 												<CartCard
@@ -153,7 +155,7 @@ const Cart = ({user, setUser}) => {
 											)
 										)}
 									</div>
-									<div className="bg-white fixed shadow-3d border-2 top-[8rem] right-[7rem] flex flex-col rounded-xl col-span-2 w-[30%] h-[22rem] space-y-4 p-4">
+									<div className="bg-white flex mt-[1rem] lg:fixed shadow-3d border-2 top-[8rem] right-[5rem] lg:flex flex-col rounded-xl col-span-2 lg:w-[30%] h-[22rem] space-y-4 p-4">
 										<h1 className="text-center text-[20px] border-b-2 p-2 text-slate-500 ">
 											Price Details
 										</h1>
@@ -191,10 +193,11 @@ const Cart = ({user, setUser}) => {
 													fee}
 											</span>
 										</p>
-
-										<button className="cursor-pointer mb-8 transition-all  bg-orange-600 text-white px-6 py-2 rounded-lg border-green-400 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px] hover:shadow-xl hover:shadow-green-300 shadow-green-300 active:shadow-none">
-											Place Order!
-										</button>
+											<Link to="/place-order"  className="w-full">
+										<button className="cursor-pointer mb-8 transition-all w-full  bg-orange-600 text-white px-6 py-2 rounded-lg border-green-400 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px] hover:shadow-xl hover:shadow-green-300 shadow-green-300 active:shadow-none">
+											Proceed!
+										</button>											
+											</Link>
 									</div>
 								</div>
 							)}
