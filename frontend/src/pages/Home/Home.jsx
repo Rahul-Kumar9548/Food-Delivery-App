@@ -9,7 +9,7 @@ import axios from '../../utils/axios'
 import Alert from '../../components/Alert';
 
 
-const Home = ({user}) => {
+const Home = ({user, loading, }) => {
 	let time;
 	const [restaurants, setRestaurants] = useState([]);
 	const [trendingCusinesSection, setTrendingCusinesSection] = useState([]);
@@ -68,7 +68,7 @@ const Home = ({user}) => {
 
 	return (
 		<>
-			{isLoader ? (
+			{!loading ? (
 				<div
 					style={{ height: "100rem" }}
 					className="flex border-2 w-full  border-black"

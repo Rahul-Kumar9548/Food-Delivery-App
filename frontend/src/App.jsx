@@ -18,21 +18,17 @@ import Cart from './pages/Cart/Cart';
 import Profile from './pages/Profile/Profile';
 import fetchUser from "./utils/fetchUser";
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder';
-
+import OrderHistory from './pages/OrderHistory/OrderHistory';
 
 const App = () => {
 	const [user, setUser] = useState({});
+	const [loading, setLoading] = useState(true);
 
 	const dispatch = useDispatch();
 	useEffect(() => {
-		// const savedUser = JSON.parse(localStorage.getItem("user"));
-		// // console.log("Running useEffect");
-		// if (savedUser) {
-		// 	dispatch(setUser(savedUser));
-		// }
 		fetchUser().then((res) => setUser(res));
-
-	})
+		setLoading(false);
+	},[user])
   return (
 		<>
 			<SkeletonTheme baseColor="#B2BEB5" highlightColor="#444">
@@ -41,11 +37,12 @@ const App = () => {
 						<Route path="/" element={<Login />} />
 						<Route path="/login" element={<Login />} />
 						<Route path="/signup" element={<Signup />} />
-						<Route path="/home" element={<Home user={user}/>} />
+						<Route path="/home" element={<Home user={user} loading={loading} setLoading={setLoading} />} />
 						<Route path="/favourites" element={<Favourites user={user}/>}/>
 					  	<Route path='/cart' element={<Cart user={user} setUser={setUser} cart={user?.cart} />} />
 					  <Route path="/profile" element={<Profile user={user} />} />
 					  <Route path="/place-order" element={<PlaceOrder user={user} setUser={setUser} />} />
+					  <Route path="/orders" element={<OrderHistory user={user} setUser={setUser} />} />
 						<Route
 							path="/restaurant/:name"
 							element={<Restaurant user={user} setUser={setUser} />}

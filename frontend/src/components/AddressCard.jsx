@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React from 'react'
 
 const AddressCard = ({ address, select, setSelect }) => {
    
@@ -6,7 +6,7 @@ const AddressCard = ({ address, select, setSelect }) => {
         setSelect(id)
     }
   return (
-		<div className="capitalize space-y-1 mx-auto w-[90%] bg-white p-3 rounded-lg border-2 border-slate-300 shadow-3d">
+		<div className="capitalize hover:scale-110 transition-all duration-300 ease-in-out space-y-1 mx-auto w-[90%] bg-white p-3 rounded-lg border-2 border-slate-300 shadow-3d">
 			<div className="space-x-2 ">
 				<span className="font-bold">Name:</span>{" "}
 				<span>{address?.name}</span>

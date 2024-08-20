@@ -23,7 +23,7 @@ const Sidebar = ({user}) => {
 								alt="Profile"
 								className="sidebar-profile-pic w-10 h-10 "
 							/>
-							<h3 className="sidebar-username overflow-x-hidden overflow-y-hidden h-6">
+							<h3 className="sidebar-username capitalize overflow-x-hidden overflow-y-hidden h-6">
 								{user.name}
 							</h3>
 						</div>

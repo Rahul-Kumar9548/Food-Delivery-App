@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import Alert from "../../components/Alert";
 import Sidebar from "../../components/Home/Sidebar/Sidebar";
 import axios from "../../utils/axios";
-import CartCard from "../../components/Cart/CartCard";
 import AddressCard from "../../components/AddressCard";
 import AddAddressCard from "../../components/AddAddressCard";
+import Spinner from "../../components/Spinner/Spinner";
+import { useNavigate } from "react-router-dom";
 
 const PlaceOrder = ({ user, setUser }) => {
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [cart, setCart] = useState([]);
 	const [spinning, setSpinning] = useState("");
-    const [spinningDelete, setSpinningDelete] = useState("");
 	const [select, setSelect] = useState("");
 	const [addAddress, setAddAddress] = useState(false);
+	const navigate = useNavigate();
 
 	const [alert, setAlert] = useState({
 		error: "",
@@ -42,8 +43,21 @@ const PlaceOrder = ({ user, setUser }) => {
 		console.log(user)
 	}, []);
 
-	
+	async function placeOrderHandler() {
+		setSpinning(true);
+		try {
+			const { data } = await axios.get(`/profile/place-order/?addressId=${select}`);
+			console.log(data);
+			setAlert({ ...alert, success: data.message });
+			setSpinning(false);
+			navigate('/orders')
 
+		}	catch(error){
+			console.log(error);
+			setSpinning(false);
+			setAlert({...alert, error:error.response.data})
+		}
+	}
 	return (
 		<>
 			<div className="flex border-2 w-full border-black ">
@@ -99,7 +113,7 @@ const PlaceOrder = ({ user, setUser }) => {
 										</div>
 									</div>
 
-									<div className="bg-white flex mt-[1rem] lg:fixed shadow-3d border-2 top-[8rem] right-[5rem] lg:flex flex-col rounded-xl col-span-2 lg:w-[30%] h-[22rem] space-y-4 p-4">
+									<div className="bg-white flex mt-[1rem] lg:fixed shadow-3d border-2 top-[8rem] right-[5rem] lg:flex flex-col rounded-xl col-span-2 lg:w-[30%] h-[25rem] space-y-4 p-4">
 										<h1 className="text-center text-[20px] border-b-2 p-2 text-slate-500 ">
 											Price Details
 										</h1>
@@ -136,11 +150,14 @@ const PlaceOrder = ({ user, setUser }) => {
 													discount +
 													fee}
 											</span>
-										</p>
+											</p>
 
-										<button className="cursor-pointer mb-8 transition-all  bg-orange-600 text-white px-6 py-2 rounded-lg border-green-400 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px] hover:shadow-xl hover:shadow-green-300 shadow-green-300 active:shadow-none">
+											{spinning ? <Spinner className="mx-auto w-[30px] h-[30px]"/> :
+											<button className="cursor-pointer transition-all  bg-orange-600 text-white px-6 py-2 rounded-lg border-green-400 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px] hover:shadow-xl hover:shadow-green-300 shadow-green-300 active:shadow-none"
+												onClick={()=>placeOrderHandler()}	
+											>
 											Place Order!
-										</button>
+										</button>}
 										</div>
 										<div className="w-[2rem] h-[3rem]">
 

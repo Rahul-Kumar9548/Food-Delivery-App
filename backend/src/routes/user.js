@@ -20,7 +20,7 @@ router.post('/update-details', upload.single('image'), postUpdateDetails);
 router.post('/add-address', postAddAddress);
 router.post('/update-address/:id', postUpdateAddress);
 router.get('/delete-address/:id', getDeleteAddress);
-router.get('/place-order', getPlaceOrder);
+router.get('/place-order/', getPlaceOrder);
 router.get('/order-history', getOrderHistory);
 router.get('/get-user', getUser)
 router.get("/add-favourite/:id", getAddFavourite);

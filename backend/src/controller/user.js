@@ -155,13 +155,27 @@ export const getDeleteAddress = ErrorWrapper(async (req, res, next) => {
 
 
 export const getPlaceOrder = ErrorWrapper(async (req, res, next) => {
+    const { addressId } = req.query;
     try {
         const user = await User.findOne({ _id: req.user._id });
         
         let cart = user.cart;
 
+        let selectedAddress = user.addresses.filter((address) => addressId === address._id.toString())
+        
+        if(!selectedAddress) throw new ErrorHandler(400, "Address not found!")
+
+        let totalPrice = 0;
+		cart.forEach((cartItem) => {
+			let price = cartItem.quantity * cartItem.food.price;
+			// console.log(cartItem.food.name, price);
+			totalPrice = totalPrice + price;
+		});
+        
         let newOrder = {
-            items:cart
+            items: cart,
+            address: selectedAddress[0],
+            totalPrice,
         }
         user.orderHistory.unshift(newOrder);
         user.cart = [];
@@ -184,7 +198,7 @@ export const getOrderHistory = ErrorWrapper(async (req, res, next) => {
         const user = await User.findOne({ _id: req.user._id });
         res.status(200).json({
             message: 'Order History Fetched Successfully!!',
-            data: user.orderHistory
+            orderHistory: user.orderHistory
         })
     } catch (error) {
         throw  new ErrorHandler(error.statusCode || 500, error.message); 
