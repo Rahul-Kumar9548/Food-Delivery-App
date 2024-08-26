@@ -16,6 +16,7 @@ import Cart from './pages/Cart/Cart';
 import Profile from './pages/Profile/Profile';
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder';
 import OrderHistory from './pages/OrderHistory/OrderHistory';
+import ProtectedRoutes from './utils/ProtectedRoutes';
 
 const App = () => {
 	const [loading, setLoading] = useState(true);
@@ -29,7 +30,9 @@ const App = () => {
 					<Routes>
 						<Route path="/" element={<Login />} />
 						<Route path="/login" element={<Login />} />
-						<Route path="/signup" element={<Signup />} />
+					  <Route path="/signup" element={<Signup />} />
+					  <Route element={<ProtectedRoutes/>} >
+						  
 						<Route
 							path="/home"
 							element={
@@ -104,6 +107,7 @@ const App = () => {
 								element={<Menu />}
 							></Route>
 						</Route>
+					</Route>
 					</Routes>
 				</BrowserRouter>
 			</SkeletonTheme>
