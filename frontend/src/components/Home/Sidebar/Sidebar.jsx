@@ -19,7 +19,11 @@ const Sidebar = ({user}) => {
 					<div>
 						<div className="sidebar-header">
 							<img
-								src={user.image}
+								src={
+									user.image
+										? user.image
+										: "https://img.icons8.com/?size=40&id=21441&format=png"
+								}
 								alt="Profile"
 								className="sidebar-profile-pic w-10 h-10 "
 							/>
@@ -193,6 +197,14 @@ const Sidebar = ({user}) => {
 							</button>
 						</Link>
 					</div>
+					<Link to="/orders">
+						<button className="mobile-button w-[24px]">
+							<img
+								src="https://img.icons8.com/?size=100&id=47604&format=png&color=FFFFFF"
+								alt=""
+							/>
+						</button>
+					</Link>
 				</div>
 			</div>
 		</>

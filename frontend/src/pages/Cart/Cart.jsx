@@ -4,9 +4,11 @@ import Sidebar from "../../components/Home/Sidebar/Sidebar";
 import axios from "../../utils/axios";
 import CartCard from "../../components/Cart/CartCard";
 import { Link } from "react-router-dom";
+import fetchUser from "../../utils/fetchUser";
 
 
-const Cart = ({user, setUser}) => {
+const Cart = () => {
+	const [user, setUser] = useState({});
     const [totalPrice, setTotalPrice] = useState(0);
     const [cart, setCart] = useState([]);
     const [spinning, setSpinning] = useState("");
@@ -23,6 +25,8 @@ const Cart = ({user, setUser}) => {
 
 	useEffect(() => {
 		// console.log(cart);
+
+		fetchUser().then((res) => setUser(res));
 
         async function getCart() {
             try {

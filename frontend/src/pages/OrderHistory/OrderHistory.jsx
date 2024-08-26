@@ -8,13 +8,15 @@ import Spinner from "../../components/Spinner/Spinner";
 import { useNavigate } from "react-router-dom";
 import OrderCard from "../../components/OrderHistory/OrderCard";
 import ViewOrder from "../../components/OrderHistory/ViewOrder";
+import fetchUser from "../../utils/fetchUser";
 
-const OrderHistory = ({ user, setUser }) => {
-	const [totalPrice, setTotalPrice] = useState(0);
+
+const OrderHistory = () => {
 	const [orders, setOrders] = useState([]);
 	const [spinning, setSpinning] = useState("");
 	const [viewOrder, setViewOrder] = useState('');
 	const [selectedOrder, setSelectedOrder] = useState('');
+	const [user, setUser] = useState({});
 
 	const [alert, setAlert] = useState({
 		error: "",
@@ -27,13 +29,12 @@ const OrderHistory = ({ user, setUser }) => {
 
 	useEffect(() => {
 		// console.log(cart);
-
+		fetchUser().then((res) => setUser(res));
 		async function getOrders() {
 			try {
 				const { data } = await axios.get("/profile/order-history");
 				console.log(data);
 				setOrders(data.orderHistory);
-				// setTotalPrice(data.totalPrice);
 			} catch (error) {
 				console.log(error);
 				setAlert({ ...alert, error: error });

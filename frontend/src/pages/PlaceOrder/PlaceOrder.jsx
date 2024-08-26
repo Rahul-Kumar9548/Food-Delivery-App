@@ -6,14 +6,17 @@ import AddressCard from "../../components/AddressCard";
 import AddAddressCard from "../../components/AddAddressCard";
 import Spinner from "../../components/Spinner/Spinner";
 import { useNavigate } from "react-router-dom";
+import fetchUser from "../../utils/fetchUser";
 
-const PlaceOrder = ({ user, setUser }) => {
+const PlaceOrder = () => {
+	const [user, setUser] = useState({});
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [cart, setCart] = useState([]);
 	const [spinning, setSpinning] = useState("");
 	const [select, setSelect] = useState("");
 	const [addAddress, setAddAddress] = useState(false);
 	const navigate = useNavigate();
+	const [address, setAddress] = useState([]);
 
 	const [alert, setAlert] = useState({
 		error: "",
@@ -26,7 +29,6 @@ const PlaceOrder = ({ user, setUser }) => {
 
 	useEffect(() => {
 		// console.log(cart);
-
 		async function getCart() {
 			try {
 				const { data } = await axios.get("/cart/view-cart-items");
@@ -40,7 +42,8 @@ const PlaceOrder = ({ user, setUser }) => {
 		}
         getCart();
         
-		console.log(user)
+		fetchUser().then((res) => setUser({ ...user, ...res }));
+		console.log(user.addresses)
 	}, []);
 
 	async function placeOrderHandler() {
@@ -96,6 +99,9 @@ const PlaceOrder = ({ user, setUser }) => {
 													setSelect={
 														setSelect
 													}
+													selectDisplay={
+														true
+													}
 												/>
 											)
 										)}
@@ -150,18 +156,22 @@ const PlaceOrder = ({ user, setUser }) => {
 													discount +
 													fee}
 											</span>
-											</p>
+										</p>
 
-											{spinning ? <Spinner className="mx-auto w-[30px] h-[30px]"/> :
-											<button className="cursor-pointer transition-all  bg-orange-600 text-white px-6 py-2 rounded-lg border-green-400 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px] hover:shadow-xl hover:shadow-green-300 shadow-green-300 active:shadow-none"
-												onClick={()=>placeOrderHandler()}	
+										{spinning ? (
+											<Spinner className="mx-auto w-[30px] h-[30px]" />
+										) : (
+											<button
+												className="cursor-pointer transition-all  bg-orange-600 text-white px-6 py-2 rounded-lg border-green-400 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px] hover:shadow-xl hover:shadow-green-300 shadow-green-300 active:shadow-none"
+												onClick={() =>
+													placeOrderHandler()
+												}
 											>
-											Place Order!
-										</button>}
-										</div>
-										<div className="w-[2rem] h-[3rem]">
-
-										</div>
+												Place Order!
+											</button>
+										)}
+									</div>
+									<div className="w-[2rem] h-[3rem]"></div>
 								</div>
 							)}
 						</div>
@@ -172,7 +182,7 @@ const PlaceOrder = ({ user, setUser }) => {
 						/>
 					</div>
 					{addAddress ? (
-						<AddAddressCard setAddAddress={setAddAddress} />
+						<AddAddressCard setAddAddress={setAddAddress} setUser={setUser} />
 					) : null}
 				</div>
 			</div>

@@ -5,9 +5,9 @@ const OrderCard = ({ order, setViewOrder, setSelectedOrder }) => {
     const [orderDate, setOrderDate] = useState(null);
     useEffect(() => {
         let formattedDate = formatDateTime(date);
-        formattedDate = formattedDate.split(",").splice(0, 2).join(",")
+        console.log(formattedDate);
+        formattedDate = formattedDate.split(",").splice(1, 1).join(",")
         setOrderDate(formattedDate)
-        // console.log(order._id);
 	}, [order])
 	
 	const clickHandler = () => {

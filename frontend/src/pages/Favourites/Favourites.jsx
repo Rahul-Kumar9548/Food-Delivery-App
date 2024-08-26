@@ -5,7 +5,9 @@ import Sidebar from '../../components/Home/Sidebar/Sidebar';
 import axios from '../../utils/axios';
 import Restaurants from '../../components/Home/Restaurants/Restaurants';
 
-const Favourites = ({user}) => {
+
+const Favourites = () => {
+	const [user, setUser] = useState({});
     const [restaurants, setRestaurants] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [favoriteRestaurant, setFavouriteRestaurant] = useState(null);
@@ -39,7 +41,8 @@ const Favourites = ({user}) => {
 				console.log(error);
 			}
         }
-        getRestaurants();
+		getRestaurants();
+		fetchUser().then((res) => setUser(res));
     }, []);
 
     async function deleteBtnHandler(restaurantId) {
@@ -50,6 +53,7 @@ const Favourites = ({user}) => {
             const { data } = await axios.get("restaurant/get-favourites");
 			fetchUser().then((res) => setUser(res));
 			console.log(data.favourites);
+			// setFetch((prev)=>prev+1);
 
 			setRestaurants(data.favourites);
 			setIsLoading(true);

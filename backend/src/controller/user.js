@@ -222,7 +222,7 @@ export const getAddFavourite = ErrorWrapper(async (req, res, next) => {
     const { id } = req.params;
     // console.log(id);
     try {
-        const user = await User.findOne({ _id: req.user._id })
+        const user = await User.findOne({ _id: req.user._id }).select("-password -refreshToken");
         
         let favRestaurant = {
             restaurantId: id,
@@ -231,11 +231,12 @@ export const getAddFavourite = ErrorWrapper(async (req, res, next) => {
     
         if (!favIds.includes(id)) user.favourites.unshift(favRestaurant);
         let msg;
-        if (favIds.includes(id)) msg = "Restaurant already added to favourite!"
+        if (favIds.includes(id)) msg = "Restaurant already exists in favourites!"
             
         await user.save();
 		res.status(200).json({
-			message: msg|| "Restaurant added to favourite successfully!!",
+            message: msg || "Restaurant added to favourite successfully!!",
+            user
 		});
     } catch (error) {
 		throw new ErrorHandler(error.statusCode || 500, error.message);
@@ -246,7 +247,7 @@ export const getDeleteFavourite = ErrorWrapper(async (req, res, next) => {
      const { id } = req.params;
 	// console.log(id);
 	try {
-		const user = await User.findOne({ _id: req.user._id });
+		const user = await User.findOne({ _id: req.user._id }).select("-password -refreshToken");
 
         let favIds =[];
         user.favourites.forEach((fav) => {
@@ -257,9 +258,24 @@ export const getDeleteFavourite = ErrorWrapper(async (req, res, next) => {
         user.favourites = favIds;
 		await user.save();
 		res.status(200).json({
-			message: "Restaurant removed from favourite successfully!!",
+            message: "Restaurant removed from favourite successfully!!",
+            user
 		});
 	} catch (error) {
 		throw new ErrorHandler(error.statusCode || 500, error.message);
 	}
 })
+
+export const getLogout = ErrorWrapper(async (req, res, next) => {
+	try {
+        const user = await User.findOne({ _id: req.user._id });
+
+		user.refreshToken = '';
+		await user.save();
+		res.status(200).json({
+			message: "You are Logged out successfully!!",
+		});
+	} catch (error) {
+		throw new ErrorHandler(error.statusCode || 500, error.message);
+	}
+});

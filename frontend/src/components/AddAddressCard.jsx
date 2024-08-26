@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react'
 import axios from '../utils/axios'
 import Spinner from './Spinner/Spinner';
+import fetchUser from '../utils/fetchUser';
 
-const AddAddressCard = ({ setAddAddress }) => {
+const AddAddressCard = ({ setAddAddress, setUser }) => {
     const [spinning, setSpinning] = useState("");
     const name = useRef();
     const address = useRef();
@@ -18,16 +19,19 @@ const AddAddressCard = ({ setAddAddress }) => {
     async function addressHandler() {
         setSpinning(true);
         try {
-            const {data} = axios.post("profile/add-address", {
+            const {data} = await axios.post("profile/add-address", {
                 name: name.current.value,
                 location: address.current.value,
                 landmark: landmark.current.value,
                 contact: contact.current.value,
             })
-            console.log(data);
+			console.log(data);
+			fetchUser().then((res) => {
+				setUser(res);
+			});
+            setSpinning(false);
             setAddAddress(false)
             setAlert({ ...alert, success: data });
-            setSpinning(false);
         } catch (error) {
             console.log(error);
             setSpinning(false);

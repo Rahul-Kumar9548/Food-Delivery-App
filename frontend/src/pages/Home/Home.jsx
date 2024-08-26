@@ -7,10 +7,12 @@ import Loader from '../../components/Loader/Loader';
 import Restaurants from '../../components/Home/Restaurants/Restaurants';
 import axios from '../../utils/axios'
 import Alert from '../../components/Alert';
+import fetchUser from '../../utils/fetchUser';
 
 
-const Home = ({user, loading, }) => {
+const Home = ({ loading }) => {
 	let time;
+	const [user, setUser] = useState({});
 	const [restaurants, setRestaurants] = useState([]);
 	const [trendingCusinesSection, setTrendingCusinesSection] = useState([]);
 	const [isCusinesLoading, setIsCusinesLoading] = useState(false);
@@ -23,7 +25,6 @@ const Home = ({user, loading, }) => {
 		info: "",
 		warning: "",
 	});
-
 
 	useEffect(() => {
 		async function getRestaurants() {
@@ -50,18 +51,24 @@ const Home = ({user, loading, }) => {
 				console.log(error);
 			}
 		}
+		fetchUser().then((res) => {
+			setUser(res);
+		});
 		getCusines();
 		getRestaurants();
 	}, [user]);
 
 	async function addToFavourite(restaurantId) {
 		try {
-			const { data } = await axios.get(`profile/add-favourite/${restaurantId}`);
+			const { data } = await axios.get(
+				`profile/add-favourite/${restaurantId}`
+			);
 			console.log(data);
-			setAlert({...alert, success:data.message})
+			// setFetch((prev)=>prev+1);
+			setAlert({ ...alert, success: data.message });
 		} catch (error) {
-			console.log(error)
-			setAlert({...alert, error: error.data.response.message})
+			console.log(error);
+			setAlert({ ...alert, error: "Error On Adding Favourite" });
 		}
 		// console.log("Id",restaurantId);
 	}
@@ -101,6 +108,6 @@ const Home = ({user, loading, }) => {
 			)}
 		</>
 	);
-}
+};
 
 export default Home

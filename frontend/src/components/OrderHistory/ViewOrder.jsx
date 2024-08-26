@@ -7,9 +7,11 @@ const ViewOrder = ({ setViewOrder, orders ,selectedOrder }) => {
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [address, setAddress] = useState();
 	const [items, setItems] = useState([]);
+	const [orderId, setOrderId] = useState(null);
 	useEffect(() => {
 		let order = orders.filter((order)=>selectedOrder === order._id)
 		console.log(order)
+		setOrderId(order[0]._id)
 		setTotalPrice(order[0].totalPrice)
 		setAddress(order[0].address)
 		setItems(order[0].items)
@@ -32,6 +34,10 @@ const ViewOrder = ({ setViewOrder, orders ,selectedOrder }) => {
 					/>
 				</div>
 				<div className="p-4 space-y-2">
+					<p className="space-x-2 ">
+						<span className="font-bold text-sm ">Order Id:</span>
+						<span className="text-sm">{orderId}</span>
+					</p>
 					<span>Items Ordered:</span>
 					{items?.map((item, index) => (
 						<OrderViewItemCard key={index} item={item} />
@@ -40,10 +46,22 @@ const ViewOrder = ({ setViewOrder, orders ,selectedOrder }) => {
 				</div>
 				<div className="p-4 space-y-1 capitalize">
 					<span>Delivered to:</span>
-					<p className="space-x-2 "><span className="font-bold">Name:</span><span className="">{address?.name}</span></p>
-					<p className="space-x-2 "><span className="font-bold">Address:</span><span className="">{address?.location}</span></p>
-					<p className="space-x-2 "><span className="font-bold">Landmark:</span><span className="">{address?.landmark}</span></p>
-					<p className="space-x-2 "><span className="font-bold">Contact:</span><span className="">{address?.contact}</span></p>
+					<p className="space-x-2 ">
+						<span className="font-bold">Name:</span>
+						<span className="">{address?.name}</span>
+					</p>
+					<p className="space-x-2 ">
+						<span className="font-bold">Address:</span>
+						<span className="">{address?.location}</span>
+					</p>
+					<p className="space-x-2 ">
+						<span className="font-bold">Landmark:</span>
+						<span className="">{address?.landmark}</span>
+					</p>
+					<p className="space-x-2 ">
+						<span className="font-bold">Contact:</span>
+						<span className="">{address?.contact}</span>
+					</p>
 				</div>
 			</div>
 		</>

@@ -7,6 +7,7 @@ const initialState = {
     image: '',
     orderHistory: [],
     cart: [],
+    favourites: [],
     isLoggedIn: false,
 };
 
@@ -25,6 +26,7 @@ export const userSlice = createSlice({
             state.image = action.payload.image;
             state.orderHistory = action.payload.orderHistory;
             state.cart = action.payload.cart;
+            state.favourites = action.payload.favourites;
             state.isLoggedIn = true;
 		},
 		getUser: (state) => {

@@ -7,10 +7,12 @@ import ImageGrid from '../../components/RestaurantPage/ImageGrid';
 import ResHeader from '../../components/RestaurantPage/ResHeader';
 import ResSubHeader from '../../components/RestaurantPage/ResSubHeader';
 import Alert from '../../components/Alert';
+import fetchUser from '../../utils/fetchUser';
 
 
 const OutletContext = createContext();
-const Restaurant = ({user, setUser}) => {
+const Restaurant = () => {
+	const [user, setUser] = useState({});
     const { name } = useParams();
 	const [restaurant, setRestaurant] = useState({});
 	const [isloading, setIsloading] = useState(false);
@@ -44,6 +46,7 @@ const Restaurant = ({user, setUser}) => {
         }
     }
 	useEffect(() => {
+		fetchUser().then((res) => setUser(res));
 		getRestaurant();
 		navigate(`order-online`);
 		
