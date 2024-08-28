@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+    _id:'',
     name: '',
     email: '',
     username: '',
@@ -8,6 +9,7 @@ const initialState = {
     orderHistory: [],
     cart: [],
     favourites: [],
+    addresses:[],
     isLoggedIn: false,
 };
 
@@ -19,7 +21,8 @@ export const userSlice = createSlice({
 			// Redux Toolkit allows us to write "mutating" logic in reducers. It
 			// doesn't actually mutate the state because it uses the Immer library,
 			// which detects changes to a "draft state" and produces a brand new
-			// immutable state based off those changes.
+            // immutable state based off those changes.
+            state._id = action.payload._id;
 			state.name = action.payload.name;
             state.username = action.payload.username;
             state.email = action.payload.email;
@@ -27,6 +30,7 @@ export const userSlice = createSlice({
             state.orderHistory = action.payload.orderHistory;
             state.cart = action.payload.cart;
             state.favourites = action.payload.favourites;
+            state.addresses = action.payload.addresses;
             state.isLoggedIn = true;
 		},
 		getUser: (state) => {

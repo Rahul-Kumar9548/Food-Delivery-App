@@ -6,10 +6,11 @@ import AddressCard from "../../components/AddressCard";
 import AddAddressCard from "../../components/AddAddressCard";
 import Spinner from "../../components/Spinner/Spinner";
 import { useNavigate } from "react-router-dom";
-import fetchUser from "../../utils/fetchUser";
+import { setUser } from "../../redux/slices/userSlice"
+import { useDispatch, useSelector } from "react-redux";
 
 const PlaceOrder = () => {
-	const [user, setUser] = useState({});
+	const user = useSelector((state) => state.user);
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [cart, setCart] = useState([]);
 	const [spinning, setSpinning] = useState("");
@@ -17,6 +18,7 @@ const PlaceOrder = () => {
 	const [addAddress, setAddAddress] = useState(false);
 	const navigate = useNavigate();
 	const [address, setAddress] = useState([]);
+	const dispatch = useDispatch();
 
 	const [alert, setAlert] = useState({
 		error: "",
@@ -32,7 +34,7 @@ const PlaceOrder = () => {
 		async function getCart() {
 			try {
 				const { data } = await axios.get("/cart/view-cart-items");
-				console.log(data);
+				// console.log(data);
 				setCart(data.cart);
 				setTotalPrice(data.totalPrice);
 			} catch (error) {
@@ -41,9 +43,7 @@ const PlaceOrder = () => {
 			}
 		}
         getCart();
-        
-		fetchUser().then((res) => setUser({ ...user, ...res }));
-		console.log(user.addresses)
+		// console.log(user.addresses)
 	}, []);
 
 	async function placeOrderHandler() {
@@ -51,6 +51,7 @@ const PlaceOrder = () => {
 		try {
 			const { data } = await axios.get(`/profile/place-order/?addressId=${select}`);
 			console.log(data);
+			dispatch(setUser({...user, cart:[]}))
 			setAlert({ ...alert, success: data.message });
 			setSpinning(false);
 			navigate('/orders')
@@ -63,7 +64,7 @@ const PlaceOrder = () => {
 	}
 	return (
 		<>
-			<div className="flex border-2 w-full border-black ">
+			<div className="flex w-full  ">
 				<Sidebar user={user} />
 				<div className="w-full bg-slate-300 h-full relative">
 					<div

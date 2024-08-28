@@ -7,12 +7,12 @@ import ImageGrid from '../../components/RestaurantPage/ImageGrid';
 import ResHeader from '../../components/RestaurantPage/ResHeader';
 import ResSubHeader from '../../components/RestaurantPage/ResSubHeader';
 import Alert from '../../components/Alert';
-import fetchUser from '../../utils/fetchUser';
-
+import { setUser, getUser } from "../../redux/slices/userSlice";
+import { useSelector } from "react-redux";
 
 const OutletContext = createContext();
 const Restaurant = () => {
-	const [user, setUser] = useState({});
+	const user = useSelector((state) => state.user);
     const { name } = useParams();
 	const [restaurant, setRestaurant] = useState({});
 	const [isloading, setIsloading] = useState(false);
@@ -46,7 +46,6 @@ const Restaurant = () => {
         }
     }
 	useEffect(() => {
-		fetchUser().then((res) => setUser(res));
 		getRestaurant();
 		navigate(`order-online`);
 		
@@ -54,7 +53,7 @@ const Restaurant = () => {
 
   return (
 		<>
-			<div className="flex border-2 w-full border-black ">
+			<div className="flex  w-full ">
 				<Sidebar user={user} />
 				<div className="w-full bg-slate-300 h-full">
 					<div className="home-container relative overflow-y-auto md:ml-[6rem] rounded-lg m-1 mt-2">

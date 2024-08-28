@@ -516,7 +516,7 @@ export const postAddReview = ErrorWrapper(async (req, res, next) => {
     const { restaurant_name, message, rating } = req.body;
     const name = req.user.name;
     const userId = req.user._id;
-    console.log(restaurant_name, message, rating);
+    // console.log(restaurant_name, message, rating);
     try {
         let restaurant = await Restaurant.findOne({name: restaurant_name});
 
@@ -693,6 +693,7 @@ export const getRestaurant = ErrorWrapper(async (req, res, next) => {
             name
         });
 
+        // console.log(restaurant);
 		res.status(200).json({
 			message: `Restaurant by name ${name} Fetched Successfully!`,
 			restaurant,

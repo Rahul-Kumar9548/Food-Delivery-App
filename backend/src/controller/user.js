@@ -207,7 +207,6 @@ export const getOrderHistory = ErrorWrapper(async (req, res, next) => {
 
 export const getUser = ErrorWrapper(async (req, res, next) => {
     try {
-        
         const user = await User.findOne({ _id: req.user._id }).select("-password -refreshToken");
         res.status(200).json({
             message: 'User Fetched Successfully!!',

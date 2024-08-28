@@ -2,14 +2,14 @@ import React,{useEffect} from 'react'
 import Skeleton from 'react-loading-skeleton';
 import { useNavigate } from 'react-router-dom';
 
-const CusineBtn = ({restaurantName,cusine,isloading,activeElement,setActiveElement}) => {
+const CusineBtn = ({restaurantName,cusine,isloading,activeElement,setActiveElement, cusines}) => {
 	const navigate = useNavigate();
 	function clickHandler() {
 		setActiveElement(cusine);
         navigate(`/restaurant/${restaurantName}/order-online/${cusine}`);
 	}
 	useEffect(() => {
-		setActiveElement("irish");
+		setActiveElement(cusines[0]);
 	},[])
 	
 	if (!isloading) {

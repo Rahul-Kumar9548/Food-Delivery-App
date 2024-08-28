@@ -8,11 +8,12 @@ import Restaurants from '../../components/Home/Restaurants/Restaurants';
 import axios from '../../utils/axios'
 import Alert from '../../components/Alert';
 import fetchUser from '../../utils/fetchUser';
+import { setUser, getUser } from '../../redux/slices/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Home = ({ loading }) => {
-	let time;
-	const [user, setUser] = useState({});
+	const user = useSelector((state)=>state.user)
 	const [restaurants, setRestaurants] = useState([]);
 	const [trendingCusinesSection, setTrendingCusinesSection] = useState([]);
 	const [isCusinesLoading, setIsCusinesLoading] = useState(false);
@@ -25,6 +26,7 @@ const Home = ({ loading }) => {
 		info: "",
 		warning: "",
 	});
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		async function getRestaurants() {
@@ -52,19 +54,20 @@ const Home = ({ loading }) => {
 			}
 		}
 		fetchUser().then((res) => {
-			setUser(res);
+			dispatch(setUser(res));
 		});
 		getCusines();
 		getRestaurants();
-	}, [user]);
+	}, []);
 
 	async function addToFavourite(restaurantId) {
 		try {
 			const { data } = await axios.get(
 				`profile/add-favourite/${restaurantId}`
 			);
-			console.log(data);
-			// setFetch((prev)=>prev+1);
+			// console.log(data.user.favourites);
+			let fav = data.user.favourites;
+			dispatch(setUser({ ...user, favourites:[...fav]}));
 			setAlert({ ...alert, success: data.message });
 		} catch (error) {
 			console.log(error);
@@ -78,7 +81,7 @@ const Home = ({ loading }) => {
 			{!loading ? (
 				<div
 					style={{ height: "100rem" }}
-					className="flex border-2 w-full  border-black"
+					className="flex w-full "
 				>
 					<Sidebar user={user} />
 					<div

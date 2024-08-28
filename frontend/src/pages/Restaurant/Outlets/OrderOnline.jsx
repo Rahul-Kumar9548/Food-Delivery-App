@@ -24,6 +24,7 @@ const OrderOnline = () => {
 						isloading={isloading}
 						setActiveElement={setActiveElement}
 						activeElement={activeElement}
+						cusines={cusines}
 					/>
 				))}
 			</div>

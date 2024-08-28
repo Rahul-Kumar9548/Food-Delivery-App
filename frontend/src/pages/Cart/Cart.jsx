@@ -5,14 +5,19 @@ import axios from "../../utils/axios";
 import CartCard from "../../components/Cart/CartCard";
 import { Link } from "react-router-dom";
 import fetchUser from "../../utils/fetchUser";
+import Spinner from "../../components/Spinner/Spinner";
+import { setUser, getUser } from "../../redux/slices/userSlice";
+import { useDispatch ,useSelector } from "react-redux";
 
 
 const Cart = () => {
-	const [user, setUser] = useState({});
+	const user = useSelector((state) => state.user);
     const [totalPrice, setTotalPrice] = useState(0);
     const [cart, setCart] = useState([]);
     const [spinning, setSpinning] = useState("");
     const [spinningDelete, setSpinningDelete] = useState("");
+	const [boxSpinning, setBoxSpinning] = useState(true);
+	const dispatch = useDispatch();
 
 	const [alert, setAlert] = useState({
 		error: "",
@@ -25,15 +30,18 @@ const Cart = () => {
 
 	useEffect(() => {
 		// console.log(cart);
+		setBoxSpinning(false);
 
-		fetchUser().then((res) => setUser(res));
+		// fetchUser().then((res) => {
+		// 	setUser(res)
+		// });
 
         async function getCart() {
             try {
                 const { data } = await axios.get("/cart/view-cart-items");
                 console.log(data);
                 setCart(data.cart);
-                setTotalPrice(data.totalPrice)
+				setTotalPrice(data.totalPrice)
             } catch (error) {
                 console.log(error);
                 setAlert({...alert, error:error})
@@ -49,7 +57,7 @@ const Cart = () => {
         try {
             const { data } = await axios.get(`cart/cart-item-increase/${id}?restaurant_name=${restaurant_name}&category=${category}`);
             console.log(data)
-            setUser({ ...user, cart: data.cart })
+            dispatch(setUser({ ...user, cart: data.cart }))
             setCart(data.cart);
             setTotalPrice(data.totalPrice);
             setSpinning('');
@@ -69,7 +77,7 @@ const Cart = () => {
 				`cart/cart-item-decrease/${id}?restaurant_name=${restaurant_name}&category=${category}`
 			);
 			console.log(data);
-			setUser({ ...user, cart: data.cart });
+			dispatch(setUser({ ...user, cart: data.cart }));
 			setCart(data.cart);
 			setTotalPrice(data.totalPrice);
 			setSpinning("");
@@ -88,7 +96,7 @@ const Cart = () => {
 				`cart/cart-item-delete/${id}?restaurant_name=${restaurant_name}&category=${category}`
 			);
 			console.log(data);
-			setUser({ ...user, cart: data.cart });
+			dispatch(setUser({ ...user, cart: data.cart }));
 			setCart(data.cart);
 			setTotalPrice(data.totalPrice);
 			setSpinningDelete("");
@@ -102,10 +110,13 @@ const Cart = () => {
 
 	return (
 		<>
-			<div className="flex border-2 w-full border-black ">
+			<div className="flex w-full ">
 				<Sidebar user={user} />
 				<div className="w-full bg-slate-300 h-full">
-					<div className="home-container relative overflow-y-auto md:ml-[6rem] rounded-lg m-1 mt-2 bg-white">
+					{boxSpinning ? (
+						<Spinner className="w-12 h-12 absolute top-[300px] left-[50%] z-10" />
+					) :
+						<div className="home-container relative overflow-y-auto md:ml-[6rem] rounded-lg m-1 mt-2 bg-white">
 						<div className="text-center sticky bg-white top-0 p-4 flex justify-center text-[30px] lg:text-[40px] w-full pb-0">
 							<h1 className="w-[80%] flex justify-center items-center gap-2 border-b-2 p-2">
 								Your Cart!{" "}
@@ -159,7 +170,8 @@ const Cart = () => {
 											)
 										)}
 									</div>
-									<div className="bg-white flex mt-[1rem] lg:fixed shadow-3d border-2 top-[8rem] right-[5rem] lg:flex flex-col rounded-xl col-span-2 lg:w-[30%] h-[22rem] space-y-4 p-4">
+											{boxSpinning ? "":
+												<div className="bg-white flex mt-[1rem] lg:fixed shadow-3d border-2 top-[8rem] right-[5rem] lg:flex flex-col rounded-xl col-span-2 lg:w-[30%] h-[22rem] space-y-4 p-4">
 										<h1 className="text-center text-[20px] border-b-2 p-2 text-slate-500 ">
 											Price Details
 										</h1>
@@ -202,7 +214,7 @@ const Cart = () => {
 											Proceed!
 										</button>											
 											</Link>
-									</div>
+									</div>}
 								</div>
 							)}
 						</div>
@@ -211,7 +223,7 @@ const Cart = () => {
 							alert={alert}
 							setAlert={setAlert}
 						/>
-					</div>
+					</div>}
 				</div>
 			</div>
 		</>

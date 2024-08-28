@@ -5,13 +5,17 @@ import axios from '../../../utils/axios';
 import { OutletContext } from "../../../pages/Restaurant/Restaurant";
 import AddToCart from "./AddToCart/AddToCart";
 import Spinner from "../../Spinner/Spinner";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../../redux/slices/userSlice";
 
 
 const FoodCard = ({ foodItem, isloading, restaurant, cusine }) => {
-	const {user, setUser, alert, setAlert } = useContext(OutletContext);
+	const { alert, setAlert } = useContext(OutletContext);
+	const user = useSelector((state) => state.user);
 	const [imageData, setImageData] = useState(null);
 	const [addingCart, setAddingCart] = useState(false);
 	const canvasRef = useRef(null);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (!isloading) {
@@ -35,7 +39,7 @@ const FoodCard = ({ foodItem, isloading, restaurant, cusine }) => {
 		try {
 			console.log(restaurant,cusine,foodItem._id);
 			const { data } = await axios.get(`cart/add-cart/${foodItem._id}?restaurant_name=${restaurant}&category=${cusine}`);
-			setUser({ ...user, cart: data.cart })
+			dispatch(setUser({ ...user, cart: data.cart }));
 			setAlert({ ...alert, success: data.message })
 			setAddingCart(false);
 			console.log(data);

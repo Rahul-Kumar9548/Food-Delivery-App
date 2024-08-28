@@ -9,7 +9,8 @@ const Logout = () => {
 		  <button class="Btn"
 			  onClick={async () => {
 				  try {
-					  const { data } = await axios.get('profile/logout')
+					  const { data } = await axios.get('profile/logout');
+					  localStorage.setItem("user", '');
 					  navigate('/')
 				  } catch (error) {
 					  console.log(error);

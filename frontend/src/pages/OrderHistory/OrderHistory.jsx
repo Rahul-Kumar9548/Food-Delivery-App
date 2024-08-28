@@ -8,15 +8,16 @@ import Spinner from "../../components/Spinner/Spinner";
 import { useNavigate } from "react-router-dom";
 import OrderCard from "../../components/OrderHistory/OrderCard";
 import ViewOrder from "../../components/OrderHistory/ViewOrder";
-import fetchUser from "../../utils/fetchUser";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/slices/userSlice";
 
 const OrderHistory = () => {
 	const [orders, setOrders] = useState([]);
-	const [spinning, setSpinning] = useState("");
+	const [spinning, setSpinning] = useState(true);
 	const [viewOrder, setViewOrder] = useState('');
 	const [selectedOrder, setSelectedOrder] = useState('');
-	const [user, setUser] = useState({});
+	const user = useSelector((state)=>state.user)
+	const dispatch = useDispatch();
 
 	const [alert, setAlert] = useState({
 		error: "",
@@ -28,13 +29,13 @@ const OrderHistory = () => {
 	let fee = 40;
 
 	useEffect(() => {
-		// console.log(cart);
-		fetchUser().then((res) => setUser(res));
+		
 		async function getOrders() {
 			try {
 				const { data } = await axios.get("/profile/order-history");
-				console.log(data);
+				// console.log(data);
 				setOrders(data.orderHistory);
+				setSpinning(false);
 			} catch (error) {
 				console.log(error);
 				setAlert({ ...alert, error: error });
@@ -42,15 +43,18 @@ const OrderHistory = () => {
 		}
 		getOrders();
 
-		console.log(user);
+		// console.log(user);
 	}, []);
 
 	return (
 		<>
-			<div className="flex border-2 w-full border-black ">
+			<div className="flex w-full">
 				<Sidebar user={user} />
 				<div className="w-full bg-slate-300 h-full relative">
-					<div
+					{spinning ? (
+						<Spinner className="w-12 h-12 absolute top-[300px] left-[50%]" />
+					) :
+						<div
 						className={`${
 							viewOrder ? "blur brightness-50" : ""
 						} home-container relative overflow-y-auto md:ml-[6rem] rounded-lg m-1 mt-2 bg-white`}
@@ -94,7 +98,7 @@ const OrderHistory = () => {
 							alert={alert}
 							setAlert={setAlert}
 						/>
-					</div>
+					</div>}
 					{viewOrder ? (
 						<ViewOrder
 							selectedOrder={selectedOrder}

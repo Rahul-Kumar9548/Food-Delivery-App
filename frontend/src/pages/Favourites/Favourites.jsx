@@ -1,18 +1,20 @@
 import React,{useState, useEffect} from 'react'
 import Alert from '../../components/Alert';
-import fetchUser from '../../utils/fetchUser';
 import Sidebar from '../../components/Home/Sidebar/Sidebar';
 import axios from '../../utils/axios';
 import Restaurants from '../../components/Home/Restaurants/Restaurants';
-
+import { setUser, getUser } from "../../redux/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import Spinner from '../../components/Spinner/Spinner';
 
 const Favourites = () => {
-	const [user, setUser] = useState({});
+	const user = useSelector((state) => state.user);
     const [restaurants, setRestaurants] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [favoriteRestaurant, setFavouriteRestaurant] = useState(null);
-    const [onFavourite, setOnFavourite] = useState(true);
-
+	const [onFavourite, setOnFavourite] = useState(true);
+	const [spinning, setSpinning] = useState(true);
+	const dispatch = useDispatch();
 
     const [alert, setAlert] = useState({
 		error: "",
@@ -24,7 +26,7 @@ const Favourites = () => {
 
     useEffect(() => {
         setFavouriteRestaurant(user.favourites)
-        console.log(user);
+        // console.log(user);
 
         async function getRestaurants() {
 			try {
@@ -32,17 +34,16 @@ const Favourites = () => {
 					"restaurant/get-favourites"
 				);
                
-                console.log(data.favourites);
+                // console.log(data.favourites);
 
-                setRestaurants(data.favourites);
+				setRestaurants(data.favourites);
+				setSpinning(false);
                 setIsLoading(true);
-				// console.log(favRestaurants);
 			} catch (error) {
 				console.log(error);
 			}
         }
 		getRestaurants();
-		fetchUser().then((res) => setUser(res));
     }, []);
 
     async function deleteBtnHandler(restaurantId) {
@@ -51,10 +52,9 @@ const Favourites = () => {
 				`profile/delete-favourite/${restaurantId}`
             );
             const { data } = await axios.get("restaurant/get-favourites");
-			fetchUser().then((res) => setUser(res));
-			console.log(data.favourites);
-			// setFetch((prev)=>prev+1);
-
+			let fav = data.favourites;
+			dispatch(setUser({ ...user, favourites: [...fav] }));
+			// console.log(data.favourites);
 			setRestaurants(data.favourites);
 			setIsLoading(true);
         setAlert({...alert, success:"Restaurant removed Successfully!"})
@@ -65,7 +65,7 @@ const Favourites = () => {
     }
   return (
 		<>
-			<div className="flex border-2 w-full border-black ">
+			<div className="flex  w-full">
 				<Sidebar user={user} />
 				<div className="w-full bg-slate-300 h-full">
 					<div className="home-container p-4 relative overflow-y-auto md:ml-[6rem] rounded-lg m-1 mt-2">
@@ -77,20 +77,26 @@ const Favourites = () => {
 								alt=""
 							/>
 						</h1>
-						<div>
-							{restaurants.length === 0 ? (
-								<div className="text-[30px] text-slate-300 mt-[20%] text-center">
-									Empty
-								</div>
-							) : (
-								<Restaurants
-									restaurants={restaurants}
-									isLoading={setIsLoading}
-									onFavourite={onFavourite}
-									deleteBtnHandler={deleteBtnHandler}
-								/>
-							)}
-						</div>
+						{spinning ? (
+							<Spinner className="w-12 h-12 absolute top-[300px] left-[50%] z-10" />
+						) : (
+							<div>
+								{restaurants.length === 0 ? (
+									<div className="text-[30px] text-slate-300 mt-[20%] text-center">
+										Empty
+									</div>
+								) : (
+									<Restaurants
+										restaurants={restaurants}
+										isLoading={setIsLoading}
+										onFavourite={onFavourite}
+										deleteBtnHandler={
+											deleteBtnHandler
+										}
+									/>
+								)}
+							</div>
+						)}
 						<Alert
 							className="fixed top-4 lg:top-[90%] lg:row-[30%] lg:left-[70%] "
 							alert={alert}

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import loginCover from "../../assets/images/login.jpeg";
 import axios from "../../utils/axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/slices/userSlice";
 import MissFieldLogo from "../../components/Login&Signup/MissFieldLogo/MissFieldLogo";
 import InlineAlert from "../../components/Login&Signup/InlineAlert/InlineAlert";
@@ -32,6 +32,8 @@ const Login = () => {
 		warning: "",
 	});
 	const navigate = useNavigate();
+	const user = useSelector((state) => state.user);
+
 
 	async function handleSubmit(e) {
 		setSendingLogin(true);
@@ -61,7 +63,9 @@ const Login = () => {
 				// console.log(data.user);
 				setAlert({ ...alert, success: "Login Successful!!!" });
 				dispatch(setUser(data.user));
-				localStorage.setItem("user", JSON.stringify(data.user));
+				console.log(" data At Login ", data.user);
+				console.log("At Login ",user)
+				localStorage.setItem("user", JSON.stringify(user));
 				setSendingLogin(false);
 				navigate("/home");
 			}

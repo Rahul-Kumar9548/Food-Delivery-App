@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import "./Sidebar.css";
 import { Link } from "react-router-dom";
 import homeIcon from '../../../assets/images/Home24x24.svg'
@@ -8,10 +8,17 @@ import profileIcon from '../../../assets/images/profile.png'
 import heartIcon from "../../../assets/images/heart-60.png";
 import heartIcon1 from "../../../assets/images/icons8-favorite-24.png";
 import Logout from "../Logout/Logout";
+import { setUser } from "../../../redux/slices/userSlice"
+import { useDispatch } from 'react-redux';
+import fetchUser from '../../../utils/fetchUser';
 
-
-const Sidebar = ({user}) => {
-    
+const Sidebar = ({ user }) => {
+	const dispatch = useDispatch();
+	useEffect(() => {
+		if (!user.isLoggedIn) {
+			fetchUser().then((res)=>dispatch(setUser(res)))
+		}
+	},[])
 	return (
 		<>
 			<div className=" hidden md:block">

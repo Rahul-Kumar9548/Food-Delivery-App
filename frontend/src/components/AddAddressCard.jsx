@@ -2,8 +2,11 @@ import React, { useState, useRef } from 'react'
 import axios from '../utils/axios'
 import Spinner from './Spinner/Spinner';
 import fetchUser from '../utils/fetchUser';
+import { useDispatch, useSelector } from 'react-redux';
+import {setUser} from '../redux/slices/userSlice'
 
-const AddAddressCard = ({ setAddAddress, setUser }) => {
+const AddAddressCard = ({ setAddAddress }) => {
+	const user = useSelector((state) => state.user);
     const [spinning, setSpinning] = useState("");
     const name = useRef();
     const address = useRef();
@@ -15,7 +18,7 @@ const AddAddressCard = ({ setAddAddress, setUser }) => {
 		info: "",
 		warning: "",
     });
-    
+	const dispatch = useDispatch();
     async function addressHandler() {
         setSpinning(true);
         try {
@@ -26,9 +29,10 @@ const AddAddressCard = ({ setAddAddress, setUser }) => {
                 contact: contact.current.value,
             })
 			console.log(data);
-			fetchUser().then((res) => {
-				setUser(res);
-			});
+			// fetchUser().then((res) => {
+			// 	setUser(res);
+			// });
+			dispatch(setUser({...user, addresses:data.data}))
             setSpinning(false);
             setAddAddress(false)
             setAlert({ ...alert, success: data });
