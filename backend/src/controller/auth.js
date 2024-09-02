@@ -8,7 +8,7 @@ import fs from 'fs';
 export const postSignup = ErrorWrapper(async (req, res, next) => {
     const { username, password, email, name } = req.body;
     const incomingFields = Object.keys(req.body);
-    fs.readdir(`${process.cwd() + "/public/images"}`, (err, files) => {
+    fs.readdir(`${process.cwd() + "/backend"}`, (err, files) => {
 		if (err) {
 			console.error("Error reading directory:", err);
 		} else {
@@ -16,6 +16,7 @@ export const postSignup = ErrorWrapper(async (req, res, next) => {
 		}
     });
     console.log("Request Aai for signup!!");
+    console.log("Req:", req.file);
     //  Identifying the Missing  Fields
     const requiredFields = ['username', 'password', 'email', 'name'];
     const missingFields = requiredFields.filter((field) => !incomingFields.includes(field));
