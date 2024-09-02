@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		cb(null, `${process.cwd() + "/public/images"}`);
+		cb(null, `${process.cwd() + "/backend/public/images"}`);
 	},
 	filename: function (req, file, cb) {
 		const uniqueSuffix =
@@ -11,7 +11,8 @@ const storage = multer.diskStorage({
         const ext = path.extname(file.originalname);
 		cb(null, file.fieldname + "-" + uniqueSuffix+ext);
 		console.log('Image Received in Multer!');
-		fs.readdir(process.cwd(), (err, files) => {
+		console.log("Current Dir:", process.cwd());
+		fs.readdir(`${process.cwd()+"/backend"}`, (err, files) => {
 			if (err) {
 				console.error("Error reading directory:", err);
 			} else {
