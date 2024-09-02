@@ -9,7 +9,7 @@ export const postSignup = ErrorWrapper(async (req, res, next) => {
     const { username, password, email, name } = req.body;
     const incomingFields = Object.keys(req.body);
     console.log("Request Aai for signup!!");
-    console.log("Req:", req);
+    console.log("Req:", req.files.image);
     console.log('Req Body:', req.body);
     //  Identifying the Missing  Fields
     const requiredFields = ['username', 'password', 'email', 'name'];
@@ -33,7 +33,7 @@ export const postSignup = ErrorWrapper(async (req, res, next) => {
     //  Uploading Image to cloudinary and getting url to save in DB
     let cloudinaryResponse;
     try {
-        cloudinaryResponse = await uploadOnCloudinary(req.file.path);
+        cloudinaryResponse = await uploadOnCloudinary(req.files.image.tempFilePath);
     } catch (error) {
         throw new ErrorHandler(500, `Error while uploading image ${error.message}`);
     }

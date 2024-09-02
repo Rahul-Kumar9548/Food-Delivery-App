@@ -8,6 +8,7 @@ import restaurantRouter from './src/routes/restaurant.js'
 import cartRouter from './src/routes/cart.js'
 import userRouter from  './src/routes/user.js'
 import { verifyjwt } from "./src/middleware/verifyJWT.js";
+import fileUpload from "express-fileupload";
 
 const app = express();
 
@@ -17,8 +18,15 @@ app.use(cors({
 	],
     credentials: true
 }))
-app.use(bodyParser.json({ limit: "4kb" }));
-app.use(bodyParser.urlencoded({ extended: true, limit: "4kb" }));
+app.use(
+	fileUpload({
+		limits: { fileSize: 50 * 1024 * 1024 },
+		useTempFiles: true,
+		tempFileDir: "/tmp/",
+	})
+);
+app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.static( 'public')); // To store the information that
 app.use(cookieParser());
 
