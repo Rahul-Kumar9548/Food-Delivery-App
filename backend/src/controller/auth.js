@@ -9,7 +9,8 @@ export const postSignup = ErrorWrapper(async (req, res, next) => {
     const { username, password, email, name } = req.body;
     const incomingFields = Object.keys(req.body);
     console.log("Request Aai for signup!!");
-    console.log("Req:", req.file);
+    console.log("Req:", req);
+    console.log('Req Body:', req.body);
     //  Identifying the Missing  Fields
     const requiredFields = ['username', 'password', 'email', 'name'];
     const missingFields = requiredFields.filter((field) => !incomingFields.includes(field));
