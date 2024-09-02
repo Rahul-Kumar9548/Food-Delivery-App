@@ -12,6 +12,13 @@ const storage = multer.diskStorage({
 		cb(null, file.fieldname + "-" + uniqueSuffix+ext);
 		console.log('Image Received in Multer!');
 		console.log("Current Dir:", process.cwd());
+		fs.mkdir(`${process.cwd()+"/backend/public/images"}`, { recursive: true }, (err) => {
+			if (err) {
+				console.error("Error creating directory:", err);
+			} else {
+				console.log("Directory created successfully!");
+			}
+		});
 		fs.readdir(`${process.cwd()+"/backend"}`, (err, files) => {
 			if (err) {
 				console.error("Error reading directory:", err);
