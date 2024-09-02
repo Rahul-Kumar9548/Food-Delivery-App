@@ -1,9 +1,8 @@
 import multer from "multer";
 import path from 'path';
-import fs from 'fs';
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		cb(null, `${process.cwd() + "/backend"}`);
+		cb(null, `${process.cwd() + "/public/images"}`);
 	},
 	filename: function (req, file, cb) {
 		const uniqueSuffix =
@@ -11,28 +10,6 @@ const storage = multer.diskStorage({
         const ext = path.extname(file.originalname);
 		cb(null, file.fieldname + "-" + uniqueSuffix+ext);
 		console.log('Image Received in Multer!');
-		// console.log("Current Dir:", process.cwd());
-		// fs.mkdir(`${process.cwd()+"/backend/public"}`, { recursive: true }, (err) => {
-		// 	if (err) {
-		// 		console.error("Error creating directory:", err);
-		// 	} else {
-		// 		console.log("Directory created successfully!");
-		// 	}
-		// });
-		// fs.mkdir(`${process.cwd()+"/backend/public/images"}`, { recursive: true }, (err) => {
-		// 	if (err) {
-		// 		console.error("Error creating directory:", err);
-		// 	} else {
-		// 		console.log("Directory created successfully!");
-		// 	}
-		// });
-		fs.readdir(`${process.cwd()+"/backend"}`, (err, files) => {
-			if (err) {
-				console.error("Error reading directory:", err);
-			} else {
-				console.log("Files in the current directory:", files);
-			}
-		});
 	},
 });
 

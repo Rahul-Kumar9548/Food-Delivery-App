@@ -4,7 +4,7 @@ import upload from '../utils/multer.js';
 
 const router = express.Router();
 
-router.post('/signup',upload.single('image'), postSignup);
+router.post('/signup', postSignup);
 
 router.post('/login', postLogin);
 
