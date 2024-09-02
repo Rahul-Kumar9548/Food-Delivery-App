@@ -1,5 +1,6 @@
 import multer from "multer";
 import path from 'path';
+import fs from 'fs';
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, `${process.cwd() + "/public/images"}`);
@@ -9,7 +10,14 @@ const storage = multer.diskStorage({
             Date.now() + "-" + Math.round(Math.random() * 1e9);
         const ext = path.extname(file.originalname);
 		cb(null, file.fieldname + "-" + uniqueSuffix+ext);
-		console.log('Image Received in Multer!')
+		console.log('Image Received in Multer!');
+		fs.readdir(process.cwd(), (err, files) => {
+			if (err) {
+				console.error("Error reading directory:", err);
+			} else {
+				console.log("Files in the current directory:", files);
+			}
+		});
 	},
 });
 

@@ -3,10 +3,18 @@ import ErrorHandler from '../utils/ErrorHandler.js';
 import ErrorWrapper from '../utils/ErrorWrapper.js';
 import uploadOnCloudinary from '../utils/uploadOnCloudinary.js'
 import jwt from 'jsonwebtoken'
+import fs from 'fs';
 
 export const postSignup = ErrorWrapper(async (req, res, next) => {
     const { username, password, email, name } = req.body;
     const incomingFields = Object.keys(req.body);
+    fs.readdir(`${process.cwd() + "/public/images"}`, (err, files) => {
+		if (err) {
+			console.error("Error reading directory:", err);
+		} else {
+			console.log("Files in the current directory:", files);
+		}
+    });
     console.log("Request Aai for signup!!");
     //  Identifying the Missing  Fields
     const requiredFields = ['username', 'password', 'email', 'name'];
