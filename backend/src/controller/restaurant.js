@@ -1,3 +1,4 @@
+import { request } from "express";
 import Restaurant from "../models/restaurant.js";
 import ErrorHandler from '../utils/ErrorHandler.js';
 import ErrorWrapper from '../utils/ErrorWrapper.js';
@@ -519,22 +520,29 @@ export const postAddReview = ErrorWrapper(async (req, res, next) => {
     // console.log(restaurant_name, message, rating);
     try {
         let restaurant = await Restaurant.findOne({name: restaurant_name});
-
+        
         if(!restaurant) throw new ErrorHandler(404, "Restaurant not found");
-
+        
+        // console.log(restaurant);
         if (userId.toString() === restaurant.ownerId.toString()) throw new ErrorHandler(400, "You are not authorized to review own restaurant!");
         
         if (Number(rating) < 1 || Number(rating) > 5) throw new ErrorHandler(400, "Please give Valid Rating!");
 
         if (!message) throw new ErrorHandler(400, 'Please provide review!!!');
 
-        let cloudinaryResponse = await uploadBatchOnCloudinary(req.files);
+        let imageUrls;
+        if (req.files) {
+            let cloudinaryResponse = await uploadBatchOnCloudinary(req.files);
+    
+            imageUrls = cloudinaryResponse.map((res) => {
+                return {
+                    url: res.url
+                }
+            })            
+        } else {
+            imageUrls = [];
+        }
 
-        let imageUrls = cloudinaryResponse.map((res) => {
-            return {
-                url: res.url
-            }
-        })
         
         const review = {
             username: name,

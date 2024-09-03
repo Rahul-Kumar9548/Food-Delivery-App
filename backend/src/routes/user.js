@@ -17,7 +17,7 @@ import {
 const router = express.Router();
 
 router.get("/get-profile", getProfile);
-router.post('/update-details', upload.single('image'), postUpdateDetails);
+router.post('/update-details', postUpdateDetails);
 router.post('/add-address', postAddAddress);
 router.post('/update-address/:id', postUpdateAddress);
 router.get('/delete-address/:id', getDeleteAddress);

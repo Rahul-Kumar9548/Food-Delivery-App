@@ -30,8 +30,8 @@ export const postUpdateDetails = ErrorWrapper(async (req, res, next) => {
         if (password) user.password = password;
         
         let cloudinaryResponse 
-        if (req.file) {
-            cloudinaryResponse = await uploadOnCloudinary(req.file.path)
+        if (req.files.image) {
+            cloudinaryResponse = await uploadOnCloudinary(req.files.image.tempFilePath)
             user.image = cloudinaryResponse.url;
         }
 

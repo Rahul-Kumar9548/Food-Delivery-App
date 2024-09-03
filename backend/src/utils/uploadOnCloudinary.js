@@ -8,7 +8,7 @@ cloudinary.config({
 });
 
 const uploadOnCloudinary = async (filePath) => {
-    console.log("FilePath", filePath)
+    // console.log("FilePath", filePath)
     try {
         if (!filePath) return null;
         
@@ -16,11 +16,11 @@ const uploadOnCloudinary = async (filePath) => {
         const response = await cloudinary.uploader.upload(filePath);
         
         console.log("File is uploaded on cloudinary", response.url);
-        fs.unlinkSync(filePath);
+        // fs.unlinkSync(filePath);
         return response;
     }
     catch (error) {
-        fs.unlinkSync(filePath);
+        // fs.unlinkSync(filePath);
         console.error("Error uploading file on cloudinary", err);
         return error;
     }
@@ -29,10 +29,11 @@ const uploadOnCloudinary = async (filePath) => {
 
 async function uploadBatchOnCloudinary(images) {
     try {
+        if (!images) return null;
         console.log("Uploading batch of images to cloudinary...");
-
-        const promises = images.map(async (image) => {
-            const response = await cloudinary.uploader.upload(image.path);
+        // console.log(images.images);
+        const promises = images.images.map(async (image) => {
+            const response = await cloudinary.uploader.upload(image.tempFilePath);
             return response;
         })
 
@@ -40,11 +41,8 @@ async function uploadBatchOnCloudinary(images) {
 
         console.log("Batch of images uploaded on cloudinary");
 
-        images.map((image) => fs.unlinkSync(image.path));
-
         return results;
     } catch (error) {
-        images.map((image) => fs.unlinkSync(image.path));
         throw new ErrorHandler(500, "Error uploading batch of images on cloudinary", error);
     }
 }

@@ -39,7 +39,7 @@ router.get("/get-all-cusines", getAllCusines);
 router.post("/add-food-images/:id", upload.array('images', 6), postAddFoodImages);
 
 //Add review
-router.post('/add-review', upload.array('images', 12), postAddReview);
+router.post('/add-review', postAddReview);
 router.post("/update-review/:id", postUpdateReview);
 router.get('/delete-review/:id', getDeleteReview)
 router.get("/get-all-reviews", getAllReviews);
