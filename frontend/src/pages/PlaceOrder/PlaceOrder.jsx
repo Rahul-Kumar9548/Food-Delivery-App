@@ -26,7 +26,7 @@ const PlaceOrder = () => {
 		info: "",
 		warning: "",
 	});
-	let discount = 650;
+	let discount = 100;
 	let fee = 40;
 
 	useEffect(() => {
@@ -46,15 +46,73 @@ const PlaceOrder = () => {
 		// console.log(user.addresses)
 	}, []);
 
+	const totalAmount = totalPrice - discount + fee;
+	const currency = 'INR';
+	const receiptId = 'qndwjdsxi';
+	async function paymentHandler() {
+		const paymentDetails = {
+			amount: totalAmount*100,
+			currency,
+			receipt:receiptId,
+		};
+		
+		try {
+			const {data} = await axios.post(`/payment/order`, paymentDetails);
+			console.log(data);
+			var options = {
+				key: "rzp_test_qOHlp9C5HlpuB7", // Enter the Key ID generated from the Dashboard
+				amount: totalAmount * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+				currency: "INR",
+				name: "Gourmet Hub", //your business name
+				description: "Test Transaction",
+				image: "https://example.com/your_logo",
+				order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+				// callback_url: "https://eneqd3r9zrjok.x.pipedream.net/",
+				handler: async function (response) {
+					const body = { ...response,};
+					console.log(body);
+					const {data} = await axios.post(`/payment/order/validate`, body);
+					console.log(data);
+					dispatch(setUser({...user, cart:[]}))
+					setAlert({ ...alert, success: data.message });
+					navigate('/orders')
+				},
+				prefill: {
+					//We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+					name: user.name, //your customer's name
+					email: user.email,
+					contact: "9000090000", //Provide the customer's phone number for better conversion rates
+				},
+				notes: {
+					address: "Razorpay Corporate Office",
+				},
+				theme: {
+					color: "#f97316",
+				},
+			};
+			var rzp1 = new window.Razorpay(options);
+			rzp1.on("payment.failed", function (response) {
+				console.log(response);
+				alert(response.error.code);
+				alert(response.error.description);
+			});
+			rzp1.open();
+			e.preventDefault();
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	async function placeOrderHandler() {
 		setSpinning(true);
 		try {
 			const { data } = await axios.get(`/profile/place-order/?addressId=${select}`);
 			console.log(data);
-			dispatch(setUser({...user, cart:[]}))
-			setAlert({ ...alert, success: data.message });
+			await paymentHandler();
+			// dispatch(setUser({...user, cart:[]}))
+			// setAlert({ ...alert, success: data.message });
+			// navigate('/orders')
 			setSpinning(false);
-			navigate('/orders')
 
 		}	catch(error){
 			console.log(error);
@@ -154,7 +212,7 @@ const PlaceOrder = () => {
 											<span>
 												₹{" "}
 												{totalPrice +
-													discount +
+													-discount +
 													fee}
 											</span>
 										</p>

@@ -25,7 +25,7 @@ const Cart = () => {
 		info: "",
 		warning: "",
     });
-    let discount = 650;
+    let discount = 100;
     let fee = 40;
 
 	useEffect(() => {
@@ -204,7 +204,7 @@ const Cart = () => {
 											Total Amount
 											<span>
 												₹{" "}
-												{totalPrice +
+												{totalPrice -
 													discount +
 													fee}
 											</span>

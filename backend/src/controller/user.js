@@ -21,7 +21,6 @@ export const getProfile = ErrorWrapper(async (req, res, next) => {
 
 export const postUpdateDetails = ErrorWrapper(async (req, res, next) => {
     const { name, username, email, password } = req.body;
-
     try {
         const user = await User.findOne({ _id: req.user._id });
         if (name) user.name = name;
@@ -30,7 +29,7 @@ export const postUpdateDetails = ErrorWrapper(async (req, res, next) => {
         if (password) user.password = password;
         
         let cloudinaryResponse 
-        if (req.files.image) {
+        if (req.files) {
             cloudinaryResponse = await uploadOnCloudinary(req.files.image.tempFilePath)
             user.image = cloudinaryResponse.url;
         }

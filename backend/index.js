@@ -9,6 +9,7 @@ import cartRouter from './src/routes/cart.js'
 import userRouter from  './src/routes/user.js'
 import { verifyjwt } from "./src/middleware/verifyJWT.js";
 import fileUpload from "express-fileupload";
+import paymentRouter from './src/routes/payment.js'
 
 const app = express();
 
@@ -34,7 +35,8 @@ app.use(cookieParser());
 app.use('/', authRouter);
 app.use("/cart", verifyjwt, cartRouter);
 app.use("/restaurant", verifyjwt, restaurantRouter);
-app.use('/profile',verifyjwt,userRouter)
+app.use('/profile', verifyjwt, userRouter)
+app.use('/payment', verifyjwt, paymentRouter)
 
 mongoose
 	.connect(process.env.ATLASDB_PATH + process.env.DB_NAME)

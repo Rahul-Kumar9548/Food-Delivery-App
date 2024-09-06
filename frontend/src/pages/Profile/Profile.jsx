@@ -17,6 +17,7 @@ const Profile = () => {
 	const [select, setSelect] = useState('');
 	const [addNewAddress, setAddNewAddress] = useState(false);
 	const [spinning, setSpinning] = useState('');
+	const [saving, setSaving] = useState(false);
 	const [boxSpinning, setBoxSpinning] = useState(true);
 	const dispatch = useDispatch();
 
@@ -38,7 +39,8 @@ const Profile = () => {
 		console.log(user);
 	}, []);
 
-	async function updateUser () {
+	async function updateUser() {
+		setSaving(true);
 		console.log(
 			userRef.current.value.trim(),
 			contactRef.current.value.trim(),
@@ -64,12 +66,14 @@ const Profile = () => {
 				}
 			);
 			// console.log(data);
-			dispatch(setUser({...user, ...data.data}))
+			dispatch(setUser({ ...user, ...data.data }))
+			setSaving(false);
 			setIsEdit(false);
 			setAlert({alert, success: "Profile Updated Successfully!" });
 
 		} catch (error) {
 			console.log(error);
+			setSaving(false);
 			setIsEdit(false);
 			setAlert({alert, error:"Error On Updating Profile!"})
 		}
@@ -257,14 +261,16 @@ const Profile = () => {
 										<div className="flex flex-row-reverse">
 											{isEdit && (
 												<div className="flex gap-2">
-													<button
+													{saving ? (
+														<Spinner className='w-12 h-12' />
+													) : <button
 														className="cursor-pointer transition-all bg-green-500 text-white px-6 py-2 rounded-lg border-green-600 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
 														onClick={
 															updateUser
 														}
 													>
 														Save
-													</button>
+													</button>}
 													<button
 														className="cursor-pointer transition-all bg-red-500 text-white px-6 py-2 rounded-lg border-red-600 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
 														onClick={() =>

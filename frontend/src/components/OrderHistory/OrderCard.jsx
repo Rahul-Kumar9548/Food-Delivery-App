@@ -5,7 +5,7 @@ const OrderCard = ({ order, setViewOrder, setSelectedOrder }) => {
     const [orderDate, setOrderDate] = useState(null);
     useEffect(() => {
         let formattedDate = formatDateTime(date);
-        console.log(formattedDate);
+        // console.log(formattedDate);
         formattedDate = formattedDate.split(",").splice(1, 1).join(",")
         setOrderDate(formattedDate)
 	}, [order])
@@ -32,7 +32,7 @@ const OrderCard = ({ order, setViewOrder, setSelectedOrder }) => {
 						.join(", ")}
 				</p>
 				<p className="text-xs lg:text-lg font-semibold">
-					Total Price: ₹{order.totalPrice}
+					Total Price: ₹{order.totalPrice -100 +40}
 				</p>
 			</div>
 			<div className="flex items-center justify-center">

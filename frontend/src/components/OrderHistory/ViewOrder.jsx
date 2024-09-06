@@ -8,15 +8,18 @@ const ViewOrder = ({ setViewOrder, orders ,selectedOrder }) => {
 	const [address, setAddress] = useState();
 	const [items, setItems] = useState([]);
 	const [orderId, setOrderId] = useState(null);
+	const [payment, setPayment] = useState({});
 	useEffect(() => {
 		let order = orders.filter((order)=>selectedOrder === order._id)
-		console.log(order)
+		// console.log(order)
 		setOrderId(order[0]._id)
 		setTotalPrice(order[0].totalPrice)
 		setAddress(order[0].address)
 		setItems(order[0].items)
-		console.log(items[0])
-		// console.log(totalPrice)
+		setPayment(order[0].paymentDetails)
+		// console.log(payment)
+		// console.log(items[0])
+		console.log(totalPrice)
 		// console.log(address)
 
 	},[])
@@ -35,8 +38,12 @@ const ViewOrder = ({ setViewOrder, orders ,selectedOrder }) => {
 				</div>
 				<div className="p-4 space-y-2">
 					<p className="space-x-2 ">
-						<span className="font-bold text-sm ">Order Id:</span>
-						<span className="text-sm">{orderId}</span>
+						<span className="font-bold text-sm ">
+							Order Id:
+						</span>
+						<span className="text-sm">
+							{payment?.orderId ?? 'order_Otr7rVBDooAOPp'}
+						</span>
 					</p>
 					<span>Items Ordered:</span>
 					{items?.map((item, index) => (
@@ -61,6 +68,31 @@ const ViewOrder = ({ setViewOrder, orders ,selectedOrder }) => {
 					<p className="space-x-2 ">
 						<span className="font-bold">Contact:</span>
 						<span className="">{address?.contact}</span>
+					</p>
+				</div>
+				<div className="p-4 space-y-1 capitalize">
+					<span>Payment Details:</span>
+					<p className="space-x-2 ">
+						<span className="font-bold">Payment Id:</span>
+						<span className="">{payment?.paymentId ?? 'pay_Otr80oTV0SbZpv'}</span>
+					</p>
+					<p className="space-x-2 ">
+						<span className="font-bold">Total Price:</span>
+						<span className="">₹{totalPrice}</span>
+					</p>
+					<p className="space-x-2 ">
+						<span className="font-bold">Discount:</span>
+						<span className=" text-red-600">₹{100}</span>
+					</p>
+					<p className="space-x-2 ">
+						<span className="font-bold">Fee:</span>
+						<span className="">₹{40}</span>
+					</p>
+					<p className="space-x-2 ">
+						<span className="font-bold">
+							Total Amount Paid:
+						</span>
+						<span className="">₹{totalPrice - 100 + 40}</span>
 					</p>
 				</div>
 			</div>

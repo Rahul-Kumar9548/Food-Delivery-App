@@ -89,6 +89,7 @@ const userSchema = new Schema(
 				],
 				address: Object,
 				totalPrice: Number,
+				paymentDetails: Object,
 			},
 		],
 		password: {

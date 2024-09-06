@@ -25,7 +25,7 @@ const OrderHistory = () => {
 		info: "",
 		warning: "",
 	});
-	let discount = 650;
+	let discount = 100;
 	let fee = 40;
 
 	useEffect(() => {
