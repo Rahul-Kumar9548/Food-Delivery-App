@@ -97,7 +97,6 @@ const PlaceOrder = () => {
 				alert(response.error.description);
 			});
 			rzp1.open();
-			e.preventDefault();
 		} catch (error) {
 			console.log(error);
 		}

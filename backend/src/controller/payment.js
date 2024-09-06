@@ -18,7 +18,8 @@ export const postOrder = ErrorWrapper(async (req, res, next) => {
         
         res.status(200).json(order);        
     } catch (error) {
-        throw new ErrorHandler(error.statusCode || 500, error.message);
+        console.log(error);
+        throw new ErrorHandler(550, "Error while order!");
     }
 })
 
