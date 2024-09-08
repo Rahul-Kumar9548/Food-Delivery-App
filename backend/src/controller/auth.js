@@ -2,11 +2,12 @@ import User from '../models/user.js';
 import ErrorHandler from '../utils/ErrorHandler.js';
 import ErrorWrapper from '../utils/ErrorWrapper.js';
 import uploadOnCloudinary from '../utils/uploadOnCloudinary.js'
-import jwt from 'jsonwebtoken'
-import fs from 'fs';
+import { AvatarGenerator } from "random-avatar-generator";
 
 export const postSignup = ErrorWrapper(async (req, res, next) => {
     const { username, password, email, name } = req.body;
+    const generator = new AvatarGenerator();
+
     const incomingFields = Object.keys(req.body);
     // console.log("Request Aai for signup!!");
     // console.log("Req:", req.files.image);
@@ -40,9 +41,12 @@ export const postSignup = ErrorWrapper(async (req, res, next) => {
             throw new ErrorHandler(500, `Error while uploading image ${error.message}`);
         }
     } else {
-        cloudinaryResponse = {
-			secure_url:
-				"https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?size=626&ext=jpg&ga=GA1.1.1904701586.1718434716&semt=ais_hybrid",
+        // Simply get a random avatar
+        
+        let avatar = generator.generateRandomAvatar();
+        console.log(avatar);
+		cloudinaryResponse = {
+			secure_url:avatar
 		};
     }
 
