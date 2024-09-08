@@ -33,55 +33,41 @@ const OrderOnline = () => {
   }, [menuRef]);
 
   return (
-		<div className="h-fit grid grid-cols-2 lg:grid-cols-4 bg-white relative">
+		<div className="h-fit grid grid-cols-2 md:grid-cols-4 bg-white relative">
 			{/* Hamburger Menu Button */}
-			<button
-				className="md:hidden fixed z-50 bg-orange-500  top-[85%] left-[2rem] block p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-				onClick={toggleMenu}
-			>
-				{/* Hamburger Icon (you can customize this) */}
-				{/* <svg
-					className="h-6 w-6"
-					fill="none"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-					strokeWidth="2"
-					viewBox="0 0 24 24"
-					stroke="white"
+			<div className="w-fit overflow-auto h-[350px]  fixed bottom-[70px] z-50 left-[25px] flex flex-col-reverse">
+				<button
+					className=" w-fit md:hidden z-50 bg-orange-500 block p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+					onClick={toggleMenu}
 				>
-					<path d="M4 6h16M4 12h16M4 18h16"></path>
-				</svg> */}
-				<img
-					src={cusineIcon}
-					className="h-9 w-9"
-					alt=""
-				/>
-			</button>
-
-			{/* Menu Container (hidden on larger screens) */}
-			<div
-				ref={menuRef}
-				className={`md:hidden h-fit p-5 text-slate-900 fixed top-[50%] left-0 bg-white shadow-md rounded-md z-10 transition-all duration-300 ${
-					isMenuOpen
-						? "opacity-100 visible"
-						: "opacity-0 invisible"
-				}`}
-			>
-				{cusines.map((cusine, index) => (
-					<CusineBtn
-						key={index}
-						restaurantName={restaurant.name}
-						cusine={cusines[index]}
-						isloading={isloading}
-						setActiveElement={setActiveElement}
-						activeElement={activeElement}
-						cusines={cusines}
-					/>
-				))}
+					<img src={cusineIcon} className="h-9 w-9" alt="" />
+				</button>
+				{/* Menu Container (hidden on larger screens) */}
+				<div
+					ref={menuRef}
+					className={`md:hidden border-2 h-fit p-5 text-slate-900 bg-white shadow-md rounded-md z-10 transition-all duration-300 ${
+						isMenuOpen
+							? "opacity-100 visible"
+							: "opacity-0 invisible"
+					}`}
+				>
+					{cusines.map((cusine, index) => (
+						<CusineBtn
+							key={index}
+							restaurantName={restaurant.name}
+							cusine={cusines[index]}
+							isloading={isloading}
+							setActiveElement={setActiveElement}
+							activeElement={activeElement}
+							cusines={cusines}
+							toggleMenu={toggleMenu}
+						/>
+					))}
+				</div>
 			</div>
 
 			{/* Cusine Buttons (visible on larger screens) */}
-			<div className="hidden lg:block h-fit text-slate-900 sticky top-[140px] lg:top-[160px]">
+			<div className="hidden md:block h-fit text-slate-900 sticky top-[140px] lg:top-[160px]">
 				{cusines.map((cusine, index) => (
 					<CusineBtn
 						key={index}

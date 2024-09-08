@@ -51,7 +51,7 @@ const FoodCard = ({ foodItem, isloading, restaurant, cusine }) => {
 	
   return (
 		<>
-			<div className="bg-white p-2 flex w-fit gap-2 h-fit lg:gap-4 lg:w-[60%] lg:h-[10rem] rounded-lg shadow-nice pb-1 hover:scale-110 transition-all duration-300 ">
+			<div className="bg-white p-2 flex w-fit gap-2 h-fit lg:gap-4 lg:w-[60%] lg:h-[10rem] rounded-lg shadow-nice pb-1 hover:scale-90 md:hover:scale-110 transition-all duration-300 ">
 				<div className="w-[100px] h-[90px] lg:w-[160px] lg:h-[120px] rounded-lg overflow-hidden">
 					<img
 						className="w-full h-full object-cover object-center"
