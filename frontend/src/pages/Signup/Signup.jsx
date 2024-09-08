@@ -42,14 +42,7 @@ const Signup = () => {
 		const username = usernameRef.current.value.trim();
 		const email = emailRef.current.value.trim();
 		const password = passwordRef.current.value.trim();
-
-		let formData = new FormData();
-		formData.append("name", name);
-		formData.append("username", username);
-		formData.append("email", email);
-		formData.append("password", password);
-		formData.append("image", imageRef.current.files[0]);
-
+		
 		if (!name) setCheckName(true);
 		if (name) setCheckName(false);
 
@@ -62,14 +55,22 @@ const Signup = () => {
 		if (!password) setCheckPassword(true);
 		if (password) setCheckPassword(false);
 		setUserExist(false);
+		
+		let formData = new FormData();
+		formData.append("name", name);
+		formData.append("username", username);
+		formData.append("email", email);
+		formData.append("password", password);
+		if (imageRef.current.files[0])
+			formData.append("image", imageRef.current.files[0]);
+
 
 		try {
 			if (
 				name &&
 				username &&
 				email &&
-				password &&
-				imageRef.current.files[0]
+				password
 			) {
 				const { data } = await axios.post("signup", formData, {
 					headers: {

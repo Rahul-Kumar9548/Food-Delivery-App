@@ -32,10 +32,18 @@ export const postSignup = ErrorWrapper(async (req, res, next) => {
     
     //  Uploading Image to cloudinary and getting url to save in DB
     let cloudinaryResponse;
-    try {
-        cloudinaryResponse = await uploadOnCloudinary(req.files.image.tempFilePath);
-    } catch (error) {
-        throw new ErrorHandler(500, `Error while uploading image ${error.message}`);
+
+    if (req.files) {
+        try {
+            cloudinaryResponse = await uploadOnCloudinary(req.files.image.tempFilePath);
+        } catch (error) {
+            throw new ErrorHandler(500, `Error while uploading image ${error.message}`);
+        }
+    } else {
+        cloudinaryResponse = {
+			secure_url:
+				"https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?size=626&ext=jpg&ga=GA1.1.1904701586.1718434716&semt=ais_hybrid",
+		};
     }
 
     //  Creating new user 
