@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Signup.css";
 import signupCover from "../../assets/images/login2.jpeg";
@@ -7,6 +7,7 @@ import axios from "../../utils/axios";
 import MissFieldLogo from "../../components/Login&Signup/MissFieldLogo/MissFieldLogo";
 import InlineAlert from "../../components/Login&Signup/InlineAlert/InlineAlert";
 import Spinner from "../../components/Spinner/Spinner";
+
 
 const Signup = () => {
 	const nameRef = useRef();
@@ -23,6 +24,16 @@ const Signup = () => {
 	const [alert, setAlert] = useState("");
 	const navigate = useNavigate();
 	const [isSignUp, setIsSignUp] = useState(false)
+
+	useEffect(() => {
+		let checkUser = localStorage.getItem("user");
+		if (checkUser) {
+			checkUser = JSON.parse(checkUser);
+			if (checkUser.isLoggedIn) {
+				navigate("/home");
+			}
+		}
+	}, []);
 
 	async function handleSubmit(e) {
 		e.preventDefault();

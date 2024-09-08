@@ -117,7 +117,11 @@ export const postLogin = ErrorWrapper(async (req, res, next) => {
 
     user = await User.findOne({
         $or:[{username}, {email}]
-    }).select( '-password -refreshToken -createdAt -updatedAt');
+    }).select('-password -refreshToken -createdAt -updatedAt');
+    let newUser = {
+        ...user._doc,
+        isLoggedIn: true
+    }
 
     res.status(200)
         .cookie("RefreshToken", refreshToken, {
@@ -133,6 +137,6 @@ export const postLogin = ErrorWrapper(async (req, res, next) => {
         .json({
         message: "Login Successful!",
         success: true,
-            user
+        user: newUser
     })
 })

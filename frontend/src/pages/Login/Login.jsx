@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import loginCover from "../../assets/images/login.jpeg";
@@ -34,6 +34,15 @@ const Login = () => {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.user);
 
+	useEffect(() => {
+		let checkUser = localStorage.getItem('user')
+		if (checkUser) {
+			checkUser = JSON.parse(checkUser);
+			if (checkUser.isLoggedIn) {
+				navigate("/home");
+			}
+		}
+	}, []);
 
 	async function handleSubmit(e) {
 		setSendingLogin(true);
@@ -65,7 +74,7 @@ const Login = () => {
 				dispatch(setUser(data.user));
 				console.log(" data At Login ", data.user);
 				console.log("At Login ",user)
-				localStorage.setItem("user", JSON.stringify(user));
+				localStorage.setItem("user", JSON.stringify(data.user));
 				setSendingLogin(false);
 				navigate("/home");
 			}
