@@ -4,7 +4,7 @@ import {useSelector} from "react-redux"
 const ProtectedRoutes = () => {
     // const user = useSelector((state) => state.user);
     let user = localStorage.getItem("user");
-    console.log(user);
+    // console.log(user);
     if (user) {
         user = JSON.parse(user);
         return <Outlet />;

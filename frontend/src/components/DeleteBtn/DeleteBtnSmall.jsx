@@ -4,8 +4,9 @@ const DeleteBtnSmall = ({ className, deleteBtnHandler, restaurantId }) => {
 	return (
 		<>
 			<button
-				class="bin-button w-[30px] h-[30px] absolute top-5 right-5 m-1"
-				onClick={() => {
+				className="bin-button z-50 w-[30px] h-[30px] absolute top-5 right-5 m-1"
+				onClick={(e) => {
+					e.stopPropagation();
 					deleteBtnHandler(restaurantId);
 				}}
 			>

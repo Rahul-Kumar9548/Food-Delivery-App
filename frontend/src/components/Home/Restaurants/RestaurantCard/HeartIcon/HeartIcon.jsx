@@ -4,10 +4,13 @@ import './HeartIcon.css'
 const HeartIcon = ({ addToFavourite , restaurantId}) => {
 	return (
 		<>
-			<label className="ui-like absolute top-5 right-5 m-1">
+			<label className="ui-like z-50 absolute top-5 right-5 m-1">
 				<input
 					type="checkbox"
-					onClick={() => addToFavourite(restaurantId)}
+					onClick={(e) => {
+						e.stopPropagation();
+						addToFavourite(restaurantId)
+					}}
 				/>
 				<div className="like">
 					<svg

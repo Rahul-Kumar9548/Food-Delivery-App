@@ -46,7 +46,7 @@ const Favourites = () => {
 		getRestaurants();
     }, []);
 
-    async function deleteBtnHandler(restaurantId) {
+	async function deleteBtnHandler(restaurantId) {
         try {
 			await axios.get(
 				`profile/delete-favourite/${restaurantId}`

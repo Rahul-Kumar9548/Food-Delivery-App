@@ -26,15 +26,17 @@ const RestaurantCard = ({ restaurant, isLoading, addToFavourite, onFavourite, de
 	return (
 		<>
 			{isLoading ? (
-				<div className="shadow-3d rounded-lg">
-					<div className="relative w-[10rem] p-3 md:p-4 md:w-[12rem] lg:w-[15rem] max-h-fit overflow-hidden rounded-lg bg-[#ffffff] hover:scale-110 transition-all duration-300">
-						<img
-							src={restaurant.coverImage}
-							className="w-full h-[60%] rounded-xl object-cover object-center shadow-nice mb-5"
-							alt="image"
-							loading="lazy"
-							ref={canvasRef}
-						/>
+				<div className="shadow-3d rounded-lg h-fit">
+					<div className="relative w-[9rem] p-3 md:p-4 md:w-[12rem] lg:w-[15rem] max-h-fit overflow-hidden rounded-lg bg-[#ffffff] hover:scale-110 transition-all duration-300">
+						<Link to={`/restaurant/${restaurant.name}`}>
+							<img
+								src={restaurant.coverImage}
+								className="w-full h-[60%] rounded-xl object-cover object-center shadow-nice mb-5"
+								alt="image"
+								loading="lazy"
+								ref={canvasRef}
+							/>
+						</Link>
 						{onFavourite ? (
 							<DeleteBtnSmall
 								deleteBtnHandler={deleteBtnHandler}
@@ -47,12 +49,8 @@ const RestaurantCard = ({ restaurant, isLoading, addToFavourite, onFavourite, de
 							/>
 						)}
 						<div class="flex w-full justify-between ">
-							<div className="font-bold capitalize md:text-sm xl:text-base grow text-xs">
-								<Link
-									to={`/restaurant/${restaurant.name}`}
-								>
-									{restaurant.name}
-								</Link>
+							<div className="font-bold capitalize md:text-sm xl:text-base grow text-[11px]">
+								{restaurant.name}
 							</div>
 							<div className="flex items-center  space-x-2">
 								<StarIcon />
@@ -68,6 +66,7 @@ const RestaurantCard = ({ restaurant, isLoading, addToFavourite, onFavourite, de
 							restaurantName={restaurant.name}
 						/>
 					</div>
+					{/* </Link> */}
 				</div>
 			) : (
 				<div className="relative w-[10rem] p-3 md:p-4 md:w-[12rem] lg:w-[15rem] h-[12rem] lg:h-[20rem] lg:pb-4 overflow-hidden rounded-lg bg-[#ffffff]">

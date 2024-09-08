@@ -31,9 +31,9 @@ const App = () => {
 					<Routes>
 						<Route path="/" element={<Login />} />
 						<Route path="/login" element={<Login />} />
-					  <Route path="/signup" element={<Signup />} />
-					  <Route path='/*' element={<NotFoundPage/>} />
-					  <Route element={<ProtectedRoutes/>} >
+					    <Route path="/signup" element={<Signup />} />
+					    <Route path='/*' element={<NotFoundPage/>} />
+					    <Route element={<ProtectedRoutes/>} >
 						  
 						<Route
 							path="/home"
