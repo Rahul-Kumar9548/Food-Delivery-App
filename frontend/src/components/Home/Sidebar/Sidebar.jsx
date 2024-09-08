@@ -129,7 +129,7 @@ const Sidebar = ({ user }) => {
 				</div>
 			</div>
 			{/* Mobile side bar */}
-			<div className="md:hidden fixed z-10 bottom-5 w-full flex justify-center items-center">
+			<div className="md:hidden fixed z-50 bottom-5 w-full flex justify-center items-center">
 				<div className="button-container">
 					<Link to={"/home"}>
 						<button className="mobile-button">

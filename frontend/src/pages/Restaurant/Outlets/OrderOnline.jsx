@@ -35,7 +35,7 @@ const OrderOnline = () => {
   return (
 		<div className="h-fit grid grid-cols-2 md:grid-cols-4 bg-white relative">
 			{/* Hamburger Menu Button */}
-			<div className="w-fit overflow-auto h-[350px]  fixed bottom-[70px] z-50 left-[25px] flex flex-col-reverse">
+			<div className="w-fit h-[350px]  fixed bottom-[70px] z-50 left-[25px] flex flex-col-reverse">
 				<button
 					className=" w-fit md:hidden z-50 bg-orange-500 block p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
 					onClick={toggleMenu}
