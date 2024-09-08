@@ -13,18 +13,19 @@ import { useDispatch, useSelector } from "react-redux";
 const Profile = () => {
 	const user = useSelector((state) => state.user);
 	const [isEdit, setIsEdit] = useState(false);
-	const [current, setCurrent] = useState('about');
-	const [select, setSelect] = useState('');
+	const [current, setCurrent] = useState("about");
+	const [select, setSelect] = useState("");
 	const [addNewAddress, setAddNewAddress] = useState(false);
-	const [spinning, setSpinning] = useState('');
+	const [spinning, setSpinning] = useState("");
 	const [saving, setSaving] = useState(false);
 	const [boxSpinning, setBoxSpinning] = useState(true);
 	const dispatch = useDispatch();
+	const [selectedImage, setSelectedImage] = useState(null); // State to store the selected image
 
-	let  userRef = useRef();
-	let  usernameRef = useRef();
-	let  emailRef = useRef();
-	let  imageRef = useRef();
+	let userRef = useRef();
+	let usernameRef = useRef();
+	let emailRef = useRef();
+	let imageRef = useRef();
 	let contactRef = useRef();
 
 	const [alert, setAlert] = useState({
@@ -41,19 +42,18 @@ const Profile = () => {
 
 	async function updateUser() {
 		setSaving(true);
-		console.log(
-			userRef.current.value.trim(),
-			contactRef.current.value.trim(),
-			usernameRef.current.value.trim(),
-			emailRef.current.value.trim(),
-			imageRef.current.files[0]
-		);
+		console.log(imageRef.current.files[0]);
 		let formData = new FormData();
-		if(userRef.current.value) formData.append("name", userRef.current.value);
-		if(usernameRef.current.value) formData.append("username", usernameRef.current.value);
-		if(emailRef.current.value) formData.append("email", emailRef.current.value);
-		if(contactRef.current.value)  formData.append("contact", contactRef.current.value);
-		if (imageRef.current.files[0]) formData.append("image", imageRef.current.files[0]);
+		if (userRef.current.value)
+			formData.append("name", userRef.current.value);
+		if (usernameRef.current.value)
+			formData.append("username", usernameRef.current.value);
+		if (emailRef.current.value)
+			formData.append("email", emailRef.current.value);
+		if (contactRef.current.value)
+			formData.append("contact", contactRef.current.value);
+		if (imageRef.current.files[0])
+			formData.append("image", imageRef.current.files[0]);
 
 		try {
 			const { data } = await axios.post(
@@ -66,34 +66,41 @@ const Profile = () => {
 				}
 			);
 			// console.log(data);
-			dispatch(setUser({ ...user, ...data.data }))
+			dispatch(setUser({ ...user, ...data.data }));
 			setSaving(false);
 			setIsEdit(false);
-			setAlert({alert, success: "Profile Updated Successfully!" });
-
+			setAlert({ alert, success: "Profile Updated Successfully!" });
 		} catch (error) {
 			console.log(error);
 			setSaving(false);
 			setIsEdit(false);
-			setAlert({alert, error:"Error On Updating Profile!"})
+			setAlert({ alert, error: "Error On Updating Profile!" });
 		}
-		
 	}
 
 	async function deleteHandler(id) {
 		setSpinning(id);
 		try {
-			const { data } = await axios.get(`/profile/delete-address/${id}`)
+			const { data } = await axios.get(
+				`/profile/delete-address/${id}`
+			);
 			// console.log(data);
-			dispatch(setUser({...user, addresses:data.data}))
+			dispatch(setUser({ ...user, addresses: data.data }));
 			setAlert({ alert, success: data.message });
-			setSpinning('')
+			setSpinning("");
 		} catch (error) {
 			console.log(error);
-			setSpinning('');
-			setAlert({alert, error:"Error On Deleeting Address!"})
+			setSpinning("");
+			setAlert({ alert, error: "Error On Deleeting Address!" });
 		}
 	}
+
+	// Function to handle image selection
+	const handleImageChange = (event) => {
+		if (event.target.files && event.target.files[0]) {
+			setSelectedImage(URL.createObjectURL(event.target.files[0]));
+		}
+	};
 	return (
 		<>
 			<div className="flex w-full ">
@@ -113,7 +120,7 @@ const Profile = () => {
 							<div className=" lg:w-[60%] h-full mx-auto">
 								<div className="relative mx-auto rounded-full w-[150px] lg:w-[200px] lg:h-[200px] h-[150px] overflow-hidden">
 									<img
-										src={user?.image}
+										src={selectedImage ? selectedImage : user?.image}
 										className="rounded-full mx-auto w-[150px] lg:w-[200px] h-[150px] lg:h-[200px]"
 										alt=""
 									/>
@@ -123,6 +130,9 @@ const Profile = () => {
 											className="absolute bottom-0 left-3 lg:left-9 w-[8rem] z-10 cursor-pointer opacity-0"
 											name="editImage"
 											ref={imageRef}
+											onChange={
+												handleImageChange
+											}
 										/>
 									)}
 									{isEdit && (
@@ -262,15 +272,17 @@ const Profile = () => {
 											{isEdit && (
 												<div className="flex gap-2">
 													{saving ? (
-														<Spinner className='w-12 h-12' />
-													) : <button
-														className="cursor-pointer transition-all bg-green-500 text-white px-6 py-2 rounded-lg border-green-600 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
-														onClick={
-															updateUser
-														}
-													>
-														Save
-													</button>}
+														<Spinner className="w-12 h-12" />
+													) : (
+														<button
+															className="cursor-pointer transition-all bg-green-500 text-white px-6 py-2 rounded-lg border-green-600 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+															onClick={
+																updateUser
+															}
+														>
+															Save
+														</button>
+													)}
 													<button
 														className="cursor-pointer transition-all bg-red-500 text-white px-6 py-2 rounded-lg border-red-600 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
 														onClick={() =>

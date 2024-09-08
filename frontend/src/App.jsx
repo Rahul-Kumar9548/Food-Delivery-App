@@ -17,6 +17,7 @@ import Profile from './pages/Profile/Profile';
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder';
 import OrderHistory from './pages/OrderHistory/OrderHistory';
 import ProtectedRoutes from './utils/ProtectedRoutes';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
 const App = () => {
 	const [loading, setLoading] = useState(true);
@@ -31,6 +32,7 @@ const App = () => {
 						<Route path="/" element={<Login />} />
 						<Route path="/login" element={<Login />} />
 					  <Route path="/signup" element={<Signup />} />
+					  <Route path='/*' element={<NotFoundPage/>} />
 					  <Route element={<ProtectedRoutes/>} >
 						  
 						<Route

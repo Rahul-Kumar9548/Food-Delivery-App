@@ -3,8 +3,8 @@ import './NotFoundPage.css'
 
 const NotFoundPage = () => {
   return (
-		<div>
-			<div class="main_wrapper">
+		<div className='w-full h-screen flex justify-center items-center bg-orange-400'>
+			<div className="main_wrapper z-10">
 				<div class="main">
 					<div class="antenna">
 						<div class="antenna_shadow"></div>
