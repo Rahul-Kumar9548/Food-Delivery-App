@@ -77,6 +77,7 @@ const OrderOnline = () => {
 						setActiveElement={setActiveElement}
 						activeElement={activeElement}
 						cusines={cusines}
+						toggleMenu={toggleMenu}
 					/>
 				))}
 			</div>
