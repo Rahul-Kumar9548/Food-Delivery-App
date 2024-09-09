@@ -68,6 +68,7 @@ const Login = () => {
 				const { data } = await axios.post("login", {
 					username,
 					password,
+					email: username,
 				});
 				// console.log(data.user);
 				setAlert({ ...alert, success: "Login Successful!!!" });

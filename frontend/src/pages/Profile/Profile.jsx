@@ -120,7 +120,11 @@ const Profile = () => {
 							<div className=" lg:w-[60%] h-full mx-auto">
 								<div className="relative mx-auto rounded-full w-[150px] lg:w-[200px] lg:h-[200px] h-[150px] overflow-hidden">
 									<img
-										src={selectedImage ? selectedImage : user?.image}
+										src={
+											selectedImage
+												? selectedImage
+												: user?.image
+										}
 										className="rounded-full mx-auto w-[150px] lg:w-[200px] h-[150px] lg:h-[200px]"
 										alt=""
 									/>
@@ -230,7 +234,7 @@ const Profile = () => {
 												Contact:
 											</span>
 											<span className="relative">
-												9854124354
+												{user.contact  ?? "N/A"}
 												{isEdit && (
 													<input
 														type="text"
@@ -238,7 +242,7 @@ const Profile = () => {
 															contactRef
 														}
 														placeholder={
-															"9854124354"
+															user.contact ?? "N/A"
 														}
 														className="capitalize border-b focus:outline-none absolute left-0"
 													/>
@@ -285,12 +289,14 @@ const Profile = () => {
 													)}
 													<button
 														className="cursor-pointer transition-all bg-red-500 text-white px-6 py-2 rounded-lg border-red-600 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
-														onClick={() =>
-														{
-															setSelectedImage('');
-															setIsEdit(false);
-														}
-														}
+														onClick={() => {
+															setSelectedImage(
+																""
+															);
+															setIsEdit(
+																false
+															);
+														}}
 													>
 														Cancel
 													</button>

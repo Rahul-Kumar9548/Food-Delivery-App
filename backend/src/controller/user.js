@@ -20,13 +20,15 @@ export const getProfile = ErrorWrapper(async (req, res, next) => {
 
 
 export const postUpdateDetails = ErrorWrapper(async (req, res, next) => {
-    const { name, username, email, password } = req.body;
+    const { name, username, email, password, contact } = req.body;
+    console.log(contact);
     try {
         const user = await User.findOne({ _id: req.user._id });
         if (name) user.name = name;
         if (username) user.username = username;
         if (email) user.email = email;
         if (password) user.password = password;
+        if (contact) user.contact = contact;
         
         let cloudinaryResponse 
         if (req.files) {

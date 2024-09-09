@@ -9,7 +9,8 @@ const initialState = {
     orderHistory: [],
     cart: [],
     favourites: [],
-    addresses:[],
+    addresses: [],
+    contact:'',
     isLoggedIn: false,
 };
 
@@ -31,6 +32,7 @@ export const userSlice = createSlice({
             state.cart = action.payload.cart;
             state.favourites = action.payload.favourites;
             state.addresses = action.payload.addresses;
+            state.contact = action.payload.contact;
             state.isLoggedIn = true;
 		},
 		getUser: (state) => {

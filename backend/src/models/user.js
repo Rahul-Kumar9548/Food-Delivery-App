@@ -24,6 +24,11 @@ const userSchema = new Schema(
 			lowercase: true,
 			trim: true,
 		},
+		contact: {
+			type: Number,
+			trim: true,
+		}
+		,
 		image: {
 			type: String, // cloudinary url
 			required: true,

@@ -42,9 +42,7 @@ export const postSignup = ErrorWrapper(async (req, res, next) => {
         }
     } else {
         // Simply get a random avatar
-        
         let avatar = generator.generateRandomAvatar();
-        console.log(avatar);
 		cloudinaryResponse = {
 			secure_url:avatar
 		};
