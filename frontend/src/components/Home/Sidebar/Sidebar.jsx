@@ -1,6 +1,6 @@
 import React,{useEffect} from "react";
 import "./Sidebar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import homeIcon from '../../../assets/images/Home24x24.svg'
 import orderHistoryIcon from '../../../assets/images/OrderHistory.png'
 import cartIcon from '../../../assets/images/cart.png'
@@ -14,9 +14,18 @@ import fetchUser from '../../../utils/fetchUser';
 
 const Sidebar = ({ user }) => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	useEffect(() => {
 		if (!user.isLoggedIn) {
-			fetchUser().then((res)=>dispatch(setUser(res)))
+			fetchUser().then((res) =>
+			{
+				if (res.response.data.success) {
+					dispatch(setUser(res));
+				} else {
+					localStorage.clear();
+					navigate("/login");	
+				} 
+}			)
 		}
 	},[])
 	return (

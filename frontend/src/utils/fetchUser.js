@@ -6,7 +6,8 @@ const fetchUser = async () => {
         
         return data.user;
     } catch (error) {
-        console.log(error);
+        console.log(error.response);
+        return error
     }
 }
 
